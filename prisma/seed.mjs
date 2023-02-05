@@ -3,22 +3,22 @@ const prisma = new PrismaClient();
 
 async function main() {
     const phills = await prisma.restaurant.upsert({
-        where: { id: 1 },
+        where: { id: "1" },
         update: {},
         create: {
-            id: 1,
+            id: "1",
             name: "Phills BBQ",
             description: "this place has amazing cornbread",
         },
     });
     const joses = await prisma.restaurant.upsert({
-        where: { id: 2 },
+        where: { id: "2" },
         update: {
             name: "Joses",
             description: "Mexican in la Jolla",
         },
         create: {
-            id: 2,
+            id: "2",
             name: "Joses",
             description: "Mexican in la Jolla",
         },

@@ -49,7 +49,7 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
+    username      String?   @unique
     email         String?   @unique
     emailVerified DateTime?
     image         String?
@@ -77,5 +77,6 @@ model Comment {
   text  String @db.VarChar(255)
   created_at  DateTime @default(now())
   user_id  String
-  restaurant_id Int
+  restaurant_id String
 }
+

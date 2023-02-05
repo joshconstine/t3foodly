@@ -9,14 +9,14 @@ export const commentRouter = createTRPCRouter({
         return ctx.prisma.comment.findMany()
     }),
 
-    getByRestaurantId: publicProcedure.input(z.object({ id: z.number() })).query(({ input, ctx }) => {
+    getByRestaurantId: publicProcedure.input(z.object({ id: z.string() })).query(({ input, ctx }) => {
         return ctx.prisma.comment.findMany({
             where: {
                 restaurant_id: input.id
             }
         })
     }),
-    createComment: protectedProcedure.input(z.object({ text: z.string(), restaurantId: z.number() })).mutation(({ input, ctx }) => {
+    createComment: protectedProcedure.input(z.object({ text: z.string(), restaurantId: z.string() })).mutation(({ input, ctx }) => {
         return ctx.prisma.comment.create({
             data: {
                 user_id: ctx.session?.user.id,
