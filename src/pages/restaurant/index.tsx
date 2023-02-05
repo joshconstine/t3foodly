@@ -8,7 +8,6 @@ import Navbar from "../../components/Navbar";
 
 const Restaurant: NextPage = () => {
     const restaurant = api.restaurant.getAll.useQuery();
-    console.log(restaurant)
     if (restaurant.status === "loading") return <>loading</>
     if (restaurant.status === 'error') return <>error</>
     if (restaurant.status === 'success')
