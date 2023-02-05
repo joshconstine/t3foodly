@@ -66,8 +66,16 @@ model VerificationToken {
 }
 
 model Restaurant {
-   id    Int     @default(autoincrement()) @id
+   id    String    @id @default(cuid())
    name String @db.VarChar(255)
    created_at  DateTime @default(now())   
    description String @db.VarChar(255)
+}
+
+model Comment {
+  id     String    @id @default(cuid())
+  text  String @db.VarChar(255)
+  created_at  DateTime @default(now())
+  user_id  String
+  restaurant_id Int
 }
