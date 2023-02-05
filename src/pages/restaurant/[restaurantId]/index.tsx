@@ -6,12 +6,23 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "../../../utils/api";
 import { URLSearchParams } from "url";
 import { useRouter } from "next/router";
+import { FormEventHandler } from "react";
 
 const SingleRestaurant: NextPage = () => {
     const router = useRouter()
     const { restaurantId } = router.query
 
     const restaurant = api.restaurant.getById.useQuery({ id: Number(restaurantId) });
+
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const formElements = form.elements as typeof form.elements & {
+            comment: { value: string }
+        }
+        console.log(formElements.comment.value)
+    }
+
     console.log(restaurant)
     if (restaurant.status === "loading") return <>loading</>
     if (restaurant.status === 'error') return <>error</>
@@ -32,6 +43,12 @@ const SingleRestaurant: NextPage = () => {
                             </div>
 
                         </p>
+                        <div>
+                            <form onSubmit={handleSubmit}>
+                                <textarea rows={10} name='comment'></textarea>
+                                <button type="submit" className="bg-white">add</button>
+                            </form>
+                        </div>
                     </div>
                 </main>
             </>
