@@ -30,8 +30,8 @@ const SingleRestaurant: NextPage = () => {
             comment: { value: string }
         }
         createComment.mutate({ text: formElements.comment.value, restaurantId: String(restaurantId) }, {
-            onSuccess() {
-                comments.refetch()
+            async onSuccess() {
+                await comments.refetch()
             }
         })
 
@@ -40,16 +40,16 @@ const SingleRestaurant: NextPage = () => {
     const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
         e.preventDefault()
         createFavorite.mutate({ placement: 1, restaurantId: String(restaurantId) }, {
-            onSuccess() {
-                isFavorited.refetch()
+            async onSuccess() {
+                await isFavorited.refetch()
             }
         })
     }
     const handleUnfavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
         e.preventDefault()
         deleteFavorite.mutate({ restaurantId: String(restaurantId) }, {
-            onSuccess() {
-                isFavorited.refetch()
+            async onSuccess() {
+                await isFavorited.refetch()
             }
         })
     }
@@ -93,7 +93,7 @@ const SingleRestaurant: NextPage = () => {
 
                         <div className="flex flex-col">
                             {comments.data?.map((elem) => {
-                                return <div>
+                                return <div key={elem.id}>
                                     <Comment userId={elem.user_id} text={elem.text} />
                                 </div>
                             })}

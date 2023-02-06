@@ -47,7 +47,7 @@ const User: NextPage = () => {
                         <div className="font-bold text-lg">Favorites</div>
                         {favorites.data?.map((elem) => {
 
-                            return <Favorite restaurantId={elem.restaurant_id} />
+                            return <Favorite key={elem.id} restaurantId={elem.restaurant_id} />
                         })}
                     </div>
 

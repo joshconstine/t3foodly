@@ -23,7 +23,7 @@ const Restaurant: NextPage = () => {
                     <div >
                         <p >
                             {restaurant.data.map((elem) => {
-                                return <Link href={`/restaurant/${elem.id}`}>{elem.name}</Link>
+                                return <Link href={`/restaurant/${elem.id}`} key={elem.id}>{elem.name}</Link>
                             })}
                         </p>
                     </div>

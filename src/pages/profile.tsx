@@ -18,8 +18,8 @@ const Profile: NextPage = () => {
             username: { value: string }
         }
         updateUsername.mutate({ username: formElements.username.value }, {
-            onSuccess() {
-                user.refetch()
+            async onSuccess() {
+                await user.refetch()
             }
         })
 
