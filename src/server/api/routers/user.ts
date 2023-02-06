@@ -19,6 +19,12 @@ export const userRouter = createTRPCRouter({
                 id: input.id
             }
         }).then((value) => { return value?.username })
+    }), getUserPageData: publicProcedure.input(z.object({ id: z.string() })).query(({ input, ctx }) => {
+        return ctx.prisma.user.findUnique({
+            where: {
+                id: input.id
+            }
+        }).then((value) => { return { username: value?.username, favorites: ['2', '1'] } })
     }),
     updateUsername: protectedProcedure.input(z.object({ username: z.string() })).mutation(({ input, ctx }) => {
         return ctx.prisma.user.update({

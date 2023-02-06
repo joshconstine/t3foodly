@@ -8,12 +8,13 @@ import { URLSearchParams } from "url";
 import { useRouter } from "next/router";
 import { FormEventHandler } from "react";
 import Navbar from "../../../components/Navbar";
+import Favorite from "./Favorite";
 
 const User: NextPage = () => {
     const router = useRouter()
     const { userId } = router.query
 
-    // const restaurant = api.user.getUser.useQuery({ id: String(userId) });
+    const user = api.user.getUserPageData.useQuery({ id: String(userId) });
 
 
     return (
@@ -25,11 +26,29 @@ const User: NextPage = () => {
             </Head>
             <main >
                 <Navbar />
-                <div >
-                    <p >
-                        user page
+                <div className="flex flex-col">
+                    <div>
 
-                    </p>
+                        user page
+                    </div>
+                    <div>
+                        <div>
+                            <span className="font-bold">
+                                username:
+                            </span>
+
+
+                            {user.data?.username}
+                        </div>
+                    </div>
+                    <div className="flex flex-col">
+                        <div className="font-bold text-lg">Favorites</div>
+                        {user.data?.favorites?.map((elem) => {
+                            return <Favorite id={elem} />
+                        })}
+                    </div>
+
+
 
 
                 </div>
