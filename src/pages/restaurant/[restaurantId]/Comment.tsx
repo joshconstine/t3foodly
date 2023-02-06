@@ -6,7 +6,10 @@ const Comment = ({ text, userId }: { text: string, userId: string }) => {
     const username = api.user.getUsername.useQuery({ id: userId })
     return (
         <div>
-            {username.data}
+
+            <Link href={`/user/${userId}`}>
+                {username.data}
+            </Link>
             {text}
         </div>
     );
