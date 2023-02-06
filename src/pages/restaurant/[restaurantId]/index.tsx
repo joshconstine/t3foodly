@@ -18,7 +18,10 @@ const SingleRestaurant: NextPage = () => {
 
     const createComment = api.comment.createComment.useMutation()
     const comments = api.comment.getByRestaurantId.useQuery({ id: String(restaurantId) })
+    const createFavorite = api.favorite.createFavorite.useMutation()
+    const deleteFavorite = api.favorite.delete.useMutation()
 
+    const isFavorited = api.favorite.isRestaurantFavorited.useQuery({ restaurantId: String(restaurantId) })
 
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -34,6 +37,24 @@ const SingleRestaurant: NextPage = () => {
 
     }
 
+    const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        createFavorite.mutate({ placement: 1, restaurantId: String(restaurantId) }, {
+            onSuccess() {
+                isFavorited.refetch()
+            }
+        })
+    }
+    const handleUnfavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        deleteFavorite.mutate({ restaurantId: String(restaurantId) }, {
+            onSuccess() {
+                isFavorited.refetch()
+            }
+        })
+    }
+
+
     if (restaurant.status === "loading") return <>loading</>
     if (restaurant.status === 'error') return <>error</>
     if (restaurant.status === 'success' && comments.status === 'success')
@@ -47,12 +68,29 @@ const SingleRestaurant: NextPage = () => {
                 <main >
                     <Navbar />
                     <div >
-                        <p >
-                            <div>{restaurant.data?.name}
-                                {restaurant.data?.description}
-                            </div>
 
-                        </p>
+                        <div className="flex flex-col">
+                            <span className="text-lg">
+                                {restaurant.data?.name}
+                            </span>
+                            {restaurant.data?.description}
+                        </div>
+                        <div className="bg-gray-100">
+
+                            <div>{isFavorited.data && isFavorited.data[0] ?
+                                <div>
+                                    {isFavorited.data[0]?.placement}
+                                    <button disabled={false} onClick={handleUnfavorite} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full' > Un-Favorite</button>
+                                </div>
+                                :
+
+
+
+                                <button disabled={false} onClick={handleFavorite} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full' > Favorite</button>
+                            }</div>
+                        </div>
+
+
                         <div className="flex flex-col">
                             {comments.data?.map((elem) => {
                                 return <div>
@@ -61,9 +99,9 @@ const SingleRestaurant: NextPage = () => {
                             })}
                         </div>
                         <div>
-                            <form onSubmit={handleSubmit}>
-                                <textarea rows={10} name='comment'></textarea>
-                                <button type="submit" className="bg-white">add</button>
+                            <form onSubmit={handleSubmit} className='flex flex-col w-96'>
+                                <textarea rows={10} name='comment' className="bg-slate-100"></textarea>
+                                <button type="submit" >add</button>
                             </form>
                         </div>
                     </div>
@@ -75,5 +113,3 @@ const SingleRestaurant: NextPage = () => {
 
 
 export default SingleRestaurant;
-
-

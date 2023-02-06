@@ -17,6 +17,7 @@ const User: NextPage = () => {
     const user = api.user.getUserPageData.useQuery({ id: String(userId) });
 
 
+
     return (
         <>
             <Head>
@@ -43,9 +44,7 @@ const User: NextPage = () => {
                     </div>
                     <div className="flex flex-col">
                         <div className="font-bold text-lg">Favorites</div>
-                        {user.data?.favorites?.map((elem) => {
-                            return <Favorite id={elem} />
-                        })}
+                        <Favorite id={userId} />
                     </div>
 
 

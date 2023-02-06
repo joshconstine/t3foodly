@@ -3,13 +3,12 @@ import { api } from "../../../utils/api";
 
 const Favorite = ({ id }: { id: string }) => {
 
-    const restaurant = api.restaurant.getById.useQuery({ id: id })
+    const favorites = api.favorite.getByUserId.useQuery({ id: id })
+    console.log(favorites.data)
     return (
         <div>
 
-            <Link href={`/restaurant/${restaurant.data?.id}`}>
-                {restaurant.data?.name}
-            </Link>
+
         </div>
     );
 }
