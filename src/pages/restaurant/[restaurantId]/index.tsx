@@ -8,6 +8,7 @@ import { URLSearchParams } from "url";
 import { useRouter } from "next/router";
 import { FormEventHandler } from "react";
 import Navbar from "../../../components/Navbar";
+import Comment from "./Comment";
 
 const SingleRestaurant: NextPage = () => {
     const router = useRouter()
@@ -55,8 +56,7 @@ const SingleRestaurant: NextPage = () => {
                         <div className="flex flex-col">
                             {comments.data?.map((elem) => {
                                 return <div>
-                                    {elem.text}
-                                    {elem.user_id}
+                                    <Comment userId={elem.user_id} text={elem.text} />
                                 </div>
                             })}
                         </div>
