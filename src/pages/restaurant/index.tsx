@@ -1,13 +1,26 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
+import { useState } from "react";
 
 const Restaurant: NextPage = () => {
     const restaurant = api.restaurant.getAll.useQuery();
+    const [zipcode, setZipcode] = useState<null | string>(null)
+    const restaurants = api.restaurant.getByZipcode.useQuery({ zipcode: zipcode })
+
+    const updateUsername = api.user.updateUsername.useMutation()
+    const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const formElements = form.elements as typeof form.elements & {
+            zipCode: { value: string }
+        }
+        setZipcode(formElements.zipCode.value)
+    }
+
     if (restaurant.status === "loading") return <>loading</>
     if (restaurant.status === 'error') return <>error</>
     if (restaurant.status === 'success')
@@ -20,12 +33,15 @@ const Restaurant: NextPage = () => {
                 </Head>
                 <main >
                     <Navbar />
-                    <div >
-                        <p >
-                            {restaurant.data.map((elem) => {
-                                return <Link href={`/restaurant/${elem.id}`} key={elem.id}>{elem.name}</Link>
-                            })}
-                        </p>
+                    <div className="flex flex-col gap-2">
+                        <form onSubmit={handleSearch}>
+                            <label >Zip Code:</label>
+                            <input type='text' name='zipCode' className='bg-gray-200' placeholder="zip code"></input>
+                            <button type="submit" className='bg-gray-200'>search now</button>
+                        </form>
+                        {restaurant.data.map((elem) => {
+                            return <Link href={`/restaurant/${elem.id}`} key={elem.id}>{elem.name}</Link>
+                        })}
                     </div>
                 </main>
             </>
