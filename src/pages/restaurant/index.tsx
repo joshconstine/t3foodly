@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const Restaurant: NextPage = () => {
   const restaurant = api.restaurant.getAll.useQuery();
@@ -22,6 +22,14 @@ const Restaurant: NextPage = () => {
     };
     setZipcode(formElements.zipCode.value);
   };
+  useMemo(() => {
+    if (restaurants.status === "success") {
+      window.localStorage.setItem(
+        "restaurants",
+        JSON.stringify(restaurants.data)
+      );
+    }
+  }, [restaurants.data]);
   // cityName
   // cuisineType
   // email
@@ -63,10 +71,14 @@ const Restaurant: NextPage = () => {
             {restaurants.data.map((elem) => {
               // return <Link href={`/restaurant/${elem.id}`} key={elem.id}>{elem.name}</Link>
               return (
-                <div key={elem.id} className="flex flex-col">
+                <Link
+                  key={elem.id}
+                  className="flex flex-col"
+                  href={`restaurant/search/${elem.id}`}
+                >
                   <div>{elem.id}</div>
                   <div>{elem.restaurantName}</div>
-                </div>
+                </Link>
               );
             })}
           </div>
