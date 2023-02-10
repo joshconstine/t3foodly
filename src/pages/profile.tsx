@@ -1,23 +1,20 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Navbar from "../components/Navbar";
 import { api } from "../utils/api";
-
+import Image from "next/image";
 
 const Profile: NextPage = () => {
     const user = api.user.getUser.useQuery();
     const updateUsername = api.user.updateUsername.useMutation()
 
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         const form = e.currentTarget
         const formElements = form.elements as typeof form.elements & {
-            username: { value: string }
+            newUsername: { value: string }
         }
-        updateUsername.mutate({ username: formElements.username.value }, {
+        updateUsername.mutate({ username: formElements.newUsername.value }, {
             async onSuccess() {
                 await user.refetch()
             }
@@ -33,17 +30,28 @@ const Profile: NextPage = () => {
             </Head>
             <main >
                 <Navbar />
-                <div >
-                    <p >
+                <div className="flex flex-col">
+                    <h1>
                         profile
-                    </p>
-                    {user.data?.email}
-                    {user.data?.username ? <>
-                        {user.data.username}
-                    </>
-                        : <></>}
-                    <form onSubmit={handleSubmit}>
-                        <input name="username"></input><button type="submit">make userName</button></form>
+                    </h1>
+                    {user?.data?.image && (
+
+                        <Image src={user?.data?.image} alt='img' width={64} height={64} />
+                    )}
+                    <div>
+
+                        email: {user.data?.email}
+                    </div>
+                    <div>
+
+                        {user.data?.username ? <>
+                            username: {user.data.username}
+                        </>
+                            : <></>}
+                        <form onSubmit={handleSubmit} className='flex flex-col w-48'>
+                            <input name="newUsername" className="bg-gray-200 border-2"></input><button className='bg-gray-200 border-2' type="submit">make userName</button>
+                        </form>
+                    </div>
                 </div>
             </main>
         </>
