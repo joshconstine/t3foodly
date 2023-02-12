@@ -91,6 +91,8 @@ model RestaurantApplication {
    website String? 
    hoursInterval String?  
    cuisineType String?
+   created_by_user_id String 
+   status String 
    created_at  DateTime @default(now())   
 }   
 model Comment {

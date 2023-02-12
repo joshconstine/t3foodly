@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
-const RestaurantRequest = z.object({
+export const RestaurantRequest = z.object({
   name: z.string(),
   address: z.string(),
   stateName: z.string(),
@@ -44,6 +44,8 @@ export const restaurantApplicationRouter = createTRPCRouter({
           website: input.website,
           hoursInterval: input.hoursInterval,
           cuisineType: input.cuisineType,
+          status: "new",
+          created_by_user_id: ctx.session.user.id,
         },
       });
     }),

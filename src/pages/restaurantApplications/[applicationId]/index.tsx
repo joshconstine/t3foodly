@@ -4,14 +4,54 @@ import Head from "next/head";
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
 import Navbar from "../../../components/Navbar";
+import { useState } from "react";
 
-const SingleRestaurant: NextPage = () => {
+const SingleRestaurantApplication = () => {
   const router = useRouter();
+  const [editMode, setEditMode] = useState(false);
   const { applicationId } = router.query;
-
+  const createRestaurant =
+    api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplication = api.restaurantApplication.getById.useQuery({
     id: String(applicationId),
   });
+
+  const approveRequest = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formElements = form.elements as typeof form.elements & {
+      name: { value: string };
+      address: { value: string };
+      city: { value: string };
+      state: { value: string };
+      zipCode: { value: string };
+      cuisineType: { value: string };
+      email: { value: string };
+      website: { value: string };
+      phone: { value: string };
+      hoursInterval: { value: string };
+    };
+    createRestaurant.mutate(
+      {
+        name: formElements.name.value,
+        address: formElements.address.value,
+        cityName: formElements.city.value,
+        stateName: formElements.state.value,
+        zipCode: formElements.zipCode.value,
+        email: formElements.email.value,
+        phone: formElements.phone.value,
+        website: formElements.website.value,
+        hoursInterval: formElements.hoursInterval.value,
+        cuisineType: formElements.cuisineType.value,
+      },
+      {
+        async onSuccess() {
+          await restaurantApplication.refetch();
+        },
+      }
+    );
+  };
+  const rejectRequest = (e: React.SyntheticEvent<HTMLButtonElement>) => {};
 
   if (restaurantApplication.status === "loading") return <>loading</>;
   if (restaurantApplication.status === "error") return <>error</>;
@@ -26,30 +66,152 @@ const SingleRestaurant: NextPage = () => {
         <main>
           <Navbar />
           <div>
-            <div className="flex flex-col">
-              <div>{`Application #${restaurantApplication?.data?.id}`} </div>
+            <div className="flex flex-col gap-4">
               <div>
-                Application created---
-                {restaurantApplication.data?.created_at.toLocaleDateString()}
+                <div>{`Application #${restaurantApplication?.data?.id}`} </div>
+                <div>
+                  Application created---
+                  {restaurantApplication.data?.created_at.toLocaleDateString()}
+                </div>
+                <button
+                  className="bg-red-200"
+                  onClick={() => {
+                    setEditMode(!editMode);
+                  }}
+                >
+                  edit
+                </button>
               </div>
-              <span className="text-lg">
-                {`name: ${restaurantApplication.data?.name}`}
-              </span>
-              <div>{`address: ${restaurantApplication.data?.address}`}</div>
-              <div>{`city: ${restaurantApplication.data?.cityName}`}</div>
-              <div>{`state: ${restaurantApplication.data?.stateName}`}</div>
-              <div>{`zip-code: ${restaurantApplication.data?.zipCode}`}</div>
-              <div>{`cuisineType: ${restaurantApplication.data?.cuisineType}`}</div>
-              <div>{`email: ${restaurantApplication.data?.email}`}</div>
-              <div>{`hours: ${restaurantApplication.data?.hoursInterval}`}</div>
-              <div>{`phone: ${restaurantApplication.data?.phone}`}</div>
-              <div>{`website: ${restaurantApplication.data?.website}`}</div>
+              {!editMode && (
+                <div>
+                  <div>{`name: ${restaurantApplication.data?.name}`}</div>
+                  <div>{`status: ${restaurantApplication.data?.status}`}</div>
+                  <div>{`hours: ${restaurantApplication.data?.hoursInterval}`}</div>
+                  <div>{`phone: ${restaurantApplication.data?.phone}`}</div>
+                  <div>{`website: ${restaurantApplication.data?.website}`}</div>{" "}
+                  <div>{`city: ${restaurantApplication.data?.cityName}`}</div>
+                  <div>{`state: ${restaurantApplication.data?.stateName}`}</div>
+                  <div>{`zip-code: ${restaurantApplication.data?.zipCode}`}</div>
+                  <div>{`cuisineType: ${restaurantApplication.data?.cuisineType}`}</div>
+                  <div>{`email: ${restaurantApplication.data?.email}`}</div>
+                  <div>{`created by : ${restaurantApplication.data?.created_by_user_id}`}</div>
+                </div>
+              )}
             </div>
           </div>
+          {editMode && (
+            <form>
+              <form onSubmit={approveRequest} className="flex w-48 flex-col">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="bg-gray-200"
+                  placeholder="Restaurant name"
+                  defaultValue={restaurantApplication?.data?.name}
+                ></input>{" "}
+                <label>Address:</label>
+                <input
+                  type="text"
+                  name="address"
+                  className="bg-gray-200"
+                  placeholder="Restaurant address"
+                  defaultValue={
+                    restaurantApplication?.data?.address
+                      ? restaurantApplication?.data?.address
+                      : ""
+                  }
+                ></input>
+                <label>City:</label>
+                <input
+                  type="text"
+                  name="city"
+                  className="bg-gray-200"
+                  placeholder="city"
+                  defaultValue={restaurantApplication?.data?.cityName}
+                ></input>
+                <label>State:</label>
+                <input
+                  type="text"
+                  name="state"
+                  className="bg-gray-200"
+                  placeholder="state"
+                  defaultValue={restaurantApplication?.data?.stateName}
+                ></input>
+                <label>Zip Code:</label>
+                <input
+                  type="text"
+                  name="zipCode"
+                  className="bg-gray-200"
+                  placeholder="zipcode"
+                  defaultValue={restaurantApplication?.data?.zipCode}
+                ></input>{" "}
+                <label>Cuisine Type:</label>
+                <input
+                  type="text"
+                  name="cuisineType"
+                  className="bg-gray-200"
+                  placeholder="cuisine"
+                  defaultValue={
+                    restaurantApplication?.data?.cuisineType
+                      ? restaurantApplication.data.cuisineType
+                      : ""
+                  }
+                ></input>{" "}
+                <label>Email:</label>
+                <input
+                  type="text"
+                  name="email"
+                  className="bg-gray-200"
+                  placeholder="email"
+                  defaultValue={
+                    restaurantApplication?.data?.email
+                      ? restaurantApplication.data.email
+                      : ""
+                  }
+                ></input>{" "}
+                <label>website:</label>
+                <input
+                  type="text"
+                  name="website"
+                  className="bg-gray-200"
+                  placeholder="website"
+                  defaultValue={
+                    restaurantApplication?.data?.website
+                      ? restaurantApplication.data.website
+                      : ""
+                  }
+                ></input>{" "}
+                <label>Hours:</label>
+                <input
+                  type="text"
+                  name="hoursInterval"
+                  className="bg-gray-200"
+                  placeholder="hours of operation"
+                  defaultValue={
+                    restaurantApplication?.data?.hoursInterval
+                      ? restaurantApplication.data.hoursInterval
+                      : ""
+                  }
+                ></input>{" "}
+                <label>Phone:</label>
+                <input
+                  type="text"
+                  name="phone"
+                  className="bg-gray-200"
+                  placeholder="phone number"
+                  defaultValue={
+                    restaurantApplication?.data?.phone
+                      ? restaurantApplication.data.phone
+                      : ""
+                  }
+                ></input>
+              </form>
+            </form>
+          )}
         </main>
       </>
     );
-  else return <></>;
 };
 
-export default SingleRestaurant;
+export default SingleRestaurantApplication;

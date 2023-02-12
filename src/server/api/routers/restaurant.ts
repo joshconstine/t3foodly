@@ -1,7 +1,8 @@
 import axios from "axios";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { RestaurantRequest } from "./restaurantApplication";
 
 const Restaurant = z.object({
   id: z.string(),
@@ -104,5 +105,23 @@ export const restaurantRouter = createTRPCRouter({
           console.error(error);
           return [];
         });
+    }),
+  createRestaurant: protectedProcedure
+    .input(RestaurantRequest)
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.restaurant.create({
+        data: {
+          name: input.name,
+          address: input.address,
+          cityName: input.cityName,
+          stateName: input.stateName,
+          zipCode: input.zipCode,
+          email: input.email,
+          phone: input.phone,
+          website: input.website,
+          hoursInterval: input.hoursInterval,
+          cuisineType: input.cuisineType,
+        },
+      });
     }),
 });
