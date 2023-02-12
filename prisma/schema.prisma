@@ -68,9 +68,17 @@ model VerificationToken {
 model Restaurant {
    id    String    @id @default(cuid())
    name String @db.VarChar(255)
+   address String?  
+   cityName String  
+   stateName String 
+   zipCode String 
+   email String? 
+   phone String?
+   website String? 
+   hoursInterval String?  
+   cuisineType String?
    created_at  DateTime @default(now())   
-   description String @db.VarChar(255)
-}
+}   
 
 model Comment {
   id     String    @id @default(cuid())

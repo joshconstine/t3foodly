@@ -3,21 +3,32 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
-interface IRestaurantData {
-  id: number;
-  restaurantName: string;
-  address: string;
-  zipCode: string;
-  phone: string;
-  website: string;
-  email: string;
-  latitude: string;
-  longitude: string;
-  stateName: string;
-  cityName: string;
-  hoursInterval: string;
-  cuisineType: string;
-}
+const Restaurant = z.object({
+  id: z.string(),
+  name: z.string(),
+  address: z.string(),
+  stateName: z.string(),
+  cityName: z.string(),
+  zipCode: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  website: z.string(),
+  hoursInterval: z.string(),
+  cuisineType: z.string(),
+});
+const RestaurantRequest = z.object({
+  name: z.string(),
+  address: z.string(),
+  stateName: z.string(),
+  cityName: z.string(),
+  zipCode: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  website: z.string(),
+  hoursInterval: z.string(),
+  cuisineType: z.string(),
+});
+export type RestaurantData = z.infer<typeof Restaurant>;
 
 export const restaurantRouter = createTRPCRouter({
   restaurantGreeting: publicProcedure.query(() => {
@@ -63,11 +74,10 @@ export const restaurantRouter = createTRPCRouter({
         .request(options)
         .then(function (response) {
           return response.data.restaurants
-            ? response.data.restaurants.map((elem: IRestaurantData) => {
+            ? response.data.restaurants.map((elem: RestaurantData) => {
                 return {
                   id: elem.id,
-                  restaurantName: elem.restaurantName,
-                  cuisine: elem.cuisineType,
+                  name: elem.name,
                 };
               })
             : [];
@@ -81,15 +91,7 @@ export const restaurantRouter = createTRPCRouter({
     .input(
       z.object({ city: z.string().nullable(), state: z.string().nullable() })
     )
-    .output(
-      z.array(
-        z.object({
-          restaurantName: z.string(),
-          id: z.number(),
-          cuisine: z.string(),
-        })
-      )
-    )
+    .output(z.array(Restaurant))
     .query(({ input, ctx }) => {
       const options = {
         method: "GET",
@@ -106,10 +108,10 @@ export const restaurantRouter = createTRPCRouter({
         .request(options)
         .then(function (response) {
           return response.data.restaurants
-            ? response.data.restaurants.map((elem: IRestaurantData) => {
+            ? response.data.restaurants.map((elem: RestaurantData) => {
                 return {
                   id: elem.id,
-                  restaurantName: elem.restaurantName,
+                  name: elem.name,
                   cuisine: elem.cuisineType,
                 };
               })
@@ -119,6 +121,24 @@ export const restaurantRouter = createTRPCRouter({
           console.error(error);
           return [];
         });
+    }),
+  createRestaurant: protectedProcedure
+    .input(RestaurantRequest)
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.restaurant.create({
+        data: {
+          name: input.name,
+          address: input.address,
+          cityName: input.cityName,
+          stateName: input.stateName,
+          zipCode: input.zipCode,
+          email: input.email,
+          phone: input.phone,
+          website: input.website,
+          hoursInterval: input.hoursInterval,
+          cuisineType: input.cuisineType,
+        },
+      });
     }),
 
   getSecretMessage: protectedProcedure.query(() => {

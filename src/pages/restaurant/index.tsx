@@ -6,11 +6,12 @@ import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
 import { useMemo, useState } from "react";
 import { IRestaurantData } from "./search/[restaurantId]";
+import AddRestaurantForm from "./AddRestaurantForm";
 
 const Restaurant: NextPage = () => {
   const [city, setCity] = useState<null | string>(null);
   const [state, setState] = useState<null | string>(null);
-
+  const savedRestaurants = api.restaurant.getAll.useQuery();
   const restaurants = api.restaurant.getByCityAndState.useQuery({
     city,
     state,
@@ -75,10 +76,25 @@ const Restaurant: NextPage = () => {
                   href={`restaurant/search/${elem.id}`}
                 >
                   <div>{elem.id}</div>
-                  <div>{elem.restaurantName}</div>
+                  <div>{elem.name}</div>
                 </Link>
               );
             })}
+            {savedRestaurants.data?.map((elem) => {
+              return (
+                <Link
+                  key={elem.id}
+                  className="flex flex-col"
+                  href={`restaurant/${elem.id}`}
+                >
+                  <div>{elem.id}</div>
+                  <div>{elem.name}</div>
+                </Link>
+              );
+            })}
+          </div>
+          <div>
+            <AddRestaurantForm />
           </div>
         </main>
       </>
