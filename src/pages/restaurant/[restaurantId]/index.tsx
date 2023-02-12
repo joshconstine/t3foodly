@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { FormEventHandler } from "react";
 import Navbar from "../../../components/Navbar";
 import Comment from "./Comment";
+import FileUplod from "../../../components/FileUpload";
 
 const SingleRestaurant: NextPage = () => {
     const router = useRouter()
@@ -20,8 +21,9 @@ const SingleRestaurant: NextPage = () => {
     const comments = api.comment.getByRestaurantId.useQuery({ id: String(restaurantId) })
     const createFavorite = api.favorite.createFavorite.useMutation()
     const deleteFavorite = api.favorite.delete.useMutation()
-
     const isFavorited = api.favorite.isRestaurantFavorited.useQuery({ restaurantId: String(restaurantId) })
+    const imgSrc = ''
+    const imgUrl = imgSrc ? `${process.env.BUCKET_URL}/${imgSrc}` : ''
 
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -104,6 +106,7 @@ const SingleRestaurant: NextPage = () => {
                                 <button type="submit" >add</button>
                             </form>
                         </div>
+                        <FileUplod restaurantId={Number(restaurantId)} />
                     </div>
                 </main>
             </>

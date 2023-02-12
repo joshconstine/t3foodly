@@ -1,18 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 
-import { URLSearchParams } from "url";
 import { useRouter } from "next/router";
-import { FormEventHandler } from "react";
-import { api } from "../../../../utils/api";
 import Navbar from "../../../../components/Navbar";
 
-interface IRestaurantData {
+export interface IRestaurantData {
   cityName: string;
-  cuisineType: string;
-  email: string;
+  cuisine: string;
+  email?: string;
   hoursInterval: string;
   id: number;
   latitude: string;
@@ -79,6 +74,7 @@ const SingleRestaurant: NextPage = () => {
           <div className="flex flex-col">
             <span className="text-lg">single restaurant page</span>
             <div>{singleResraurantData?.restaurantName}</div>
+            <div>{singleResraurantData?.cuisine}</div>
           </div>
         </div>
       </main>

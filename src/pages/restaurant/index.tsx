@@ -5,22 +5,26 @@ import Link from "next/link";
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
 import { useMemo, useState } from "react";
+import { IRestaurantData } from "./search/[restaurantId]";
 
 const Restaurant: NextPage = () => {
-  const restaurant = api.restaurant.getAll.useQuery();
-  const [zipcode, setZipcode] = useState<null | string>(null);
-  const restaurants = api.restaurant.getByZipcode.useQuery({
-    zipcode: zipcode,
+  const [city, setCity] = useState<null | string>(null);
+  const [state, setState] = useState<null | string>(null);
+
+  const restaurants = api.restaurant.getByCityAndState.useQuery({
+    city,
+    state,
   });
 
-  const updateUsername = api.user.updateUsername.useMutation();
-  const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSearchByCity = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formElements = form.elements as typeof form.elements & {
-      zipCode: { value: string };
+      city: { value: string };
+      state: { value: string };
     };
-    setZipcode(formElements.zipCode.value);
+    setCity(formElements.city.value);
+    setState(formElements.state.value);
   };
   useMemo(() => {
     if (restaurants.status === "success") {
@@ -30,19 +34,6 @@ const Restaurant: NextPage = () => {
       );
     }
   }, [restaurants.data]);
-  // cityName
-  // cuisineType
-  // email
-  // hoursInterval
-  // id
-  // latitude
-  // longitude
-  // phone
-  // restaurantName
-  // stateName
-  // website
-  // zipCode
-
   address: if (restaurants.status === "loading") return <>loading</>;
   if (restaurants.status === "error") return <>error</>;
   if (restaurants.status === "success")
@@ -56,20 +47,27 @@ const Restaurant: NextPage = () => {
         <main>
           <Navbar />
           <div className="flex flex-col gap-2">
-            <form onSubmit={handleSearch}>
-              <label>Zip Code:</label>
+            {" "}
+            <form onSubmit={handleSearchByCity}>
+              <label>City:</label>
               <input
                 type="text"
-                name="zipCode"
+                name="city"
                 className="bg-gray-200"
-                placeholder="zip code"
+                placeholder="city"
+              ></input>
+              <label>State:</label>
+              <input
+                type="text"
+                name="state"
+                className="bg-gray-200"
+                placeholder="state"
               ></input>
               <button type="submit" className="bg-gray-200">
                 search now
               </button>
             </form>
-            {restaurants.data.map((elem) => {
-              // return <Link href={`/restaurant/${elem.id}`} key={elem.id}>{elem.name}</Link>
+            {restaurants.data?.map((elem) => {
               return (
                 <Link
                   key={elem.id}
