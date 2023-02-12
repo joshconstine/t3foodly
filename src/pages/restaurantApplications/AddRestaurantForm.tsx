@@ -15,6 +15,10 @@ const AddRestaurantForm = () => {
       state: { value: string };
       zipCode: { value: string };
       cuisineType: { value: string };
+      email: { value: string };
+      website: { value: string };
+      phone: { value: string };
+      hoursInterval: { value: string };
     };
     createRestaurant.mutate(
       {
@@ -23,10 +27,10 @@ const AddRestaurantForm = () => {
         cityName: formElements.city.value,
         stateName: formElements.state.value,
         zipCode: formElements.zipCode.value,
-        email: "email placeholder",
-        phone: "phone placeholder",
-        website: "website palceholder",
-        hoursInterval: "",
+        email: formElements.email.value,
+        phone: formElements.phone.value,
+        website: formElements.website.value,
+        hoursInterval: formElements.hoursInterval.value,
         cuisineType: formElements.cuisineType.value,
       },
       {
@@ -82,6 +86,34 @@ const AddRestaurantForm = () => {
           name="cuisineType"
           className="bg-gray-200"
           placeholder="cuisine"
+        ></input>
+        <label>Email:</label>
+        <input
+          type="text"
+          name="email"
+          className="bg-gray-200"
+          placeholder="email"
+        ></input>{" "}
+        <label>website:</label>
+        <input
+          type="text"
+          name="website"
+          className="bg-gray-200"
+          placeholder="website"
+        ></input>{" "}
+        <label>Hours:</label>
+        <input
+          type="text"
+          name="hoursInterval"
+          className="bg-gray-200"
+          placeholder="hours of operation"
+        ></input>{" "}
+        <label>Phone:</label>
+        <input
+          type="text"
+          name="phone"
+          className="bg-gray-200"
+          placeholder="phone number"
         ></input>
         <button type="submit" className="bg-gray-200">
           Create Restaurant
