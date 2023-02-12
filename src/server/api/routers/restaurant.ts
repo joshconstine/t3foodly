@@ -1,7 +1,7 @@
 import axios from "axios";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const Restaurant = z.object({
   id: z.string(),
@@ -16,27 +16,10 @@ const Restaurant = z.object({
   hoursInterval: z.string(),
   cuisineType: z.string(),
 });
-const RestaurantRequest = z.object({
-  name: z.string(),
-  address: z.string(),
-  stateName: z.string(),
-  cityName: z.string(),
-  zipCode: z.string(),
-  email: z.string(),
-  phone: z.string(),
-  website: z.string(),
-  hoursInterval: z.string(),
-  cuisineType: z.string(),
-});
+
 export type RestaurantData = z.infer<typeof Restaurant>;
 
 export const restaurantRouter = createTRPCRouter({
-  restaurantGreeting: publicProcedure.query(() => {
-    return {
-      greeting: `Hello from restaurants`,
-    };
-  }),
-
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.restaurant.findMany();
   }),
@@ -122,26 +105,4 @@ export const restaurantRouter = createTRPCRouter({
           return [];
         });
     }),
-  createRestaurant: protectedProcedure
-    .input(RestaurantRequest)
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.restaurant.create({
-        data: {
-          name: input.name,
-          address: input.address,
-          cityName: input.cityName,
-          stateName: input.stateName,
-          zipCode: input.zipCode,
-          email: input.email,
-          phone: input.phone,
-          website: input.website,
-          hoursInterval: input.hoursInterval,
-          cuisineType: input.cuisineType,
-        },
-      });
-    }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
 });

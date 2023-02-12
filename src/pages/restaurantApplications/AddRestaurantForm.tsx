@@ -1,8 +1,9 @@
 import { api } from "../../utils/api";
 
 const AddRestaurantForm = () => {
-  const createRestaurant = api.restaurant.createRestaurant.useMutation();
-  const restaurants = api.restaurant.getAll.useQuery();
+  const createRestaurant =
+    api.restaurantApplication.createRestaurantApplication.useMutation();
+  const restaurantApplications = api.restaurantApplication.getAll.useQuery();
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ const AddRestaurantForm = () => {
       },
       {
         async onSuccess() {
-          await restaurants.refetch();
+          await restaurantApplications.refetch();
         },
       }
     );

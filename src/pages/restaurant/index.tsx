@@ -5,8 +5,6 @@ import Link from "next/link";
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
 import { useMemo, useState } from "react";
-import { IRestaurantData } from "./search/[restaurantId]";
-import AddRestaurantForm from "./AddRestaurantForm";
 
 const Restaurant: NextPage = () => {
   const [city, setCity] = useState<null | string>(null);
@@ -92,9 +90,6 @@ const Restaurant: NextPage = () => {
                 </Link>
               );
             })}
-          </div>
-          <div>
-            <AddRestaurantForm />
           </div>
         </main>
       </>
