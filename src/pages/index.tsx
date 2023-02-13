@@ -7,8 +7,7 @@ import { api } from "../utils/api";
 import Navbar from "../components/Navbar";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: 'yeah' });
-  const test = api.restaurant.restaurantGreeting.useQuery()
+  const hello = api.example.hello.useQuery({ text: "yeah" });
 
   return (
     <>
@@ -19,11 +18,8 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Navbar />
-        <div >
-          <p >
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-            {test.data ? test.data.greeting : "Loading tRPC query..."}
-          </p>
+        <div>
+          <p>{hello.data ? hello.data.greeting : "Loading tRPC query..."}</p>
           <AuthShowcase />
         </div>
       </main>
@@ -38,17 +34,16 @@ const AuthShowcase: React.FC = () => {
 
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
-    { enabled: sessionData?.user !== undefined },
+    { enabled: sessionData?.user !== undefined }
   );
 
   return (
-    <div >
-      <p >
+    <div>
+      <p>
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {secretMessage && <span> - {secretMessage}</span>}
       </p>
       <button
-
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}
