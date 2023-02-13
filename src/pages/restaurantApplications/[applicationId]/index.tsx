@@ -11,15 +11,15 @@ const SingleRestaurantApplication = () => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
   const { applicationId } = router.query;
-  const createRestaurant =
-    api.restaurantApplication.createRestaurantApplication.useMutation();
 
   const restaurantApplication = api.restaurantApplication.getById.useQuery({
     id: String(applicationId),
   });
 
+  const deleteApplication = api.restaurantApplication.delete.useMutation();
   const updateApplciation =
     api.restaurantApplication.updateApplication.useMutation();
+  const createRestaurant = api.restaurant.createRestaurant.useMutation();
 
   const handleUpdate = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +50,7 @@ const SingleRestaurantApplication = () => {
           website: formElements.website.value,
           hoursInterval: formElements.hoursInterval.value,
           cuisineType: formElements.cuisineType.value,
+          status: "updated",
           created_by_user_id: restaurantApplication?.data?.created_by_user_id,
         },
         {
@@ -60,8 +61,81 @@ const SingleRestaurantApplication = () => {
         }
       );
   };
-  const handleReject = (e: React.SyntheticEvent<HTMLButtonElement>) => {};
-  const handlePublish = (e: React.SyntheticEvent<HTMLButtonElement>) => {};
+  const handleReject = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    deleteApplication.mutate(
+      { applicationId: String(applicationId) },
+      {
+        async onSuccess() {
+          router.push("/restaurantApplications");
+        },
+      }
+    );
+  };
+  const handlePublish = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    if (restaurantApplication.data)
+      createRestaurant.mutate(
+        {
+          name: restaurantApplication.data.name,
+          address: restaurantApplication.data.address
+            ? restaurantApplication.data.address
+            : "",
+          cityName: restaurantApplication.data.cityName,
+          stateName: restaurantApplication.data.stateName,
+          zipCode: restaurantApplication.data.zipCode,
+          email: restaurantApplication.data.email
+            ? restaurantApplication.data.email
+            : "",
+          phone: restaurantApplication.data.phone
+            ? restaurantApplication.data.phone
+            : "",
+          website: restaurantApplication.data.website
+            ? restaurantApplication.data.website
+            : "",
+          hoursInterval: restaurantApplication.data.hoursInterval
+            ? restaurantApplication.data.hoursInterval
+            : "",
+          cuisineType: restaurantApplication.data.cuisineType
+            ? restaurantApplication.data.cuisineType
+            : "",
+        },
+        {
+          async onSuccess() {
+            if (restaurantApplication.data)
+              updateApplciation.mutate({
+                id: restaurantApplication.data?.id,
+                name: restaurantApplication.data.name,
+                address: restaurantApplication.data.address
+                  ? restaurantApplication.data.address
+                  : "",
+                cityName: restaurantApplication.data.cityName,
+                stateName: restaurantApplication.data.stateName,
+                zipCode: restaurantApplication.data.zipCode,
+                email: restaurantApplication.data.email
+                  ? restaurantApplication.data.email
+                  : "",
+                phone: restaurantApplication.data.phone
+                  ? restaurantApplication.data.phone
+                  : "",
+                website: restaurantApplication.data.website
+                  ? restaurantApplication.data.website
+                  : "",
+                hoursInterval: restaurantApplication.data.hoursInterval
+                  ? restaurantApplication.data.hoursInterval
+                  : "",
+                cuisineType: restaurantApplication.data.cuisineType
+                  ? restaurantApplication.data.cuisineType
+                  : "",
+                status: "created",
+                created_by_user_id:
+                  restaurantApplication.data.created_by_user_id,
+              });
+            restaurantApplication.refetch();
+            router.push("/restaurantApplications");
+          },
+        }
+      );
+  };
 
   if (restaurantApplication.status === "loading") return <>loading</>;
   if (restaurantApplication.status === "error") return <>error</>;

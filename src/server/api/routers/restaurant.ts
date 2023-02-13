@@ -17,6 +17,18 @@ const Restaurant = z.object({
   hoursInterval: z.string(),
   cuisineType: z.string(),
 });
+const RestaurantToCreate = z.object({
+  name: z.string(),
+  address: z.string(),
+  stateName: z.string(),
+  cityName: z.string(),
+  zipCode: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  website: z.string(),
+  hoursInterval: z.string(),
+  cuisineType: z.string(),
+});
 
 export type RestaurantData = z.infer<typeof Restaurant>;
 
@@ -107,7 +119,7 @@ export const restaurantRouter = createTRPCRouter({
         });
     }),
   createRestaurant: protectedProcedure
-    .input(RestaurantRequest)
+    .input(RestaurantToCreate)
     .mutation(({ input, ctx }) => {
       return ctx.prisma.restaurant.create({
         data: {

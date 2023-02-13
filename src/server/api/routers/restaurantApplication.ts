@@ -26,12 +26,24 @@ export const RestaurantApplication = z.object({
   website: z.string(),
   hoursInterval: z.string(),
   cuisineType: z.string(),
+  status: z.string(),
   created_by_user_id: z.string(),
 });
 
 export const restaurantApplicationRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.restaurantApplication.findMany();
+    return ctx.prisma.restaurantApplication.findMany({
+      where: {
+        OR: [
+          {
+            status: "new",
+          },
+          {
+            status: "updated",
+          },
+        ],
+      },
+    });
   }),
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -63,6 +75,15 @@ export const restaurantApplicationRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(z.object({ applicationId: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.restaurantApplication.delete({
+        where: {
+          id: input.applicationId,
+        },
+      });
+    }),
   updateApplication: publicProcedure
     .input(RestaurantApplication)
     .mutation(({ input, ctx }) => {
@@ -81,7 +102,7 @@ export const restaurantApplicationRouter = createTRPCRouter({
           website: input.website,
           hoursInterval: input.hoursInterval,
           cuisineType: input.cuisineType,
-          status: "updated",
+          status: input.status,
           created_by_user_id: input.created_by_user_id,
         },
       });
