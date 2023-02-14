@@ -26,6 +26,18 @@ const config = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "s3.us-west-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "foodly-bucket.s3.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "foodly-bucket.s3.us-west-1.amazonaws.com",
+      },
     ],
   },
   i18n: {

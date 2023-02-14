@@ -3,10 +3,15 @@
 import React, { ChangeEvent, useState } from "react";
 // import aws from "../../../pages/api/creatingAws";
 
-const FileUplod = ({ restaurantId }: { restaurantId: Number }) => {
+import Image from "next/image";
+import { uid } from "uid";
+import { api } from "../utils/api";
+import axios from "axios";
+const FileUplod = ({ restaurantId }: { restaurantId: string }) => {
   const [messege, setMessege] = useState<string>("");
   const [file, setFile] = useState<any>();
 
+  const createPhoto = api.photo.createPhoto.useMutation();
   const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
     const input = e.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -18,48 +23,24 @@ const FileUplod = ({ restaurantId }: { restaurantId: Number }) => {
   };
 
   const uploadPhoto = async (e: React.SyntheticEvent) => {
-    const filename = encodeURIComponent(file.name);
-    const fileType = encodeURIComponent(file.type);
-
     try {
-      const res = await fetch(
-        `/api/s3/upload-url?file=${filename}&fileType=${fileType}`,
-        { mode: "no-cors" }
-      );
-      const { url, fields } = await res.json();
-      const formData = new FormData();
-      Object.entries({ ...fields, file }).forEach(([key, value]) => {
-        formData.append(key, value as string);
+      let { data } = await axios.post("/api/s3/upload-url", {
+        name: file.name,
+        type: file.type,
       });
-      const uniqueUrl = `restaurants/${restaurantId}/${Math.round(
-        Math.random() * 100
-      )}.jpeg`;
-      const postURL = `${url}/${uniqueUrl}`;
+      const url = data.url;
 
-      const upload = await fetch(postURL, {
-        method: "PUT",
-        body: formData,
+      let res = await axios.put(url, file, {
         headers: {
-          "Content-type": "image",
+          "Content-type": file.type,
+          "Access-Control-Allow-Origin": "*",
         },
       });
-
-      if (upload.ok) {
-        const postData = async () => {
-          const data = {
-            user_id: 0,
-            restaurant_id: restaurantId,
-            url: uniqueUrl,
-          };
-
-          const response = await fetch("/api/photos", {
-            method: "POST",
-            body: JSON.stringify(data),
-          });
-          return response.json();
-        };
-        postData().then((data) => {
-          console.log("linked to restaurant");
+      setFile(null);
+      if (res.status === 200) {
+        createPhoto.mutate({
+          restaurantId: restaurantId,
+          photoUrl: `https://foodly-bucket.s3.us-west-1.amazonaws.com/${file.name}`,
         });
       } else {
         console.error("Upload failed.");
@@ -72,7 +53,9 @@ const FileUplod = ({ restaurantId }: { restaurantId: Number }) => {
     <>
       <p>Upload file:</p>
       <input type="file" onChange={(e) => storeFile(e)} />
-      <input type="button" onClick={uploadPhoto} defaultValue="send" />
+      <button onClick={uploadPhoto} className="bg-green-200">
+        send
+      </button>
     </>
   );
 };

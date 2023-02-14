@@ -5,7 +5,9 @@ import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
 import Navbar from "../../../components/Navbar";
 import Comment from "./Comment";
+import FileUplod from "../../../components/FileUpload";
 
+import Image from "next/image";
 const SingleRestaurant: NextPage = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
@@ -20,6 +22,9 @@ const SingleRestaurant: NextPage = () => {
   });
   const createFavorite = api.favorite.createFavorite.useMutation();
   const deleteFavorite = api.favorite.delete.useMutation();
+  const photos = api.photo.getByRestaurantId.useQuery({
+    id: String(restaurantId),
+  });
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
     restaurantId: String(restaurantId),
   });
@@ -78,6 +83,13 @@ const SingleRestaurant: NextPage = () => {
             <div className="flex flex-col">
               <span className="text-lg">{restaurant.data?.name}</span>
             </div>
+            {photos.data?.map((elem) => {
+              return (
+                <div>
+                  <Image src={elem.photoUrl} alt="img" width={64} height={64} />{" "}
+                </div>
+              );
+            })}
             <div className="bg-gray-100">
               <div>
                 {isFavorited.data && isFavorited.data[0] ? (
@@ -124,6 +136,7 @@ const SingleRestaurant: NextPage = () => {
                 <button type="submit">add</button>
               </form>
             </div>
+            <FileUplod restaurantId={String(restaurantId)} />
           </div>
         </main>
       </>

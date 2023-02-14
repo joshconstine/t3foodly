@@ -2,28 +2,28 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
-export const commentRouter = createTRPCRouter({
+export const photoRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.comment.findMany();
+    return ctx.prisma.photo.findMany();
   }),
 
   getByRestaurantId: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.comment.findMany({
+      return ctx.prisma.photo.findMany({
         where: {
           restaurant_id: input.id,
         },
       });
+      // return ctx.prisma.photo.deleteMany();
     }),
-  createComment: protectedProcedure
-    .input(z.object({ text: z.string(), restaurantId: z.string() }))
+  createPhoto: protectedProcedure
+    .input(z.object({ photoUrl: z.string(), restaurantId: z.string() }))
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.comment.create({
+      return ctx.prisma.photo.create({
         data: {
-          user_id: ctx.session?.user.id,
+          photoUrl: input.photoUrl,
           restaurant_id: input.restaurantId,
-          text: input.text,
         },
       });
     }),

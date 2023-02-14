@@ -113,4 +113,9 @@ model Favorite {
 
     @@unique([user_id, restaurant_id])
 }
+model Photo {
+    id String @id @default(cuid())
+    photoUrl String
+    restaurant_id String
+}
 
