@@ -4,12 +4,35 @@ import Link from "next/link";
 
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Restaurant } from "@prisma/client";
+import { useRouter } from "next/router";
 
 const Restaurant: NextPage = () => {
-  const [city, setCity] = useState<null | string>(null);
-  const [state, setState] = useState<null | string>(null);
+  const router = useRouter();
+  const params = router.query;
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+
+  useEffect(() => {
+    if (params.city) {
+      localStorage.setItem("city", String(params.city));
+    }
+    if (params.state) {
+      localStorage.setItem("state", String(params.state));
+    }
+  }, [params]);
+  useEffect(() => {
+    if (localStorage.getItem("city") && localStorage.getItem("city") !== null) {
+      const searchedCity = localStorage.getItem("city");
+      setCity(searchedCity || "");
+    }
+    if (localStorage.getItem("state") && localStorage.getItem("state")) {
+      const searchedState = localStorage.getItem("state");
+      setState(searchedState || "");
+    }
+  }, []);
+
   const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
     city,
     state,
@@ -27,6 +50,11 @@ const Restaurant: NextPage = () => {
     };
     setCity(formElements.city.value);
     setState(formElements.state.value);
+    router.push(
+      `/restaurant?city=${formElements.city.value}&state=${formElements.state.value}`
+    );
+    window.localStorage.setItem("city", city);
+    window.localStorage.setItem("state", state);
   };
   useMemo(() => {
     if (apiRestaurants.status === "success") {
@@ -57,14 +85,16 @@ const Restaurant: NextPage = () => {
                 type="text"
                 name="city"
                 className="bg-gray-200"
-                placeholder="city"
+                placeholder={city || "city"}
+                defaultValue={city || ""}
               ></input>
               <label>State:</label>
               <input
                 type="text"
                 name="state"
                 className="bg-gray-200"
-                placeholder="state"
+                placeholder={(state !== undefined && state) || "state"}
+                defaultValue={(state !== undefined && state) || ""}
               ></input>
               <button type="submit" className="bg-gray-200">
                 search now
