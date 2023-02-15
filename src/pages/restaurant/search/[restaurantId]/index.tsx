@@ -21,7 +21,6 @@ export interface IRestaurantData {
 
 const SingleRestaurant: NextPage = () => {
   const router = useRouter();
-
   const createRestaurant = api.restaurant.createRestaurant.useMutation();
   const { restaurantId } = router.query;
   const restaurantJSON: string | null =
