@@ -5,16 +5,19 @@ import Link from "next/link";
 import { api } from "../../utils/api";
 import Navbar from "../../components/Navbar";
 import { useMemo, useState } from "react";
+import { Restaurant } from "@prisma/client";
 
 const Restaurant: NextPage = () => {
   const [city, setCity] = useState<null | string>(null);
   const [state, setState] = useState<null | string>(null);
-  const savedRestaurants = api.restaurant.getAll.useQuery();
-  const restaurants = api.restaurant.getByCityAndState.useQuery({
+  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
     city,
     state,
   });
-
+  const dbRestaurants = api.restaurant.getByCityAndStateFromDB.useQuery({
+    city,
+    state,
+  });
   const handleSearchByCity = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -26,16 +29,17 @@ const Restaurant: NextPage = () => {
     setState(formElements.state.value);
   };
   useMemo(() => {
-    if (restaurants.status === "success") {
+    if (apiRestaurants.status === "success") {
       window.localStorage.setItem(
         "restaurants",
-        JSON.stringify(restaurants.data)
+        JSON.stringify(apiRestaurants.data)
       );
     }
-  }, [restaurants.data]);
-  address: if (restaurants.status === "loading") return <>loading</>;
-  if (restaurants.status === "error") return <>error</>;
-  if (restaurants.status === "success")
+  }, [apiRestaurants.data]);
+
+  address: if (apiRestaurants.status === "loading") return <>loading</>;
+  if (apiRestaurants.status === "error") return <>error</>;
+  if (apiRestaurants.status === "success")
     return (
       <>
         <Head>
@@ -66,26 +70,24 @@ const Restaurant: NextPage = () => {
                 search now
               </button>
             </form>
-            {restaurants.data?.map((elem) => {
-              return (
-                <Link
-                  key={elem.id}
-                  className="flex flex-col"
-                  href={`restaurant/search/${elem.id}`}
-                >
-                  <div>{elem.id}</div>
-                  <div>{elem.name}</div>
-                </Link>
-              );
-            })}
-            {savedRestaurants.data?.map((elem) => {
+            {dbRestaurants.data?.map((elem) => {
               return (
                 <Link
                   key={elem.id}
                   className="flex flex-col"
                   href={`restaurant/${elem.id}`}
                 >
-                  <div>{elem.id}</div>
+                  <div>{elem.name}</div>
+                </Link>
+              );
+            })}
+            {apiRestaurants.data?.map((elem: Restaurant) => {
+              return (
+                <Link
+                  key={elem.id}
+                  className="flex flex-col"
+                  href={`restaurant/search/${elem.id}`}
+                >
                   <div>{elem.name}</div>
                 </Link>
               );

@@ -74,6 +74,13 @@ export const restaurantRouter = createTRPCRouter({
                 return {
                   id: elem.id,
                   name: elem.restaurantName,
+                  address: elem.address,
+                  cityName: elem.cityName,
+                  stateName: elem.stateName,
+                  zipCode: elem.zipCode,
+                  phone: elem.phone,
+                  email: elem.email,
+                  hoursInterval: elem.hoursInterval,
                 };
               })
             : [];
@@ -108,6 +115,13 @@ export const restaurantRouter = createTRPCRouter({
                   id: elem.id,
                   name: elem.restaurantName,
                   cuisine: elem.cuisineType,
+                  address: elem.address,
+                  cityName: elem.cityName,
+                  stateName: elem.stateName,
+                  zipCode: elem.zipCode,
+                  phone: elem.phone,
+                  email: elem.email,
+                  hoursInterval: elem.hoursInterval,
                 };
               })
             : [];
@@ -116,6 +130,22 @@ export const restaurantRouter = createTRPCRouter({
           console.error(error);
           return [];
         });
+    }),
+  getByCityAndStateFromDB: publicProcedure
+    .input(
+      z.object({ city: z.string().nullable(), state: z.string().nullable() })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.restaurant.findMany({
+        where: {
+          AND: [
+            {
+              cityName: input.city || "****",
+            },
+            { stateName: input.state || "*****" },
+          ],
+        },
+      });
     }),
   createRestaurant: protectedProcedure
     .input(RestaurantToCreate)
