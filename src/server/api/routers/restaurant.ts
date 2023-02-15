@@ -50,7 +50,7 @@ export const restaurantRouter = createTRPCRouter({
     .output(
       z.array(
         z.object({
-          restaurantName: z.string(),
+          name: z.string(),
           id: z.number(),
           cuisine: z.string(),
         })
@@ -70,10 +70,10 @@ export const restaurantRouter = createTRPCRouter({
         .request(options)
         .then(function (response) {
           return response.data.restaurants
-            ? response.data.restaurants.map((elem: RestaurantData) => {
+            ? response.data.restaurants.map((elem: any) => {
                 return {
                   id: elem.id,
-                  name: elem.name,
+                  name: elem.restaurantName,
                 };
               })
             : [];
@@ -87,7 +87,6 @@ export const restaurantRouter = createTRPCRouter({
     .input(
       z.object({ city: z.string().nullable(), state: z.string().nullable() })
     )
-    .output(z.array(Restaurant))
     .query(({ input, ctx }) => {
       const options = {
         method: "GET",
@@ -104,10 +103,10 @@ export const restaurantRouter = createTRPCRouter({
         .request(options)
         .then(function (response) {
           return response.data.restaurants
-            ? response.data.restaurants.map((elem: RestaurantData) => {
+            ? response.data.restaurants.map((elem: any) => {
                 return {
                   id: elem.id,
-                  name: elem.name,
+                  name: elem.restaurantName,
                   cuisine: elem.cuisineType,
                 };
               })

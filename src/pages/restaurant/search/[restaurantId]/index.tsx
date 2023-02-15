@@ -3,24 +3,26 @@ import Head from "next/head";
 
 import { useRouter } from "next/router";
 import Navbar from "../../../../components/Navbar";
+import { api } from "../../../../utils/api";
 
 export interface IRestaurantData {
   cityName: string;
   cuisine: string;
-  email?: string;
+  email: string;
   hoursInterval: string;
   id: number;
-  latitude: string;
-  longitude: string;
   phone: string;
-  restaurantName: string;
+  name: string;
   stateName: string;
   website: string;
   zipCode: string;
+  address: string;
 }
 
 const SingleRestaurant: NextPage = () => {
   const router = useRouter();
+
+  const createRestaurant = api.restaurant.createRestaurant.useMutation();
   const { restaurantId } = router.query;
   const restaurantJSON: string | null =
     window.localStorage.getItem("restaurants");
@@ -60,6 +62,45 @@ const SingleRestaurant: NextPage = () => {
   //       }
   //     );
   //   };
+  const handleSaveRestaurantData = (
+    e: React.SyntheticEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    createRestaurant.mutate(
+      {
+        name: singleResraurantData?.name ? singleResraurantData?.name : "",
+        cityName: singleResraurantData?.cityName
+          ? singleResraurantData?.cityName
+          : "",
+        address: singleResraurantData?.address
+          ? singleResraurantData?.address
+          : "",
+
+        stateName: singleResraurantData?.stateName
+          ? singleResraurantData?.stateName
+          : "",
+        zipCode: singleResraurantData?.zipCode
+          ? singleResraurantData?.zipCode
+          : "",
+        email: singleResraurantData?.email ? singleResraurantData?.email : "",
+        phone: singleResraurantData?.phone ? singleResraurantData?.phone : "",
+        website: singleResraurantData?.website
+          ? singleResraurantData?.website
+          : "",
+        hoursInterval: singleResraurantData?.hoursInterval
+          ? singleResraurantData?.hoursInterval
+          : "",
+        cuisineType: singleResraurantData?.cuisine
+          ? singleResraurantData?.cuisine
+          : "",
+      },
+      {
+        onSuccess() {
+          console.log("restaurant added to db");
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -73,8 +114,9 @@ const SingleRestaurant: NextPage = () => {
         <div>
           <div className="flex flex-col">
             <span className="text-lg">single restaurant page</span>
-            <div>{singleResraurantData?.restaurantName}</div>
+            <div>{singleResraurantData?.name}</div>
             <div>{singleResraurantData?.cuisine}</div>
+            <button onClick={handleSaveRestaurantData}>add to db</button>
           </div>
         </div>
       </main>
