@@ -11,6 +11,13 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.user.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+  }),
   getUsername: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
@@ -52,12 +59,12 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  updateRole: protectedProcedure
-    .input(z.object({ role: z.enum(["USER", "ADMIN"]) }))
+  updateRoleById: protectedProcedure
+    .input(z.object({ role: z.enum(["USER", "ADMIN"]), id: z.string() }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.user.update({
         where: {
-          id: ctx.session.user.id,
+          id: input.id,
         },
         data: {
           role: input.role,

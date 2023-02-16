@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "../utils/api";
-import Image from "next/image";
 import Favorite from "./user/[userId]/Favorite";
 import Layout from "../components/Layout";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { useState } from "react";
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
   const updateUsername = api.user.updateUsername.useMutation();
-  const updateRole = api.user.updateRole.useMutation();
   const [isEditMode, setIsEditMode] = useState(false);
   const favorites = api.favorite.getByUserId.useQuery({
     id: String(user.data?.id),
@@ -31,33 +29,7 @@ const Profile: NextPage = () => {
     );
     setIsEditMode(false);
   };
-  const handleRoleChange = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
 
-    if (user.data?.role !== "ADMIN") {
-      updateRole.mutate(
-        {
-          role: "ADMIN",
-        },
-        {
-          onSuccess() {
-            user.refetch();
-          },
-        }
-      );
-    } else {
-      updateRole.mutate(
-        {
-          role: "USER",
-        },
-        {
-          onSuccess() {
-            user.refetch();
-          },
-        }
-      );
-    }
-  };
   return (
     <>
       <Head>
@@ -103,8 +75,11 @@ const Profile: NextPage = () => {
                   <p className="mb-2 text-gray-700">
                     Email: {user.data?.email}
                   </p>
-                  <p className="mb-2 text-gray-700">Role: {user.data?.role}</p>
-                  <button onClick={handleRoleChange}>role change</button>
+                  {user.data?.role === "ADMIN" && (
+                    <p className="mb-2 text-gray-700">
+                      Role: {user.data?.role}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
