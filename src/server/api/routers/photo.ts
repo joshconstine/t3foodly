@@ -67,4 +67,13 @@ export const photoRouter = createTRPCRouter({
         },
       });
     }),
+  deleteByApplication: publicProcedure
+    .input(z.object({ applicationid: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.photo.deleteMany({
+        where: {
+          application_id: input.applicationid,
+        },
+      });
+    }),
 });

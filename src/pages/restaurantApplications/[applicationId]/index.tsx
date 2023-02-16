@@ -18,6 +18,7 @@ const SingleRestaurantApplication = () => {
   });
   const applications = api.restaurantApplication.getAll.useQuery();
   const deleteApplication = api.restaurantApplication.delete.useMutation();
+  const deletePhotos = api.photo.deleteByApplication.useMutation();
   const updateApplciation =
     api.restaurantApplication.updateApplication.useMutation();
   const updatePhoto = api.photo.handlePublish.useMutation();
@@ -71,6 +72,9 @@ const SingleRestaurantApplication = () => {
       { applicationId: String(applicationId) },
       {
         async onSuccess() {
+          deletePhotos.mutate({
+            applicationid: String(applicationId),
+          });
           router.push("/restaurantApplications");
         },
       }
