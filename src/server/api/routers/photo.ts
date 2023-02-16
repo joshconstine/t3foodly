@@ -17,6 +17,15 @@ export const photoRouter = createTRPCRouter({
       });
       // return ctx.prisma.photo.deleteMany();
     }),
+  getByApplicationId: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.photo.findMany({
+        where: {
+          application_id: input.id,
+        },
+      });
+    }),
   getByCommentId: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
@@ -31,6 +40,7 @@ export const photoRouter = createTRPCRouter({
       z.object({
         photoUrl: z.string(),
         restaurantId: z.string().optional(),
+        applicationId: z.string().optional(),
         commentId: z.string().optional(),
       })
     )
@@ -40,6 +50,20 @@ export const photoRouter = createTRPCRouter({
           photoUrl: input.photoUrl,
           restaurant_id: input.restaurantId,
           comment_id: input.commentId,
+          application_id: input.applicationId,
+        },
+      });
+    }),
+  handlePublish: publicProcedure
+    .input(z.object({ applicationId: z.string(), restaurantId: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.photo.updateMany({
+        where: {
+          application_id: input.applicationId,
+        },
+        data: {
+          application_id: undefined,
+          restaurant_id: input.restaurantId,
         },
       });
     }),

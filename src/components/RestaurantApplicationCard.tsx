@@ -11,8 +11,18 @@ const RestaurantApplicationCard = (props: {
   const userName = api.user.getUsername.useQuery({
     id: restaurant.created_by_user_id,
   });
+  const photos = api.photo.getByApplicationId.useQuery({
+    id: restaurant.id,
+  });
   return (
     <div className=" overflow-hidden rounded-lg bg-white p-4 shadow-lg">
+      {photos.data && photos.data.length > 0 && (
+        <img
+          className="w-48"
+          src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+          alt="Restaurant Image"
+        />
+      )}
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-bold">{restaurant.name}</h3>
         <div>

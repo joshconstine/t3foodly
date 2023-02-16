@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { ChangeEvent, useState } from "react";
 import { api } from "../../utils/api";
 
 const AddRestaurantForm = () => {
@@ -6,6 +7,8 @@ const AddRestaurantForm = () => {
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
   const [submitting, setSubmitting] = useState(false);
+  const [file, setFile] = useState<any>();
+  const createPhoto = api.photo.createPhoto.useMutation();
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     setSubmitting(true);
     e.preventDefault();
@@ -36,14 +39,50 @@ const AddRestaurantForm = () => {
         cuisineType: formElements.cuisineType.value,
       },
       {
-        async onSuccess() {
+        async onSuccess(applicationData) {
+          const uploadPhoto = async () => {
+            try {
+              let { data } = await axios.post("/api/s3/upload-url", {
+                name: file.name,
+                type: file.type,
+              });
+              const url = data.url;
+
+              let res = await axios.put(url, file, {
+                headers: {
+                  "Content-type": file.type,
+                  "Access-Control-Allow-Origin": "*",
+                },
+              });
+              setFile(null);
+              if (res.status === 200) {
+                createPhoto.mutate({
+                  applicationId: applicationData.id,
+                  photoUrl: `https://foodly-bucket.s3.us-west-1.amazonaws.com/${file.name}`,
+                });
+              } else {
+                console.error("Upload failed.");
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          uploadPhoto();
           await restaurantApplications.refetch();
           setSubmitting(false);
         },
       }
     );
   };
+  const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
+    const input = e.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
 
+    const uploadedFile = input.files[0];
+    setFile(uploadedFile);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
@@ -182,6 +221,10 @@ const AddRestaurantForm = () => {
             className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+        </div>
+        <div>
+          add a photo
+          <input type="file" onChange={(e) => storeFile(e)} />
         </div>
         <button
           type="submit"

@@ -122,5 +122,6 @@ model Photo {
     photoUrl String
     restaurant_id String?
     comment_id String?
+    application_id String?
 }
 

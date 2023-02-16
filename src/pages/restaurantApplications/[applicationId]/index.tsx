@@ -16,12 +16,15 @@ const SingleRestaurantApplication = () => {
   const restaurantApplication = api.restaurantApplication.getById.useQuery({
     id: String(applicationId),
   });
-
+  const applications = api.restaurantApplication.getAll.useQuery();
   const deleteApplication = api.restaurantApplication.delete.useMutation();
   const updateApplciation =
     api.restaurantApplication.updateApplication.useMutation();
+  const updatePhoto = api.photo.handlePublish.useMutation();
   const createRestaurant = api.restaurant.createRestaurant.useMutation();
-
+  const photos = api.photo.getByApplicationId.useQuery({
+    id: String(applicationId),
+  });
   const handleUpdate = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -101,7 +104,7 @@ const SingleRestaurantApplication = () => {
             : "",
         },
         {
-          async onSuccess() {
+          async onSuccess(restaurantData) {
             if (restaurantApplication.data)
               updateApplciation.mutate({
                 id: restaurantApplication.data?.id,
@@ -131,8 +134,16 @@ const SingleRestaurantApplication = () => {
                 created_by_user_id:
                   restaurantApplication.data.created_by_user_id,
               });
+            if (restaurantApplication.data)
+              updatePhoto.mutate({
+                applicationId: restaurantApplication.data.id,
+                restaurantId: restaurantData.id,
+              });
+
+            applications.refetch();
             restaurantApplication.refetch();
-            router.push("/restaurantApplications");
+
+            router.push(`/restaurant/${restaurantData.id}`);
           },
         }
       );
@@ -152,6 +163,14 @@ const SingleRestaurantApplication = () => {
           <div>
             <div className="flex flex-col gap-4">
               <div>
+                {" "}
+                {photos.data && photos.data.length > 0 && (
+                  <img
+                    className="w-48"
+                    src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+                    alt="Restaurant Image"
+                  />
+                )}
                 <div>{`Application #${restaurantApplication?.data?.id}`} </div>
                 <div>
                   Application created---
