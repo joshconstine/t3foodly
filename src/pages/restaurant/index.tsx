@@ -75,27 +75,43 @@ const Restaurant: NextPage = () => {
       <Layout>
         <div className="flex flex-col gap-2">
           {" "}
-          <form onSubmit={handleSearchByCity}>
-            <label>City:</label>
-            <input
-              type="text"
-              name="city"
-              className="bg-gray-200"
-              placeholder={city || "city"}
-              defaultValue={city || ""}
-            ></input>
-            <label>State:</label>
-            <input
-              type="text"
-              name="state"
-              className="bg-gray-200"
-              placeholder={(state !== undefined && state) || "state"}
-              defaultValue={(state !== undefined && state) || ""}
-            ></input>
-            <button type="submit" className="bg-gray-200">
-              search now
-            </button>
-          </form>
+          <div className="mx-auto my-8 max-w-4xl px-4">
+            <form
+              className="flex  content-center items-center gap-4 text-center"
+              onSubmit={handleSearchByCity}
+            >
+              <label className="text-lg font-medium" htmlFor="city">
+                City:
+              </label>
+              <input
+                className="rounded-lg border border-gray-300 px-4 py-2"
+                type="text"
+                id="city"
+                name="city"
+                placeholder={city || "city"}
+                defaultValue={city || ""}
+              />
+
+              <label className="text-lg font-medium" htmlFor="state">
+                State:
+              </label>
+              <input
+                className="rounded-lg border border-gray-300 px-4 py-2"
+                type="text"
+                id="state"
+                name="state"
+                placeholder={(state !== undefined && state) || "state"}
+                defaultValue={(state !== undefined && state) || ""}
+              />
+
+              <button
+                className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </div>
           {dbRestaurants.data?.map((elem) => {
             return (
               <Link
