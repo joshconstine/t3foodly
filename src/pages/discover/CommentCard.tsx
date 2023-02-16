@@ -4,22 +4,23 @@ import { Comment } from "../../server/api/routers/comment";
 
 const CommentCard = (props: { comment: any }) => {
   const comment = props.comment;
-  console.log("comment", comment);
   const restaurant = api.restaurant.getById.useQuery({
     id: comment.restaurant_id,
   });
-  const photos = api.photo.getByRestaurantId.useQuery({
-    id: comment.restaurant_id,
+  const photos = api.photo.getByCommentId.useQuery({
+    id: comment.id,
   });
   const username = api.user.getUsername.useQuery({ id: comment.user_id });
 
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-      <img
-        className="w-full"
-        src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
-        alt="Restaurant Image"
-      />
+      {photos.data && photos.data.length > 0 && (
+        <img
+          className="w-48"
+          src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+          alt="Restaurant Image"
+        />
+      )}
       <div className="p-4">
         <h3 className="mb-2 text-xl font-bold">{restaurant.data?.name}</h3>
         <p className="text-gray-700">

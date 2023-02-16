@@ -52,6 +52,18 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+  updateRole: protectedProcedure
+    .input(z.object({ role: z.enum(["USER", "ADMIN"]) }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          role: input.role,
+        },
+      });
+    }),
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),

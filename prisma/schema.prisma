@@ -46,7 +46,10 @@ model Session {
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
+enum Role {
+    USER
+    ADMIN
+}
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -54,6 +57,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    role          Role      @default(USER)
     accounts      Account[]
     sessions      Session[]
 }
@@ -116,6 +120,7 @@ model Favorite {
 model Photo {
     id String @id @default(cuid())
     photoUrl String
-    restaurant_id String
+    restaurant_id String?
+    comment_id String?
 }
 

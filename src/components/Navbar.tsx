@@ -17,12 +17,14 @@ const Navbar = () => {
             >
               Restaurants
             </Link>
-            <Link
-              href="/restaurantApplications"
-              className="rounded-md px-3 py-2 text-sm font-medium"
-            >
-              Restaurant Applications
-            </Link>{" "}
+            {user.data?.role === "ADMIN" && (
+              <Link
+                href="/restaurantApplications"
+                className="rounded-md px-3 py-2 text-sm font-medium"
+              >
+                Restaurant Applications
+              </Link>
+            )}
             <Link
               href="/discover"
               className="rounded-md px-3 py-2 text-sm font-medium"
