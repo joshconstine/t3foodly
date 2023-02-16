@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Restaurant } from "@prisma/client";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
+import RestaurantCard from "../../components/RestaurantCard";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
@@ -112,28 +113,14 @@ const Restaurant: NextPage = () => {
               </button>
             </form>
           </div>
-          {dbRestaurants.data?.map((elem) => {
-            return (
-              <Link
-                key={elem.id}
-                className="flex flex-col"
-                href={`restaurant/${elem.id}`}
-              >
-                <div>{elem.name}</div>
-              </Link>
-            );
-          })}
-          {apiRestaurants.data?.map((elem: Restaurant) => {
-            return (
-              <Link
-                key={elem.id}
-                className="flex flex-col"
-                href={`restaurant/search/${elem.id}`}
-              >
-                <div>{elem.name}</div>
-              </Link>
-            );
-          })}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {dbRestaurants.data?.map((elem) => {
+              return <RestaurantCard restaurant={elem} key={elem.id} />;
+            })}
+            {apiRestaurants.data?.map((elem: Restaurant) => {
+              return <RestaurantCard restaurant={elem} key={elem.id} />;
+            })}
+          </div>
         </div>
       </Layout>
     </>
