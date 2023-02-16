@@ -38,6 +38,10 @@ const config = {
         protocol: "https",
         hostname: "foodly-bucket.s3.us-west-1.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   i18n: {

@@ -4,10 +4,12 @@ import { api } from "../utils/api";
 import Image from "next/image";
 import Favorite from "./user/[userId]/Favorite";
 import Layout from "../components/Layout";
+import { useState } from "react";
 
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
   const updateUsername = api.user.updateUsername.useMutation();
+  const [isEditMode, setIsEditMode] = useState(false);
   const favorites = api.favorite.getByUserId.useQuery({
     id: String(user.data?.id),
   });
@@ -26,6 +28,7 @@ const Profile: NextPage = () => {
         },
       }
     );
+    setIsEditMode(false);
   };
   return (
     <>
@@ -35,23 +38,64 @@ const Profile: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="flex flex-col gap-4 ">
-          <h1>profile</h1>
-          {user?.data?.image && (
-            <Image src={user?.data?.image} alt="img" width={64} height={64} />
-          )}
-          <div>email: {user.data?.email}</div>
-          {user.data?.username ? <>username: {user.data.username}</> : <></>}
-          <div>Favorites</div>
-          {favorites.data?.map((elem) => {
-            return <Favorite key={elem.id} restaurantId={elem.restaurant_id} />;
-          })}
-          <form onSubmit={handleSubmit} className="flex w-48 flex-col">
-            <input name="newUsername" className="border-2 bg-gray-200"></input>
-            <button className="border-2 bg-gray-200" type="submit">
-              make userName
-            </button>
-          </form>
+        <div className="container mx-auto px-4 py-10">
+          <div className="-mx-4 flex flex-wrap">
+            <div className="mb-4 w-full px-4 md:w-1/3">
+              <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                <img
+                  className="w-full"
+                  src={user.data?.image || ""}
+                  alt="Profile Image"
+                />
+                <div className="p-4">
+                  <h3 className="mb-2 text-xl font-bold">
+                    {user.data?.username}
+                  </h3>
+                  <button onClick={() => setIsEditMode(true)}>edit</button>
+                  {isEditMode && (
+                    <form
+                      onSubmit={handleSubmit}
+                      className="flex w-48 flex-col"
+                    >
+                      <input
+                        name="newUsername"
+                        className="border-2 bg-gray-200"
+                      ></input>
+                      <button className="border-2 bg-gray-200" type="submit">
+                        Save
+                      </button>{" "}
+                      <button
+                        className="border-2 bg-gray-200"
+                        onClick={() => setIsEditMode(false)}
+                      >
+                        cancel
+                      </button>
+                    </form>
+                  )}
+                  <p className="mb-2 text-gray-700">
+                    Email: {user.data?.email}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="w-full px-4 md:w-2/3">
+              <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                <div className="p-4">
+                  <h3 className="mb-2 text-xl font-bold">Favorites</h3>
+                  <div>
+                    {favorites.data?.map((elem: any) => {
+                      return (
+                        <Favorite
+                          key={elem.id}
+                          restaurantId={elem.restaurant_id}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Layout>
     </>
