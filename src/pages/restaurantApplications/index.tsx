@@ -3,8 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { api } from "../../utils/api";
-import AddRestaurantForm from "./AddRestaurantForm";
 import Layout from "../../components/Layout";
+import RestaurantApplicationCard from "../../components/RestaurantApplicationCard";
 
 const restaurantApplications: NextPage = () => {
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
@@ -18,7 +18,7 @@ const restaurantApplications: NextPage = () => {
       </Head>
       <Layout>
         <div>Open Applications</div>
-        <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {" "}
           {restaurantApplications.data?.map((elem) => {
             return (
@@ -27,14 +27,10 @@ const restaurantApplications: NextPage = () => {
                 className="flex flex-col"
                 href={`restaurantApplications/${elem.id}`}
               >
-                <div>{elem.id}</div>
-                <div>{elem.name}</div>
+                <RestaurantApplicationCard restaurant={elem} />
               </Link>
             );
           })}
-        </div>
-        <div>
-          <AddRestaurantForm />
         </div>
       </Layout>
     </>

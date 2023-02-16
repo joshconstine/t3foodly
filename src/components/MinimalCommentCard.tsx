@@ -1,13 +1,33 @@
 import { useSession } from "next-auth/react";
+import React from "react";
 import { api } from "../utils/api";
 
 const MinimalCommentCard = (props: { comment: any }) => {
   const comment = props.comment;
-
+  const user = api.user.getUser.useQuery();
   const photos = api.photo.getByCommentId.useQuery({
     id: comment.id,
   });
+  const isUsersComment = user.data?.id === comment.user_id;
+
   const username = api.user.getUsername.useQuery({ id: comment.user_id });
+  const comments = api.comment.getByRestaurantId.useQuery({
+    id: String(comment.restaurant_id),
+  });
+
+  const deleteComment = api.comment.delete.useMutation();
+  const handleDeleteComment = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    deleteComment.mutate(
+      {
+        id: comment.id,
+      },
+      {
+        onSuccess() {
+          comments.refetch();
+        },
+      }
+    );
+  };
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
@@ -22,6 +42,14 @@ const MinimalCommentCard = (props: { comment: any }) => {
 
         <p className="text-gray-700">{comment.text}</p>
       </div>
+      {isUsersComment && (
+        <button
+          className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+          onClick={handleDeleteComment}
+        >
+          delete
+        </button>
+      )}
     </div>
   );
 };

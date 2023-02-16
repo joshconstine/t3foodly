@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { api } from "../../utils/api";
 
 const AddRestaurantForm = () => {
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
-
+  const [submitting, setSubmitting] = useState(false);
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    setSubmitting(true);
     e.preventDefault();
     const form = e.currentTarget;
     const formElements = form.elements as typeof form.elements & {
@@ -36,6 +38,7 @@ const AddRestaurantForm = () => {
       {
         async onSuccess() {
           await restaurantApplications.refetch();
+          setSubmitting(false);
         },
       }
     );
@@ -43,80 +46,149 @@ const AddRestaurantForm = () => {
 
   return (
     <div>
-      <div>Add Restaurant</div>
-      <form onSubmit={handleSubmit} className="flex w-48 flex-col">
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          className="bg-gray-200"
-          placeholder="Restaurant name"
-        ></input>{" "}
-        <label>Address:</label>
-        <input
-          type="text"
-          name="address"
-          className="bg-gray-200"
-          placeholder="Restaurant address"
-        ></input>
-        <label>City:</label>
-        <input
-          type="text"
-          name="city"
-          className="bg-gray-200"
-          placeholder="city"
-        ></input>
-        <label>State:</label>
-        <input
-          type="text"
-          name="state"
-          className="bg-gray-200"
-          placeholder="state"
-        ></input>
-        <label>Zip Code:</label>
-        <input
-          type="text"
-          name="zipCode"
-          className="bg-gray-200"
-          placeholder="zipcode"
-        ></input>{" "}
-        <label>Cuisine Type:</label>
-        <input
-          type="text"
-          name="cuisineType"
-          className="bg-gray-200"
-          placeholder="cuisine"
-        ></input>
-        <label>Email:</label>
-        <input
-          type="text"
-          name="email"
-          className="bg-gray-200"
-          placeholder="email"
-        ></input>{" "}
-        <label>website:</label>
-        <input
-          type="text"
-          name="website"
-          className="bg-gray-200"
-          placeholder="website"
-        ></input>{" "}
-        <label>Hours:</label>
-        <input
-          type="text"
-          name="hoursInterval"
-          className="bg-gray-200"
-          placeholder="hours of operation"
-        ></input>{" "}
-        <label>Phone:</label>
-        <input
-          type="text"
-          name="phone"
-          className="bg-gray-200"
-          placeholder="phone number"
-        ></input>
-        <button type="submit" className="bg-gray-200">
-          Create Restaurant
+      <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
+        <h3 className="mb-4 text-lg font-bold">Add a restaurant</h3>
+        <div className="mb-4">
+          <label htmlFor="name" className="mb-2 block font-bold text-gray-700">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="address"
+            className="mb-2 block font-bold text-gray-700"
+          >
+            Address
+          </label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="city" className="mb-2 block font-bold text-gray-700">
+            City
+          </label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="state" className="mb-2 block font-bold text-gray-700">
+            State
+          </label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="zipCode"
+            className="mb-2 block font-bold text-gray-700"
+          >
+            ZIP Code
+          </label>
+          <input
+            type="text"
+            id="zipCode"
+            name="zipCode"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>{" "}
+        <div className="mb-4">
+          <label
+            htmlFor="cuisineType"
+            className="mb-2 block font-bold text-gray-700"
+          >
+            Cuisine Type
+          </label>
+          <input
+            type="text"
+            id="cuisineType"
+            name="cuisineType"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>{" "}
+        <div className="mb-4">
+          <label htmlFor="email" className="mb-2 block font-bold text-gray-700">
+            Email
+          </label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>{" "}
+        <div className="mb-4">
+          <label
+            htmlFor="website"
+            className="mb-2 block font-bold text-gray-700"
+          >
+            website
+          </label>
+          <input
+            type="text"
+            id="website"
+            name="website"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>{" "}
+        <div className="mb-4">
+          <label htmlFor="phone" className="mb-2 block font-bold text-gray-700">
+            Phone
+          </label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>{" "}
+        <div className="mb-4">
+          <label
+            htmlFor="hoursInterval"
+            className="mb-2 block font-bold text-gray-700"
+          >
+            hours
+          </label>
+          <input
+            type="text"
+            id="hoursInterval"
+            name="hoursInterval"
+            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={submitting}
+          className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+        >
+          {submitting ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

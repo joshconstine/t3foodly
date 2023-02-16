@@ -43,6 +43,9 @@ export const restaurantApplicationRouter = createTRPCRouter({
           },
         ],
       },
+      orderBy: {
+        created_at: "asc",
+      },
     });
   }),
   getById: publicProcedure

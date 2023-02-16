@@ -8,12 +8,14 @@ import { Restaurant } from "@prisma/client";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import RestaurantCard from "../../components/RestaurantCard";
+import AddRestaurantForm from "../restaurantApplications/AddRestaurantForm";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
   const params = router.query;
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (params.city) {
@@ -77,6 +79,11 @@ const Restaurant: NextPage = () => {
         <div className="flex flex-col gap-2">
           {" "}
           <div className="mx-auto my-8 max-w-4xl px-4">
+            {expanded && (
+              <div>
+                <AddRestaurantForm />
+              </div>
+            )}
             <form
               className="flex  content-center items-center gap-4 text-center"
               onSubmit={handleSearchByCity}
@@ -92,7 +99,6 @@ const Restaurant: NextPage = () => {
                 placeholder={city || "city"}
                 defaultValue={city || ""}
               />
-
               <label className="text-lg font-medium" htmlFor="state">
                 State:
               </label>
@@ -104,13 +110,32 @@ const Restaurant: NextPage = () => {
                 placeholder={(state !== undefined && state) || "state"}
                 defaultValue={(state !== undefined && state) || ""}
               />
-
               <button
                 className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
                 type="submit"
               >
                 Search
               </button>
+              {!expanded && (
+                <div>
+                  <button
+                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                    onClick={() => setExpanded(true)}
+                  >
+                    add Restaurant
+                  </button>
+                </div>
+              )}{" "}
+              {expanded && (
+                <div>
+                  <button
+                    className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+                    onClick={() => setExpanded(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}{" "}
             </form>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

@@ -17,22 +17,18 @@ const SingleRestaurant = () => {
   const restaurant = api.restaurant.getById.useQuery({
     id: String(restaurantId),
   });
-
   const createComment = api.comment.createComment.useMutation();
   const comments = api.comment.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
   const createFavorite = api.favorite.createFavorite.useMutation();
   const deleteFavorite = api.favorite.delete.useMutation();
-
   const photos = api.photo.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
-
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
     restaurantId: String(restaurantId),
   });
-
   const createPhoto = api.photo.createPhoto.useMutation();
 
   const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
