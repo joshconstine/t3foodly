@@ -4,6 +4,7 @@ import { api } from "../utils/api";
 import Favorite from "./user/[userId]/Favorite";
 import Layout from "../components/Layout";
 import { useState } from "react";
+import Image from "next/image";
 
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
@@ -42,7 +43,9 @@ const Profile: NextPage = () => {
           <div className="-mx-4 flex flex-wrap">
             <div className="mb-4 w-full px-4 md:w-1/3">
               <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   className="w-full"
                   src={user.data?.image || ""}
                   alt="Profile Image"

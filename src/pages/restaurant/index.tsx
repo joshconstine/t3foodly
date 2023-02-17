@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 
 import { api } from "../../utils/api";
 import { useEffect, useMemo, useState } from "react";
@@ -66,7 +65,7 @@ const Restaurant: NextPage = () => {
         JSON.stringify(apiRestaurants.data)
       );
     }
-  }, [apiRestaurants.data]);
+  }, [apiRestaurants.data, apiRestaurants.status]);
 
   return (
     <>

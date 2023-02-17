@@ -8,6 +8,7 @@ import RestaurantCard from "../../../components/RestaurantCard";
 import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
+import Image from "next/image";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -123,9 +124,11 @@ const SingleRestaurant = () => {
             {restaurant.data && <RestaurantCard restaurant={restaurant.data} />}
 
             <div className="relative h-64 w-full">
-              <img
-                src={photos.data?.at(selectedPhotoIndex)?.photoUrl}
-                alt={restaurant.data?.name}
+              <Image
+                width={800}
+                height={400}
+                src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
+                alt={restaurant.data?.name || ""}
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-50 p-4 text-sm text-white">

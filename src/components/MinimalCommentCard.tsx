@@ -1,8 +1,8 @@
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "../utils/api";
 
+import Image from "next/image";
 const MinimalCommentCard = (props: { comment: any }) => {
   const router = useRouter();
   const comment = props.comment;
@@ -33,7 +33,9 @@ const MinimalCommentCard = (props: { comment: any }) => {
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
-        <img
+        <Image
+          width={40}
+          height={40}
           className="w-48"
           src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
           alt="Restaurant Image"

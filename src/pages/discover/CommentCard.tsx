@@ -1,9 +1,8 @@
-import { prisma } from "@prisma/client";
 import { api } from "../../utils/api";
-import { Comment } from "../../server/api/routers/comment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import Image from "next/image";
 const CommentCard = (props: { comment: any }) => {
   const router = useRouter();
   const comment = props.comment;
@@ -17,8 +16,9 @@ const CommentCard = (props: { comment: any }) => {
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
-        <img
-          className="w-48"
+        <Image
+          width={140}
+          height={140}
           src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
           alt="Restaurant Image"
         />

@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-
+import Image from "next/image";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 const Home: NextPage = () => {
@@ -17,7 +17,9 @@ const Home: NextPage = () => {
       <Layout>
         <header className="bg-white">
           <div className="relative h-96">
-            <img
+            <Image
+              width={800}
+              height={400}
               className="absolute h-full w-full object-cover"
               src="https://foodly-bucket.s3.us-west-1.amazonaws.com/joses.jpeg"
               alt="Hero Image"

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { api } from "../utils/api";
-
+import Image from "next/image";
 const Navbar = () => {
   const user = api.user.getUser.useQuery();
   return (
@@ -41,8 +41,10 @@ const Navbar = () => {
             )}
           </div>
           <Link href="/profile">
-            <img
-              className="w-12 rounded-full"
+            <Image
+              width={40}
+              height={40}
+              className=" rounded-full"
               src={user.data?.image || ""}
               alt="Profile Image"
             />

@@ -1,14 +1,10 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
-// import aws from "../../../pages/api/creatingAws";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 
-import Image from "next/image";
-import { uid } from "uid";
 import { api } from "../utils/api";
 import axios from "axios";
 const FileUplod = ({ restaurantId }: { restaurantId: string }) => {
-  const [messege, setMessege] = useState<string>("");
   const [file, setFile] = useState<any>();
 
   const createPhoto = api.photo.createPhoto.useMutation();
@@ -22,7 +18,8 @@ const FileUplod = ({ restaurantId }: { restaurantId: string }) => {
     setFile(uploadedFile);
   };
 
-  const uploadPhoto = async (e: React.SyntheticEvent) => {
+  const uploadPhoto = async (e: SyntheticEvent) => {
+    e.preventDefault();
     try {
       let { data } = await axios.post("/api/s3/upload-url", {
         name: file.name,

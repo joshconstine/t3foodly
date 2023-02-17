@@ -1,8 +1,9 @@
 import { RestaurantApplication } from "@prisma/client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { api } from "../utils/api";
 
+import Image from "next/image";
 const RestaurantApplicationCard = (props: {
   restaurant: RestaurantApplication;
 }) => {
@@ -17,8 +18,9 @@ const RestaurantApplicationCard = (props: {
   return (
     <div className=" overflow-hidden rounded-lg bg-white p-4 shadow-lg">
       {photos.data && photos.data.length > 0 && (
-        <img
-          className="w-48"
+        <Image
+          height={240}
+          width={240}
           src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
           alt="Restaurant Image"
         />

@@ -2,7 +2,6 @@ import axios from "axios";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import { RestaurantRequest } from "./restaurantApplication";
 
 const Restaurant = z.object({
   id: z.string(),

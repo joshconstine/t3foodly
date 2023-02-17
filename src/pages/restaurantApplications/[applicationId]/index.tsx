@@ -3,11 +3,11 @@ import Head from "next/head";
 
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
-import Navbar from "../../../components/Navbar";
 import { useState } from "react";
 import Link from "next/link";
 import Layout from "../../../components/Layout";
 
+import Image from "next/image";
 const SingleRestaurantApplication = () => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
@@ -169,8 +169,9 @@ const SingleRestaurantApplication = () => {
               <div>
                 {" "}
                 {photos.data && photos.data.length > 0 && (
-                  <img
-                    className="w-48"
+                  <Image
+                    width={200}
+                    height={200}
                     src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
                     alt="Restaurant Image"
                   />

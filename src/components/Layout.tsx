@@ -1,5 +1,3 @@
-// components/layout.js
-
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
 
