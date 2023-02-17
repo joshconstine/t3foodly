@@ -1,18 +1,18 @@
 import { api } from "../../utils/api";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { Comment } from "@prisma/client";
 import Image from "next/image";
-const CommentCard = (props: { comment: any }) => {
+const CommentCard = (props: { comment: Comment }) => {
   const router = useRouter();
   const comment = props.comment;
   const restaurant = api.restaurant.getById.useQuery({
-    id: comment.restaurant_id,
+    id: comment?.restaurant_id,
   });
   const photos = api.photo.getByCommentId.useQuery({
-    id: comment.id,
+    id: comment?.id,
   });
-  const username = api.user.getUsername.useQuery({ id: comment.user_id });
+  const username = api.user.getUsername.useQuery({ id: comment?.user_id });
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
