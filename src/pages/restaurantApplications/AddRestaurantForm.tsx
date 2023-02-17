@@ -1,12 +1,17 @@
+import { RestaurantApplication } from "@prisma/client";
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { api } from "../../utils/api";
+import ConfirmModal from "./ConfirmModal";
 
 const AddRestaurantForm = () => {
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
   const [submitting, setSubmitting] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [createdApplication, setCreatedApplication] =
+    useState<RestaurantApplication | null>(null);
   const [file, setFile] = useState<any>();
   const createPhoto = api.photo.createPhoto.useMutation();
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -68,8 +73,20 @@ const AddRestaurantForm = () => {
             }
           };
           uploadPhoto();
-          await restaurantApplications.refetch();
+          setCreatedApplication(applicationData);
+          formElements.name.value = "";
+          formElements.address.value = "";
+          formElements.city.value = "";
+          formElements.state.value = "";
+          formElements.zipCode.value = "";
+          formElements.email.value = "";
+          formElements.phone.value = "";
+          formElements.website.value = "";
+          formElements.hoursInterval.value = "";
+          formElements.cuisineType.value = "";
           setSubmitting(false);
+          setConfirmModalOpen(true);
+          await restaurantApplications.refetch();
         },
       }
     );
@@ -86,7 +103,6 @@ const AddRestaurantForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-        <h3 className="mb-4 text-lg font-bold">Add a restaurant</h3>
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block font-bold text-gray-700">
             Name
@@ -234,6 +250,11 @@ const AddRestaurantForm = () => {
           {submitting ? "Submitting..." : "Submit"}
         </button>
       </form>
+      <ConfirmModal
+        restaurant={createdApplication}
+        open={confirmModalOpen}
+        setOpen={setConfirmModalOpen}
+      />
     </div>
   );
 };

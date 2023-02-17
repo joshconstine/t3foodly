@@ -8,14 +8,13 @@ import { Restaurant } from "@prisma/client";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import RestaurantCard from "../../components/RestaurantCard";
-import AddRestaurantForm from "../restaurantApplications/AddRestaurantForm";
+import Link from "next/link";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
   const params = router.query;
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
-  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (params.city) {
@@ -76,21 +75,10 @@ const Restaurant: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="flex flex-col gap-2">
-          {" "}
-          {expanded && (
-            <div className="mx-auto my-8 max-w-4xl px-4">
-              <AddRestaurantForm />
-              <button
-                className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-                onClick={() => setExpanded(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          {!expanded && (
-            <>
+        {" "}
+        <section className="bg-gray-100 py-12">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-2">
               <div className="mx-auto my-8 max-w-4xl px-4">
                 <form
                   className="flex content-center items-center gap-4  text-center  sm:flex-col md:flex-row lg:flex-row"
@@ -124,16 +112,13 @@ const Restaurant: NextPage = () => {
                   >
                     Search
                   </button>
-                  {!expanded && (
-                    <div>
-                      <button
-                        className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                        onClick={() => setExpanded(true)}
-                      >
+                  <div>
+                    <Link href="/restaurant/create">
+                      <div className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700">
                         add Restaurant
-                      </button>
-                    </div>
-                  )}{" "}
+                      </div>
+                    </Link>
+                  </div>
                 </form>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -144,9 +129,9 @@ const Restaurant: NextPage = () => {
                   return <RestaurantCard restaurant={elem} key={elem.id} />;
                 })}
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        </section>
       </Layout>
     </>
   );

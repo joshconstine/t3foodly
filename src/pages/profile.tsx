@@ -39,72 +39,80 @@ const Profile: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="container mx-auto px-4 py-10">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-4 w-full px-4 md:w-1/3">
-              <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                <Image
-                  width={300}
-                  height={300}
-                  className="w-full"
-                  src={user.data?.image || ""}
-                  alt="Profile Image"
-                />
-                <div className="p-4">
-                  <h3 className="mb-2 text-xl font-bold">
-                    {user.data?.username}
-                  </h3>
-                  <button onClick={() => setIsEditMode(true)}>edit</button>
-                  {isEditMode && (
-                    <form
-                      onSubmit={handleSubmit}
-                      className="flex w-48 flex-col"
-                    >
-                      <input
-                        name="newUsername"
-                        className="border-2 bg-gray-200"
-                      ></input>
-                      <button className="border-2 bg-gray-200" type="submit">
-                        Save
-                      </button>{" "}
-                      <button
-                        className="border-2 bg-gray-200"
-                        onClick={() => setIsEditMode(false)}
-                      >
-                        cancel
-                      </button>
-                    </form>
-                  )}
-                  <p className="mb-2 text-gray-700">
-                    Email: {user.data?.email}
-                  </p>
-                  {user.data?.role === "ADMIN" && (
-                    <p className="mb-2 text-gray-700">
-                      Role: {user.data?.role}
-                    </p>
-                  )}
+        {" "}
+        <section className="bg-gray-100 py-12">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4 py-10">
+              <div className="-mx-4 flex flex-wrap">
+                <div className="mb-4 w-full px-4 md:w-1/3">
+                  <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                    <Image
+                      width={300}
+                      height={300}
+                      className="w-full"
+                      src={user.data?.image || ""}
+                      alt="Profile Image"
+                    />
+                    <div className="p-4">
+                      <h3 className="mb-2 text-xl font-bold">
+                        {user.data?.username}
+                      </h3>
+                      <button onClick={() => setIsEditMode(true)}>edit</button>
+                      {isEditMode && (
+                        <form
+                          onSubmit={handleSubmit}
+                          className="flex w-48 flex-col"
+                        >
+                          <input
+                            name="newUsername"
+                            className="border-2 bg-gray-200"
+                          ></input>
+                          <button
+                            className="border-2 bg-gray-200"
+                            type="submit"
+                          >
+                            Save
+                          </button>{" "}
+                          <button
+                            className="border-2 bg-gray-200"
+                            onClick={() => setIsEditMode(false)}
+                          >
+                            cancel
+                          </button>
+                        </form>
+                      )}
+                      <p className="mb-2 text-gray-700">
+                        Email: {user.data?.email}
+                      </p>
+                      {user.data?.role === "ADMIN" && (
+                        <p className="mb-2 text-gray-700">
+                          Role: {user.data?.role}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="w-full px-4 md:w-2/3">
-              <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                <div className="p-4">
-                  <h3 className="mb-2 text-xl font-bold">Favorites</h3>
-                  <div>
-                    {favorites.data?.map((elem: any) => {
-                      return (
-                        <Favorite
-                          key={elem.id}
-                          restaurantId={elem.restaurant_id}
-                        />
-                      );
-                    })}
+                <div className="w-full px-4 md:w-2/3">
+                  <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                    <div className="p-4">
+                      <h3 className="mb-2 text-xl font-bold">Favorites</h3>
+                      <div>
+                        {favorites.data?.map((elem: any) => {
+                          return (
+                            <Favorite
+                              key={elem.id}
+                              restaurantId={elem.restaurant_id}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </Layout>
     </>
   );
