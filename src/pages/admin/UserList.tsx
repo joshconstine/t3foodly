@@ -53,7 +53,7 @@ const UserList = (props: { users: User[] }) => {
           </tr>
         </thead>
         <tbody>
-          {props.users.map((user) => (
+          {props?.users?.map((user) => (
             <>
               <tr
                 onClick={() => router.push(`/user/${user.id}`)}

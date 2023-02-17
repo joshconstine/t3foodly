@@ -34,11 +34,11 @@ const CommentCard = (props: { comment: Comment }) => {
         </p>
         <p
           className="cursor-pointer font-bold text-gray-700 hover:text-gray-500"
-          onClick={() => router.push(`/user/${comment.user_id}`)}
+          onClick={() => router.push(`/user/${comment?.user_id}`)}
         >
           {username.data || ""}
         </p>
-        <p className="text-gray-700">{comment.text}</p>
+        <p className="text-gray-700">{comment?.text}</p>
       </div>
     </div>
   );
