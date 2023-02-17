@@ -78,74 +78,74 @@ const Restaurant: NextPage = () => {
       <Layout>
         <div className="flex flex-col gap-2">
           {" "}
-          <div className="mx-auto my-8 max-w-4xl px-4">
-            {expanded && (
-              <div>
-                <AddRestaurantForm />
-              </div>
-            )}
-            <form
-              className="flex  content-center items-center gap-4 text-center"
-              onSubmit={handleSearchByCity}
-            >
-              <label className="text-lg font-medium" htmlFor="city">
-                City:
-              </label>
-              <input
-                className="rounded-lg border border-gray-300 px-4 py-2"
-                type="text"
-                id="city"
-                name="city"
-                placeholder={city || "city"}
-                defaultValue={city || ""}
-              />
-              <label className="text-lg font-medium" htmlFor="state">
-                State:
-              </label>
-              <input
-                className="rounded-lg border border-gray-300 px-4 py-2"
-                type="text"
-                id="state"
-                name="state"
-                placeholder={(state !== undefined && state) || "state"}
-                defaultValue={(state !== undefined && state) || ""}
-              />
+          {expanded && (
+            <div className="mx-auto my-8 max-w-4xl px-4">
+              <AddRestaurantForm />
               <button
-                className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                type="submit"
+                className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+                onClick={() => setExpanded(false)}
               >
-                Search
+                Cancel
               </button>
-              {!expanded && (
-                <div>
+            </div>
+          )}
+          {!expanded && (
+            <>
+              <div className="mx-auto my-8 max-w-4xl px-4">
+                <form
+                  className="flex content-center items-center gap-4  text-center  sm:flex-col md:flex-row lg:flex-row"
+                  onSubmit={handleSearchByCity}
+                >
+                  <label className="text-lg font-medium" htmlFor="city">
+                    City:
+                  </label>
+                  <input
+                    className="rounded-lg border border-gray-300 px-4 py-2"
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder={city || "city"}
+                    defaultValue={city || ""}
+                  />
+                  <label className="text-lg font-medium" htmlFor="state">
+                    State:
+                  </label>
+                  <input
+                    className="rounded-lg border border-gray-300 px-4 py-2"
+                    type="text"
+                    id="state"
+                    name="state"
+                    placeholder={(state !== undefined && state) || "state"}
+                    defaultValue={(state !== undefined && state) || ""}
+                  />
                   <button
                     className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                    onClick={() => setExpanded(true)}
+                    type="submit"
                   >
-                    add Restaurant
+                    Search
                   </button>
-                </div>
-              )}{" "}
-              {expanded && (
-                <div>
-                  <button
-                    className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-                    onClick={() => setExpanded(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}{" "}
-            </form>
-          </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {dbRestaurants.data?.map((elem) => {
-              return <RestaurantCard restaurant={elem} key={elem.id} />;
-            })}
-            {apiRestaurants.data?.map((elem: Restaurant) => {
-              return <RestaurantCard restaurant={elem} key={elem.id} />;
-            })}
-          </div>
+                  {!expanded && (
+                    <div>
+                      <button
+                        className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                        onClick={() => setExpanded(true)}
+                      >
+                        add Restaurant
+                      </button>
+                    </div>
+                  )}{" "}
+                </form>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {dbRestaurants.data?.map((elem) => {
+                  return <RestaurantCard restaurant={elem} key={elem.id} />;
+                })}
+                {apiRestaurants.data?.map((elem: Restaurant) => {
+                  return <RestaurantCard restaurant={elem} key={elem.id} />;
+                })}
+              </div>
+            </>
+          )}
         </div>
       </Layout>
     </>

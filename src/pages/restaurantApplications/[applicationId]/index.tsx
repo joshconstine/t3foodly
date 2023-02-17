@@ -187,18 +187,24 @@ const SingleRestaurantApplication = () => {
                   <div>{`created by : ${restaurantApplication.data?.created_by_user_id}`}</div>
                 </Link>
                 <div className="flex w-20 flex-col gap-1">
-                  <button className="bg-green-400" onClick={handlePublish}>
+                  <button
+                    className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+                    onClick={handlePublish}
+                  >
                     pubish
                   </button>{" "}
                   <button
-                    className="bg-yellow-200"
+                    className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
                     onClick={() => {
                       setEditMode(!editMode);
                     }}
                   >
                     edit
                   </button>{" "}
-                  <button className="bg-red-200" onClick={handleReject}>
+                  <button
+                    className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+                    onClick={handleReject}
+                  >
                     reject
                   </button>
                 </div>

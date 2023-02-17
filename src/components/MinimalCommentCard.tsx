@@ -1,8 +1,10 @@
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import React from "react";
 import { api } from "../utils/api";
 
 const MinimalCommentCard = (props: { comment: any }) => {
+  const router = useRouter();
   const comment = props.comment;
   const user = api.user.getUser.useQuery();
   const photos = api.photo.getByCommentId.useQuery({
@@ -38,7 +40,12 @@ const MinimalCommentCard = (props: { comment: any }) => {
         />
       )}
       <div className="p-4">
-        <h3 className="mb-2 text-xl font-bold">{username.data}</h3>
+        <h3
+          className="mb-2 cursor-pointer text-xl font-bold"
+          onClick={() => router.push(`/user/${comment.user_id}`)}
+        >
+          {username.data || ""}
+        </h3>
 
         <p className="text-gray-700">{comment.text}</p>
       </div>

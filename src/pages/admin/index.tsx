@@ -6,34 +6,7 @@ import UserList from "./UserList";
 
 const Admin: NextPage = () => {
   const users = api.user.getAll.useQuery();
-  const updateRole = api.user.updateRole.useMutation();
-  const handleRoleChange = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
 
-    if (user.data?.role !== "ADMIN") {
-      updateRole.mutate(
-        {
-          role: "ADMIN",
-        },
-        {
-          onSuccess() {
-            user.refetch();
-          },
-        }
-      );
-    } else {
-      updateRole.mutate(
-        {
-          role: "USER",
-        },
-        {
-          onSuccess() {
-            user.refetch();
-          },
-        }
-      );
-    }
-  };
   return (
     <>
       <Head>
