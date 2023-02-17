@@ -1,8 +1,8 @@
 "use client";
-import { type NextPage } from "next";
 import Head from "next/head";
 
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Layout from "../../../../components/Layout";
 import { api } from "../../../../utils/api";
 
@@ -20,18 +20,24 @@ export interface IRestaurantData {
   address: string;
 }
 
-const SingleRestaurant: NextPage = () => {
+const SingleRestaurant = () => {
   const router = useRouter();
   const createRestaurant = api.restaurant.createRestaurant.useMutation();
   const { restaurantId } = router.query;
-  const restaurantJSON: string | null =
-    window.localStorage.getItem("restaurants");
+  const [singleResraurantData, setSingleRestaurantData] =
+    useState<IRestaurantData | null>(null);
+  useEffect(() => {
+    const restaurantJSON: string | null =
+      localStorage?.getItem("restaurants") || null;
+    // const restaurantJSON = `{ "empty": "yes" }`;
 
-  const singleResraurantData: IRestaurantData | null = JSON.parse(
-    restaurantJSON ? restaurantJSON : ""
-  ).find((elem: IRestaurantData) => {
-    return elem.id === Number(restaurantId);
-  });
+    const newSngleResraurantData: IRestaurantData | null = JSON.parse(
+      restaurantJSON ? restaurantJSON : ""
+    )?.find((elem: IRestaurantData) => {
+      return elem.id === Number(restaurantId);
+    });
+    setSingleRestaurantData(newSngleResraurantData);
+  }, []);
 
   const handleSaveRestaurantData = (
     e: React.SyntheticEvent<HTMLButtonElement>
@@ -84,9 +90,9 @@ const SingleRestaurant: NextPage = () => {
         <div>
           <div className="flex flex-col">
             <span className="text-lg">single restaurant page</span>
-            <div>{singleResraurantData?.name}</div>
+            {/* <div>{singleResraurantData?.name}</div>
             <div>{singleResraurantData?.cuisine}</div>
-            <button onClick={handleSaveRestaurantData}>add to db</button>
+            <button onClick={handleSaveRestaurantData}>add to db</button> */}
           </div>
         </div>
       </Layout>

@@ -19,7 +19,7 @@ const CommentCard = (props: { comment: Comment }) => {
         <Image
           width={140}
           height={140}
-          src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+          src={photos.data ? String(photos.data?.at(0)?.photoUrl) : ""}
           alt="Restaurant Image"
         />
       )}
