@@ -1,5 +1,6 @@
 import { RestaurantApplication } from "@prisma/client";
 import axios from "axios";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
@@ -8,40 +9,91 @@ const AddRestaurantForm = () => {
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
-  const [submitting, setSubmitting] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [createdApplication, setCreatedApplication] =
     useState<RestaurantApplication | null>(null);
   const [file, setFile] = useState<any>();
+  const [requestStep, setRequestStep] = useState(0);
+
+  interface FormValues {
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    cuisineType: string;
+    email: string;
+    website: string;
+    phone: string;
+    hoursInterval: string;
+  }
+  const initialValues: FormValues = {
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    cuisineType: "",
+    email: "",
+    website: "",
+    phone: "",
+    hoursInterval: "",
+  };
+  const formSteps = [
+    {
+      forms: [
+        {
+          name: "name",
+          label: "Restaurant Name",
+        },
+      ],
+      heading: "Restaurant Name",
+    },
+    {
+      forms: [
+        {
+          name: "city",
+          label: "City",
+        },
+        {
+          name: "state",
+          label: "State",
+        },
+        {
+          name: "zipCode",
+          label: "Zip Code",
+        },
+      ],
+      heading: "Restaurant Location",
+    },
+    {
+      forms: [
+        {
+          name: "cuisineType",
+          label: "Cuisine Type",
+        },
+      ],
+      heading: "Restaurant Details",
+    },
+    {
+      forms: [],
+      heading: "Add a Photo",
+    },
+  ];
   const createPhoto = api.photo.createPhoto.useMutation();
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    setSubmitting(true);
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formElements = form.elements as typeof form.elements & {
-      name: { value: string };
-      address: { value: string };
-      city: { value: string };
-      state: { value: string };
-      zipCode: { value: string };
-      cuisineType: { value: string };
-      email: { value: string };
-      website: { value: string };
-      phone: { value: string };
-      hoursInterval: { value: string };
-    };
+  const handleSubmit = (values: FormValues) => {
     createRestaurant.mutate(
       {
-        name: formElements.name.value,
-        address: formElements.address.value,
-        cityName: formElements.city.value,
-        stateName: formElements.state.value,
-        zipCode: formElements.zipCode.value,
-        email: formElements.email.value,
-        phone: formElements.phone.value,
-        website: formElements.website.value,
-        hoursInterval: formElements.hoursInterval.value,
-        cuisineType: formElements.cuisineType.value,
+        name: values.name,
+        address: values.address,
+        cityName: values.city,
+        stateName: values.state,
+        zipCode: values.zipCode,
+        email: values.email,
+        phone: values.phone,
+        website: values.website,
+        hoursInterval: values.hoursInterval,
+        cuisineType: values.cuisineType,
       },
       {
         async onSuccess(applicationData) {
@@ -74,18 +126,7 @@ const AddRestaurantForm = () => {
           };
           uploadPhoto();
           setCreatedApplication(applicationData);
-          formElements.name.value = "";
-          formElements.address.value = "";
-          formElements.city.value = "";
-          formElements.state.value = "";
-          formElements.zipCode.value = "";
-          formElements.email.value = "";
-          formElements.phone.value = "";
-          formElements.website.value = "";
-          formElements.hoursInterval.value = "";
-          formElements.cuisineType.value = "";
-          setSubmitting(false);
-          setConfirmModalOpen(true);
+
           await restaurantApplications.refetch();
         },
       }
@@ -100,156 +141,88 @@ const AddRestaurantForm = () => {
     const uploadedFile = input.files[0];
     setFile(uploadedFile);
   };
+  console.log(requestStep);
   return (
     <div>
-      <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-        <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block font-bold text-gray-700">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="address"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            Address
-          </label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="city" className="mb-2 block font-bold text-gray-700">
-            City
-          </label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="state" className="mb-2 block font-bold text-gray-700">
-            State
-          </label>
-          <input
-            type="text"
-            id="state"
-            name="state"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="zipCode"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            ZIP Code
-          </label>
-          <input
-            type="text"
-            id="zipCode"
-            name="zipCode"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>{" "}
-        <div className="mb-4">
-          <label
-            htmlFor="cuisineType"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            Cuisine Type
-          </label>
-          <input
-            type="text"
-            id="cuisineType"
-            name="cuisineType"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>{" "}
-        <div className="mb-4">
-          <label htmlFor="email" className="mb-2 block font-bold text-gray-700">
-            Email
-          </label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>{" "}
-        <div className="mb-4">
-          <label
-            htmlFor="website"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            website
-          </label>
-          <input
-            type="text"
-            id="website"
-            name="website"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>{" "}
-        <div className="mb-4">
-          <label htmlFor="phone" className="mb-2 block font-bold text-gray-700">
-            Phone
-          </label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>{" "}
-        <div className="mb-4">
-          <label
-            htmlFor="hoursInterval"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            hours
-          </label>
-          <input
-            type="text"
-            id="hoursInterval"
-            name="hoursInterval"
-            className="form-input block w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div>
-          add a photo
-          <input type="file" onChange={(e) => storeFile(e)} />
-        </div>
-        <button
-          type="submit"
-          disabled={submitting}
-          className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-        >
-          {submitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(false);
+          setConfirmModalOpen(true);
+          handleSubmit(values);
+          actions.resetForm();
+
+          setRequestStep(0);
+        }}
+      >
+        {(props) => (
+          <Form className="mb-4">
+            <h1 className="cursor-pointer font-bold text-gray-700 hover:text-gray-500">
+              {formSteps[requestStep]?.heading}
+            </h1>
+            {formSteps[requestStep]?.forms.map((form, i) => (
+              <div key={i} className="mb-4">
+                <Field
+                  className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+                  id={form.name}
+                  name={form.name}
+                  type="text"
+                  placeholder={form.label}
+                />
+              </div>
+            ))}
+            {requestStep === formSteps.length - 1 && (
+              <div className="max-w-xl">
+                <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+                  <span className="flex items-center space-x-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    <span className="font-medium text-gray-600">
+                      Drop files to Attach, or
+                      <span className="text-blue-600 underline">browse</span>
+                    </span>
+                  </span>
+                  <input
+                    type="file"
+                    name="file_upload"
+                    className="hidden"
+                    onChange={(e) => storeFile(e)}
+                  />
+                </label>
+              </div>
+            )}
+            <button
+              type="button"
+              className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+              onClick={() => {
+                if (requestStep === formSteps.length - 1) {
+                  props.handleSubmit();
+                } else {
+                  setRequestStep(requestStep + 1);
+                }
+              }}
+            >
+              {requestStep === formSteps.length - 1
+                ? props.isSubmitting
+                  ? "Submitting"
+                  : "Submit"
+                : "Next"}
+            </button>
+          </Form>
+        )}
+      </Formik>
       <ConfirmModal
         restaurant={createdApplication}
         open={confirmModalOpen}
