@@ -1,10 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "../utils/api";
-import Favorite from "./user/[userId]/Favorite";
+import Favorite from "../components/Favorites/Favorite";
 import Layout from "../components/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Reorder } from "framer-motion";
+import FavoriteContainer from "../components/Favorites/FavoriteContainer";
 
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
@@ -13,7 +15,10 @@ const Profile: NextPage = () => {
   const favorites = api.favorite.getByUserId.useQuery({
     id: String(user.data?.id),
   });
-
+  const [favoriteList, setFavoriteList] = useState(favorites.data || []);
+  useEffect(() => {
+    setFavoriteList(favorites.data || []);
+  }, [favorites.data]);
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -92,23 +97,10 @@ const Profile: NextPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="w-full px-4 md:w-2/3">
-                  <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                    <div className="p-4">
-                      <h3 className="mb-2 text-xl font-bold">Favorites</h3>
-                      <div>
-                        {favorites.data?.map((elem: any) => {
-                          return (
-                            <Favorite
-                              key={elem.id}
-                              restaurantId={elem.restaurant_id}
-                            />
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <FavoriteContainer
+                  favoriteList={favoriteList}
+                  setFavoriteList={setFavoriteList}
+                />
               </div>
             </div>
           </div>

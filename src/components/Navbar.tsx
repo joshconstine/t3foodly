@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { api } from "../utils/api";
 import Image from "next/image";
+import { motion } from "framer-motion";
 const Navbar = () => {
   const user = api.user.getUser.useQuery();
   return (
@@ -41,13 +42,15 @@ const Navbar = () => {
             )}
           </div>
           <Link href="/profile">
-            <Image
-              width={40}
-              height={40}
-              className=" rounded-full"
-              src={user.data?.image || ""}
-              alt="Profile Image"
-            />
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Image
+                width={40}
+                height={40}
+                className="rounded-full"
+                src={user.data?.image || ""}
+                alt="Profile Image"
+              />
+            </motion.div>
           </Link>
         </div>
       </div>
