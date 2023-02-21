@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="relative z-10 bg-primary py-4 text-white">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-center justify-between gap-2  md:flex-row">
           <Image
             width={163}
             height={65}
@@ -52,21 +52,30 @@ const Navbar = () => {
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={sessionData ? () => void signOut() : () => void signIn()}
-              className="rounded-full bg-secondary p-12 py-2 px-8 text-sm text-white"
+              className={
+                sessionData
+                  ? "rounded-full border-2  border-secondary bg-transparent p-12 py-2 px-8 text-sm text-white"
+                  : "rounded-full bg-secondary p-12 py-2 px-8 text-sm text-white"
+              }
             >
               {sessionData ? "Sign out" : "Sign in"}
             </button>
-            <Link href="/profile">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Image
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                  src={user.data?.image || ""}
-                  alt="Profile Image"
-                />
-              </motion.div>
-            </Link>
+            {sessionData && (
+              <Link href="/profile">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Image
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                    src={user.data?.image || ""}
+                    alt="Profile Image"
+                  />
+                </motion.div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

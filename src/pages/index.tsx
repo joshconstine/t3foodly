@@ -39,12 +39,12 @@ const Home: NextPage = () => {
                   initial={{ y: "-100vh" }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 1.5 } }}
                   variants={dropIn}
-                  className="relative"
+                  className="relative hidden md:relative md:block"
                   z-index={0}
                 >
                   <Image
-                    width={200}
-                    height={200}
+                    width={300}
+                    height={300}
                     src="/static/photos/clock.jpg"
                     alt="Clock Image"
                     className="relative"
@@ -72,10 +72,11 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <Image
-                width={800}
+                width={600}
                 height={400}
                 src="/static/photos/hero.png"
                 alt="Hero Image"
+                className="hidden  md:relative md:block "
               />
             </div>
           </div>
