@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Comment } from "@prisma/client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 const CommentCard = (props: { comment: Comment }) => {
   const router = useRouter();
   const comment = props.comment;
@@ -14,7 +15,10 @@ const CommentCard = (props: { comment: Comment }) => {
   });
   const username = api.user.getUsername.useQuery({ id: comment?.user_id });
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+    <motion.div
+      className="overflow-hidden rounded-lg  bg-white shadow-lg"
+      whileHover={{ scale: 1.05 }}
+    >
       {photos.data && photos.data.length > 0 && (
         <Image
           width={140}
@@ -40,7 +44,7 @@ const CommentCard = (props: { comment: Comment }) => {
         </p>
         <p className="text-gray-700">{comment?.text}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

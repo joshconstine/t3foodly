@@ -1,11 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "../utils/api";
-import Favorite from "../components/Favorites/Favorite";
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Reorder } from "framer-motion";
 import FavoriteContainer from "../components/Favorites/FavoriteContainer";
 
 const Profile: NextPage = () => {

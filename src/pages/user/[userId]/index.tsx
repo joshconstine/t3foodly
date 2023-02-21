@@ -3,7 +3,7 @@ import Head from "next/head";
 
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
-import Favorite from "./Favorite";
+import Favorite from "../../../components/Favorites/Favorite";
 import Layout from "../../../components/Layout";
 
 const User: NextPage = () => {
