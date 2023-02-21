@@ -70,7 +70,11 @@ const Navbar = () => {
                     width={40}
                     height={40}
                     className="rounded-full"
-                    src={user.data?.image || ""}
+                    src={
+                      user.data?.image && user.data?.image !== null
+                        ? user.data?.image
+                        : "/static/photos/profile.png"
+                    }
                     alt="Profile Image"
                   />
                 </motion.div>
