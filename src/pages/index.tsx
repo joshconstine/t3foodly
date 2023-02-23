@@ -68,7 +68,7 @@ const Home: NextPage = () => {
                     Search the city you would like to eat in below
                   </p>
                   <form className=" flex max-w-md cursor-pointer items-center justify-between rounded-lg bg-gray-200 py-2 px-4">
-                    <SearchForm action="/search" />
+                    <SearchForm />
                     <motion.div
                       onClick={() => router.push("/restaurant")}
                       whileHover={{ scale: 1.1 }}
