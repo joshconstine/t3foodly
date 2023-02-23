@@ -7,7 +7,7 @@ const scriptOptions = {
   libraries: ["places"],
 };
 
-export default function SearchForm({ action }) {
+export default function SearchForm() {
   const router = useRouter();
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
@@ -22,12 +22,12 @@ export default function SearchForm({ action }) {
     }
   };
 
-  const onLoad = (autocompleteObj) => {
+  const onLoad = (autocompleteObj: any) => {
     setAutocomplete(autocompleteObj);
   };
   let headers = new Headers();
 
-  const onPlaceChanged = async (e) => {
+  const onPlaceChanged = async () => {
     const inputs = inputEl.current?.value?.split(",");
     const city = inputs[0].trim();
     const state = inputs[1].trim();
