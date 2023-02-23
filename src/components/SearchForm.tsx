@@ -3,18 +3,21 @@ import { useRouter } from "next/router";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const scriptOptions = {
-  googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY,
+  googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
+    ? process.env.NEXT_PUBLIC_PLACES_KEY
+    : "",
   libraries: ["places"],
 };
 
 export default function SearchForm() {
   const router = useRouter();
+  // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
   const inputEl = useRef(null);
 
   // Handle the keypress for input
-  const onKeypress = (e) => {
+  const onKeypress = (e: any) => {
     // On enter pressed
     if (e.key === "Enter") {
       e.preventDefault();
@@ -28,11 +31,13 @@ export default function SearchForm() {
   let headers = new Headers();
 
   const onPlaceChanged = async () => {
+    //@ts-ignore
     const inputs = inputEl.current?.value?.split(",");
     const city = inputs[0].trim();
     const state = inputs[1].trim();
 
     if (autocomplete) {
+      // @ts-ignore
       const place = autocomplete.getPlace();
       if (city && state) {
         router.push(`/restaurant?city=${city}&state=${state}`);
