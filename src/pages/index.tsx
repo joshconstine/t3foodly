@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           />
           <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex ">
-              <div className="container mx-auto mx-4 flex flex-wrap px-4">
+              <div className="container mx-auto  flex flex-wrap px-4">
                 <motion.div
                   initial={{ y: "-100vh" }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 1.5 } }}
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                     z-index={0}
                   />
                 </motion.div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-16 md:justify-start md:py-0">
                   <h1 className="relative z-10 text-5xl font-bold text-primary">
                     Welcome
                   </h1>
