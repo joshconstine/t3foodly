@@ -22,25 +22,28 @@ export default function SearchForm({ action }) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   const onLoad = (autocompleteObj) => {
     setAutocomplete(autocompleteObj);
   };
+  let headers = new Headers();
 
-  const onPlaceChanged = (e) => {
+  const onPlaceChanged = async (e) => {
+    const inputs = inputEl.current?.value?.split(",");
+    const city = inputs[0].trim();
+    const state = inputs[1].trim();
+
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      if ("place_id" in place) {
-        router.push(`/place/${place.place_id}`);
+      if (city && state) {
+        router.push(`/restaurant?city=${city}&state=${state}`);
+      } else if ("place_id" in place) {
+        router.push(`/restaurant/?place=${place.place_id}`);
       }
     }
   };
 
   return (
-    <div className="bg-transparent">
+    <div className="relative z-10 bg-transparent">
       {loadError && (
         <div>Google Map script can't be loaded, please reload the page</div>
       )}
