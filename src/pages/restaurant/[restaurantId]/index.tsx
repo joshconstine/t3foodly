@@ -32,7 +32,9 @@ const SingleRestaurant = () => {
     restaurantId: String(restaurantId),
   });
   const createPhoto = api.photo.createPhoto.useMutation();
-
+  const numberOfFavorites = api.favorite.getNumberOfFavorites.useQuery({
+    restaurantId: String(restaurantId),
+  });
   const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
     const input = e.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -96,6 +98,7 @@ const SingleRestaurant = () => {
       {
         async onSuccess() {
           await isFavorited.refetch();
+          await numberOfFavorites.refetch();
         },
       }
     );
@@ -107,6 +110,7 @@ const SingleRestaurant = () => {
       {
         async onSuccess() {
           await isFavorited.refetch();
+          await numberOfFavorites.refetch();
         },
       }
     );
@@ -123,7 +127,6 @@ const SingleRestaurant = () => {
         <div className="mx-auto my-8 max-w-4xl px-4">
           <div className="flex flex-col space-y-8">
             {restaurant.data && <RestaurantCard restaurant={restaurant.data} />}
-
             <div className="relative h-64 w-full">
               <Image
                 width={800}
@@ -148,10 +151,11 @@ const SingleRestaurant = () => {
                 </div>
               </div>
             </div>
-
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
-
+              <div>
+                Favorties: {numberOfFavorites.data && numberOfFavorites.data}
+              </div>
               {isFavorited.data && isFavorited.data[0] ? (
                 <div>
                   <button
@@ -173,7 +177,6 @@ const SingleRestaurant = () => {
                 </button>
               )}
             </div>
-
             <div className="space-y-4">
               <h3 className="text-lg font-bold">Reviews</h3>
               {comments.data?.map((comment) => (

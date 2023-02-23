@@ -26,6 +26,19 @@ export const favoriteRouter = createTRPCRouter({
         },
       });
     }),
+  getNumberOfFavorites: publicProcedure
+    .input(z.object({ restaurantId: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.favorite
+        .findMany({
+          where: {
+            restaurant_id: input.restaurantId,
+          },
+        })
+        .then((favorites) => {
+          return favorites.length;
+        });
+    }),
   createFavorite: protectedProcedure
     .input(
       z.object({
