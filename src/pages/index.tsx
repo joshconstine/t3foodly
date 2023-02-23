@@ -34,15 +34,21 @@ const Home: NextPage = () => {
       <Layout>
         {" "}
         <section>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex bg-white">
-              {" "}
+          <Image
+            width={1600}
+            height={800}
+            src="/static/photos/Background.jpg"
+            alt="Clock Image"
+            className=" absolute top-0 z-0 h-full max-h-screen w-full "
+          />
+          <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex ">
               <div className="container mx-auto mx-4 flex flex-wrap px-4">
                 <motion.div
                   initial={{ y: "-100vh" }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 1.5 } }}
                   variants={dropIn}
-                  className="relative hidden md:relative md:block"
+                  className="relative hidden self-start md:relative md:block"
                   z-index={0}
                 >
                   <Image
@@ -54,8 +60,10 @@ const Home: NextPage = () => {
                     z-index={0}
                   />
                 </motion.div>
-                <div>
-                  <h1 className="text-5xl font-bold text-primary">Welcome</h1>
+                <div className="relative z-10">
+                  <h1 className="relative z-10 text-5xl font-bold text-primary">
+                    Welcome
+                  </h1>
                   <p className="mt-4 text-lg text-primary">
                     Search the city you would like to eat in below
                   </p>
@@ -76,7 +84,7 @@ const Home: NextPage = () => {
                 height={400}
                 src="/static/photos/hero.png"
                 alt="Hero Image"
-                className="hidden  md:relative md:block "
+                className="hidden  py-64 md:relative md:block"
               />
             </div>
           </div>
