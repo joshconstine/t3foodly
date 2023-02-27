@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import RestaurantCard from "../../components/RestaurantCard";
 import Link from "next/link";
+import SearchForm from "../../components/SearchForm";
+import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
@@ -76,42 +78,20 @@ const Restaurant: NextPage = () => {
       </Head>
       <Layout>
         {" "}
-        <section className="bg-gray-100 py-12">
+        <section className="py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-2">
               <div className="mx-auto my-8 max-w-4xl px-4">
+                <RestaurantSearchForm
+                  city={city}
+                  state={state}
+                  setCity={setCity}
+                  setState={setState}
+                />
                 <form
                   className="flex content-center items-center gap-4  text-center  sm:flex-col md:flex-row lg:flex-row"
                   onSubmit={handleSearchByCity}
                 >
-                  <label className="text-lg font-medium" htmlFor="city">
-                    City:
-                  </label>
-                  <input
-                    className="rounded-lg border border-gray-300 px-4 py-2"
-                    type="text"
-                    id="city"
-                    name="city"
-                    placeholder={city || "city"}
-                    defaultValue={city || ""}
-                  />
-                  <label className="text-lg font-medium" htmlFor="state">
-                    State:
-                  </label>
-                  <input
-                    className="rounded-lg border border-gray-300 px-4 py-2"
-                    type="text"
-                    id="state"
-                    name="state"
-                    placeholder={(state !== undefined && state) || "state"}
-                    defaultValue={(state !== undefined && state) || ""}
-                  />
-                  <button
-                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                    type="submit"
-                  >
-                    Search
-                  </button>
                   <div>
                     <Link href="/restaurant/create">
                       <div className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700">

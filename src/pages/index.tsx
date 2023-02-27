@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           />
           <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex ">
-              <div className="container mx-auto  flex flex-wrap px-4">
+              <div className="container mx-auto  flex flex-col flex-wrap  gap-20 px-4">
                 <motion.div
                   initial={{ y: "-100vh" }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 1.5 } }}
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
                 height={400}
                 src="/static/photos/hero.png"
                 alt="Hero Image"
-                className="hidden  py-64 md:relative md:block"
+                className="hidden pt-32 md:relative md:block"
               />
             </div>
           </div>
