@@ -14,15 +14,39 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
   const upVotes = api.upVote.getNumberOfUpVotes.useQuery({
     restaurantId: restaurant.id,
   });
+  const downVotes = api.downVote.getNumberOfDownVotes.useQuery({
+    restaurantId: restaurant.id,
+  });
   const isUpVotedByMe = api.upVote.isRestaurantUpVoted.useQuery({
     restaurantId: restaurant.id,
   });
+
+  const isDownVotedByMe = api.downVote.isRestaurantDownVoted.useQuery({
+    restaurantId: restaurant.id,
+  });
+  const createDownVote = api.downVote.createDownVote.useMutation();
+  const deleteDownVote = api.downVote.delete.useMutation();
   const createUpVote = api.upVote.createUpVote.useMutation();
   const deleteUpVote = api.upVote.delete.useMutation();
 
-  const handleUpVote = (e: React.SyntheticEvent<HTMLElement>) => {
-    e.preventDefault();
+  const handleUpVote = (e?: React.SyntheticEvent<HTMLElement>) => {
+    e?.preventDefault();
     createUpVote.mutate(
+      { restaurantId: restaurant.id },
+      {
+        async onSuccess() {
+          if (isDownVotedByMe.data) {
+            handleUnDownVote();
+          }
+          await isUpVotedByMe.refetch();
+          await upVotes.refetch();
+        },
+      }
+    );
+  };
+  const handleUnUpVote = (e?: React.SyntheticEvent<HTMLElement>) => {
+    e?.preventDefault();
+    deleteUpVote.mutate(
       { restaurantId: restaurant.id },
       {
         async onSuccess() {
@@ -32,14 +56,29 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
       }
     );
   };
-  const handleUnUpVote = (e: React.SyntheticEvent<HTMLElement>) => {
+  const handleDownVote = (e: React.SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
-    deleteUpVote.mutate(
+    createDownVote.mutate(
       { restaurantId: restaurant.id },
       {
         async onSuccess() {
-          await isUpVotedByMe.refetch();
-          await upVotes.refetch();
+          if (isUpVotedByMe.data) {
+            handleUnUpVote();
+          }
+          await isDownVotedByMe.refetch();
+          await downVotes.refetch();
+        },
+      }
+    );
+  };
+  const handleUnDownVote = (e?: React.SyntheticEvent<HTMLElement>) => {
+    e?.preventDefault();
+    deleteDownVote.mutate(
+      { restaurantId: restaurant.id },
+      {
+        async onSuccess() {
+          await isDownVotedByMe.refetch();
+          await downVotes.refetch();
         },
       }
     );
@@ -73,9 +112,21 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="rotate-90 text-red-500">
-              <ForwardOutlinedIcon />
+            </div>{" "}
+            <div className="flex items-center text-red-500">
+              <div className="rotate-90">
+                {isDownVotedByMe.data && (
+                  <div onClick={handleUnDownVote}>
+                    <ForwardIcon />
+                  </div>
+                )}
+                {!isDownVotedByMe.data && (
+                  <div onClick={handleDownVote}>
+                    <ForwardOutlinedIcon />
+                  </div>
+                )}
+              </div>
+              <div>{downVotes.data}</div>
             </div>
           </div>
           <div className={`$ mt-4`}>
