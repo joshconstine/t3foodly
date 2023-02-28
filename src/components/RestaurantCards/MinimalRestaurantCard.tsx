@@ -3,7 +3,20 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../utils/api";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { IRestaurantData } from "../../pages/restaurant/search/[restaurantId]";
+export interface IRestaurantData {
+  cityName: string;
+  cuisine: string;
+  email: string;
+  hoursInterval: string;
+  id: number;
+  phone: string;
+  name: string;
+  stateName: string;
+  website: string;
+  zipCode: string;
+  address: string;
+}
+
 const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
   const router = useRouter();
   const { restaurant } = props;
@@ -58,8 +71,8 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
           : "",
       },
       {
-        onSuccess() {
-          console.log("restaurant added to db");
+        onSuccess(data) {
+          router.push(`restaurant/${data.id}`);
         },
       }
     );
@@ -84,16 +97,16 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
           <div className={`$ mt-4`}>
             <button
               className="rounded-full bg-primary py-2 px-4 font-bold text-white"
-              onClick={() => router.push(`restaurant/${restaurant.id}`)}
+              onClick={handleSaveRestaurantData}
             >
               leave a review
             </button>
-            <button
+            {/* <button
               onClick={handleSaveRestaurantData}
               className="rounded-full bg-primary py-2 px-4 font-bold text-white"
             >
               add to db
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
