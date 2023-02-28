@@ -1,7 +1,7 @@
 import { Restaurant } from "@prisma/client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 import Image from "next/image";
 import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined";
 import ForwardIcon from "@mui/icons-material/Forward";

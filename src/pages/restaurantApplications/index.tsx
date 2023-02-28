@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { api } from "../../utils/api";
 import Layout from "../../components/Layout";
-import RestaurantApplicationCard from "../../components/RestaurantApplicationCard";
+import RestaurantApplicationCard from "../../components/RestaurantCards/RestaurantApplicationCard";
 
 const restaurantApplications: NextPage = () => {
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();

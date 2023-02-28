@@ -1,7 +1,9 @@
 import { RestaurantApplication } from "@prisma/client";
 import axios from "axios";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
+import { motion, MotionConfig } from "framer-motion";
 import { ChangeEvent, useState } from "react";
+import useMeasure from "react-use-measure";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
 
@@ -14,6 +16,7 @@ const AddRestaurantForm = () => {
     useState<RestaurantApplication | null>(null);
   const [file, setFile] = useState<any>();
   const [requestStep, setRequestStep] = useState(0);
+  const [ref, bounds] = useMeasure();
 
   interface FormValues {
     name: string;
@@ -141,94 +144,107 @@ const AddRestaurantForm = () => {
     const uploadedFile = input.files[0];
     setFile(uploadedFile);
   };
-  console.log(requestStep);
+  const transition = { type: "ease", ease: "easeInOut", duration: ".4" };
   return (
-    <div>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          actions.setSubmitting(false);
-          setConfirmModalOpen(true);
-          handleSubmit(values);
-          actions.resetForm();
+    <MotionConfig transition={transition}>
+      <div className="mx-auto w-full max-w-md">
+        <div className="relative overflow-hidden rounded bg-white text-zinc-500">
+          <div className="px-8 pt-8 ">Create Restaurant</div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, actions) => {
+              actions.setSubmitting(false);
+              setConfirmModalOpen(true);
+              handleSubmit(values);
+              actions.resetForm();
 
-          setRequestStep(0);
-        }}
-      >
-        {(props) => (
-          <Form className="mb-4">
-            <h1 className="cursor-pointer font-bold text-gray-700 hover:text-gray-500">
-              {formSteps[requestStep]?.heading}
-            </h1>
-            {formSteps[requestStep]?.forms.map((form, i) => (
-              <div key={i} className="mb-4">
-                <Field
-                  className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
-                  id={form.name}
-                  name={form.name}
-                  type="text"
-                  placeholder={form.label}
-                />
-              </div>
-            ))}
-            {requestStep === formSteps.length - 1 && (
-              <div className="max-w-xl">
-                <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                  <span className="flex items-center space-x-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-gray-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              setRequestStep(0);
+            }}
+          >
+            {(props) => (
+              <Form className="mb-4">
+                <motion.div
+                  animate={{ height: bounds.height > 0 ? bounds.height : "" }}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
+                  className="bg-red-100"
+                >
+                  <h1 className="cursor-pointer font-bold text-gray-700 hover:text-gray-500">
+                    {formSteps[requestStep]?.heading}
+                  </h1>
+                  {formSteps[requestStep]?.forms.map((form, i) => (
+                    <div key={i} className="mb-4">
+                      <Field
+                        className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+                        id={form.name}
+                        name={form.name}
+                        type="text"
+                        placeholder={form.label}
                       />
-                    </svg>
-                    <span className="font-medium text-gray-600">
-                      Drop files to Attach, or
-                      <span className="text-blue-600 underline">browse</span>
-                    </span>
-                  </span>
-                  <input
-                    type="file"
-                    name="file_upload"
-                    className="hidden"
-                    onChange={(e) => storeFile(e)}
-                  />
-                </label>
-              </div>
+                    </div>
+                  ))}
+                  {requestStep === formSteps.length - 1 && (
+                    <div className="max-w-xl">
+                      <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+                        <span className="flex items-center space-x-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 text-gray-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                            />
+                          </svg>
+                          <span className="font-medium text-gray-600">
+                            Drop files to Attach, or
+                            <span className="text-blue-600 underline">
+                              browse
+                            </span>
+                          </span>
+                        </span>
+                        <input
+                          type="file"
+                          name="file_upload"
+                          className="hidden"
+                          onChange={(e) => storeFile(e)}
+                        />
+                      </label>
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                    onClick={() => {
+                      if (requestStep === formSteps.length - 1) {
+                        props.handleSubmit();
+                      } else {
+                        setRequestStep(requestStep + 1);
+                      }
+                    }}
+                  >
+                    {requestStep === formSteps.length - 1
+                      ? props.isSubmitting
+                        ? "Submitting"
+                        : "Submit"
+                      : "Next"}
+                  </button>
+                </motion.div>
+              </Form>
             )}
-            <button
-              type="button"
-              className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
-                if (requestStep === formSteps.length - 1) {
-                  props.handleSubmit();
-                } else {
-                  setRequestStep(requestStep + 1);
-                }
-              }}
-            >
-              {requestStep === formSteps.length - 1
-                ? props.isSubmitting
-                  ? "Submitting"
-                  : "Submit"
-                : "Next"}
-            </button>
-          </Form>
-        )}
-      </Formik>
-      <ConfirmModal
-        restaurant={createdApplication}
-        open={confirmModalOpen}
-        setOpen={setConfirmModalOpen}
-      />
-    </div>
+          </Formik>
+          <ConfirmModal
+            restaurant={createdApplication}
+            open={confirmModalOpen}
+            setOpen={setConfirmModalOpen}
+          />
+        </div>
+      </div>
+    </MotionConfig>
   );
 };
 

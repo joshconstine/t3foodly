@@ -5,7 +5,6 @@ import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
 
 import Layout from "../../../components/Layout";
-import RestaurantCard from "../../../components/RestaurantCard";
 import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";

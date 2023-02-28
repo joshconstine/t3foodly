@@ -1,7 +1,7 @@
 import { RestaurantApplication } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 
 import Image from "next/image";
 const RestaurantApplicationCard = (props: {
