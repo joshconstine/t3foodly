@@ -155,7 +155,7 @@ const SingleRestaurant = () => {
               <div>
                 Favorties: {numberOfFavorites.data && numberOfFavorites.data}
               </div>
-              {isFavorited.data && isFavorited.data[0] ? (
+              {isFavorited.data && isFavorited.data ? (
                 <div>
                   <button
                     disabled={false}
