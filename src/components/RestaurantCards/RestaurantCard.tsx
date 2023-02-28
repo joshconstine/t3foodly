@@ -6,41 +6,40 @@ import Image from "next/image";
 import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined";
 import ForwardIcon from "@mui/icons-material/Forward";
 import { useRouter } from "next/router";
-import { IconButton } from "@mui/material";
 const RestaurantCard = (props: { restaurant: Restaurant }) => {
   const router = useRouter();
   const { restaurant } = props;
 
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurant.id });
-  const favorites = api.favorite.getNumberOfFavorites.useQuery({
+  const upVotes = api.upVote.getNumberOfUpVotes.useQuery({
     restaurantId: restaurant.id,
   });
-  const isFavoritedByMe = api.favorite.isRestaurantFavorited.useQuery({
+  const isUpVotedByMe = api.upVote.isRestaurantUpVoted.useQuery({
     restaurantId: restaurant.id,
   });
-  const createFavorite = api.favorite.createFavorite.useMutation();
-  const deleteFavorite = api.favorite.delete.useMutation();
+  const createUpVote = api.upVote.createUpVote.useMutation();
+  const deleteUpVote = api.upVote.delete.useMutation();
 
-  const handleFavorite = (e: React.SyntheticEvent<HTMLElement>) => {
+  const handleUpVote = (e: React.SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
-    createFavorite.mutate(
-      { placement: 1, restaurantId: restaurant.id },
+    createUpVote.mutate(
+      { restaurantId: restaurant.id },
       {
         async onSuccess() {
-          await isFavoritedByMe.refetch();
-          await favorites.refetch();
+          await isUpVotedByMe.refetch();
+          await upVotes.refetch();
         },
       }
     );
   };
-  const handleUnfavorite = (e: React.SyntheticEvent<HTMLElement>) => {
+  const handleUnUpVote = (e: React.SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
-    deleteFavorite.mutate(
+    deleteUpVote.mutate(
       { restaurantId: restaurant.id },
       {
         async onSuccess() {
-          await isFavoritedByMe.refetch();
-          await favorites.refetch();
+          await isUpVotedByMe.refetch();
+          await upVotes.refetch();
         },
       }
     );
@@ -61,15 +60,15 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
             <span>$$</span>
             <div className="flex items-center text-green-500">
-              <div>{favorites.data}</div>
+              <div>{upVotes.data}</div>
               <div className="-rotate-90">
-                {isFavoritedByMe.data && (
-                  <div onClick={handleUnfavorite}>
+                {isUpVotedByMe.data && (
+                  <div onClick={handleUnUpVote}>
                     <ForwardIcon />
                   </div>
                 )}
-                {!isFavoritedByMe.data && (
-                  <div onClick={handleFavorite}>
+                {!isUpVotedByMe.data && (
+                  <div onClick={handleUpVote}>
                     <ForwardOutlinedIcon />
                   </div>
                 )}

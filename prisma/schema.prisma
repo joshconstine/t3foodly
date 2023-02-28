@@ -111,10 +111,22 @@ model Favorite {
     id String @id @default(cuid())
     user_id String
     restaurant_id String
-    placement Int 
+    placement Int   
 
-    
-
+    @@unique([user_id, restaurant_id])
+}
+model DownVote {
+    id String @id @default(cuid())
+    user_id String
+    restaurant_id String
+       
+    @@unique([user_id, restaurant_id])
+}
+model UpVote {
+    id String @id @default(cuid())
+    user_id String
+    restaurant_id String
+      
     @@unique([user_id, restaurant_id])
 }
 model Photo {
