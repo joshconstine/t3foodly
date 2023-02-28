@@ -19,12 +19,20 @@ export const favoriteRouter = createTRPCRouter({
   isRestaurantFavorited: publicProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.favorite.findMany({
-        where: {
-          user_id: ctx.session?.user.id,
-          restaurant_id: input.restaurantId,
-        },
-      });
+      return ctx.prisma.favorite
+        .findMany({
+          where: {
+            user_id: ctx.session?.user.id,
+            restaurant_id: input.restaurantId,
+          },
+        })
+        .then((value) => {
+          if (value.length > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        });
     }),
   getNumberOfFavorites: publicProcedure
     .input(z.object({ restaurantId: z.string() }))
