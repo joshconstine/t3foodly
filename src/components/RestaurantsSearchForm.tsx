@@ -1,6 +1,8 @@
-import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { useRef, useState } from "react";
+import React from "react";
+import { motion } from "framer-motion";
 
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
@@ -57,32 +59,33 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
   };
 
   return (
-    <div className="relative z-10 bg-transparent">
+    <div className="relative z-10 w-1/3 bg-transparent">
       {loadError && (
         <div>Google Map script can't be loaded, please reload the page</div>
       )}
 
       {isLoaded && (
-        <React.Fragment>
+        <div className="flex flex-col gap-2">
+          <h1 className="relative z-10 text-3xl font-bold text-primary">
+            Select a City
+          </h1>
           <Autocomplete
             onLoad={onLoad}
             fields={["place_id"]}
             onPlaceChanged={onPlaceChanged}
             className="bg-transparent"
           >
-            <div>
-              <span className="">Search</span>
-              <input
-                ref={inputEl}
-                defaultValue={city && state ? `${city}, ${state}` : ""}
-                type="text"
-                placeholder="Type keywords..."
-                className="bg-gray-100 py-2 px-4 focus:outline-none"
-                onKeyPress={onKeypress}
-              />
-            </div>
+            <motion.input
+              whileFocus={{ scale: 1.1 }}
+              ref={inputEl}
+              defaultValue={city && state ? `${city}, ${state}` : ""}
+              type="text"
+              placeholder="Type keywords..."
+              className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+              onKeyPress={onKeypress}
+            />
           </Autocomplete>
-        </React.Fragment>
+        </div>
       )}
     </div>
   );

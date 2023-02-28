@@ -1,7 +1,7 @@
 "use client";
 import { type NextPage } from "next";
 import Head from "next/head";
-
+import Image from "next/image";
 import { api } from "../../utils/api";
 import { useEffect, useMemo, useState } from "react";
 import { Restaurant } from "@prisma/client";
@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import RestaurantCard from "../../components/RestaurantCard";
 import Link from "next/link";
-import SearchForm from "../../components/SearchForm";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 
 const Restaurant: NextPage = () => {
@@ -80,34 +79,52 @@ const Restaurant: NextPage = () => {
         {" "}
         <section className="py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-2">
-              <div className="mx-auto my-8 max-w-4xl px-4">
+            <div className="flex w-full flex-col items-center gap-2 ">
+              <div className=" mx-2 flex w-full  items-center justify-between rounded-lg border-2 px-8 py-4 px-4">
+                <div>
+                  <span>Dont see your favorite</span>
+                  <div>
+                    <Link href="/restaurant/create">
+                      <div className="rounded-full bg-secondary py-2 px-4 font-bold text-white hover:bg-blue-700">
+                        add Restaurant
+                      </div>
+                    </Link>
+                  </div>
+                </div>
                 <RestaurantSearchForm
                   city={city}
                   state={state}
                   setCity={setCity}
                   setState={setState}
                 />
-                <form
-                  className="flex content-center items-center gap-4  text-center  sm:flex-col md:flex-row lg:flex-row"
-                  onSubmit={handleSearchByCity}
-                >
-                  <div>
-                    <Link href="/restaurant/create">
-                      <div className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700">
-                        add Restaurant
-                      </div>
-                    </Link>
-                  </div>
-                </form>
+
+                <Image
+                  width={160}
+                  height={160}
+                  src="/static/photos/icon.png"
+                  alt="Clock Image"
+                  className="relative"
+                  z-index={0}
+                />
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {dbRestaurants.data?.map((elem) => {
-                  return <RestaurantCard restaurant={elem} key={elem.id} />;
-                })}
-                {apiRestaurants.data?.map((elem: Restaurant) => {
-                  return <RestaurantCard restaurant={elem} key={elem.id} />;
-                })}
+              <div className="flex w-full justify-between">
+                <div className="grid grid-cols-1 gap-4 ">
+                  {dbRestaurants.data?.map((elem) => {
+                    return <RestaurantCard restaurant={elem} key={elem.id} />;
+                  })}
+                  {apiRestaurants.data?.map((elem: Restaurant) => {
+                    return <RestaurantCard restaurant={elem} key={elem.id} />;
+                  })}
+                </div>
+                <div>
+                  <Image
+                    width={600}
+                    height={400}
+                    src="/static/photos/4.png"
+                    alt="Hero Image"
+                    className="hidden  md:relative md:block"
+                  />
+                </div>
               </div>
             </div>
           </div>
