@@ -59,7 +59,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
   };
 
   return (
-    <div className="relative z-10 w-1/3 bg-transparent">
+    <div className="relative z-10 w-64 max-w-full bg-transparent md:w-1/3">
       {loadError && (
         <div>Google Map script can't be loaded, please reload the page</div>
       )}

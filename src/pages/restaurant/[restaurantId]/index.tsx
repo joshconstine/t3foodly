@@ -126,7 +126,6 @@ const SingleRestaurant = () => {
       <Layout>
         <div className="mx-auto my-8 max-w-4xl px-4">
           <div className="flex flex-col space-y-8">
-            {restaurant.data && <RestaurantCard restaurant={restaurant.data} />}
             <div className="relative h-64 w-full">
               <Image
                 width={800}

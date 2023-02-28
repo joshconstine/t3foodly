@@ -4,12 +4,11 @@ import Head from "next/head";
 import Image from "next/image";
 import { api } from "../../utils/api";
 import { useEffect, useMemo, useState } from "react";
-import { Restaurant } from "@prisma/client";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
-import RestaurantCard from "../../components/RestaurantCard";
 import Link from "next/link";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
+import RestaurantResults from "./RestaurantResults";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
@@ -78,15 +77,15 @@ const Restaurant: NextPage = () => {
       <Layout>
         {" "}
         <section className="py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex w-full flex-col items-center gap-2 ">
-              <div className=" mx-2 flex w-full  items-center justify-between rounded-lg border-2 px-8 py-4 px-4">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex w-full flex-col  items-center gap-2 ">
+              <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 px-4 md:flex-row">
                 <div>
                   <span>Dont see your favorite</span>
                   <div>
                     <Link href="/restaurant/create">
                       <div className="rounded-full bg-secondary py-2 px-4 font-bold text-white hover:bg-blue-700">
-                        add Restaurant
+                        Add restaurant
                       </div>
                     </Link>
                   </div>
@@ -101,21 +100,29 @@ const Restaurant: NextPage = () => {
                 <Image
                   width={160}
                   height={160}
-                  src="/static/photos/icon.png"
+                  src="/static/photos/Gradianticon.png"
                   alt="Clock Image"
-                  className="relative"
+                  className="relative hidden md:block"
                   z-index={0}
                 />
               </div>
-              <div className="flex w-full justify-between">
-                <div className="grid grid-cols-1 gap-4 ">
-                  {dbRestaurants.data?.map((elem) => {
-                    return <RestaurantCard restaurant={elem} key={elem.id} />;
-                  })}
-                  {apiRestaurants.data?.map((elem: Restaurant) => {
-                    return <RestaurantCard restaurant={elem} key={elem.id} />;
-                  })}
+
+              <div className="flex w-full justify-center md:justify-between ">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4">
+                    <h1 className="relative z-10 text-2xl font-bold text-primary">
+                      Results
+                    </h1>
+                    <span>
+                      Results with pictures have been reviewed by our users
+                    </span>
+                  </div>
+                  <RestaurantResults
+                    dbRestaurants={dbRestaurants.data}
+                    apiRestaurants={apiRestaurants.data}
+                  />
                 </div>
+
                 <div>
                   <Image
                     width={600}
