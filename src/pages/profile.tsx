@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import FavoriteContainer from "../components/Favorites/FavoriteContainer";
+import RestaurantCardContainer from "../components/RestaurantCards/RestaurantCardContainer";
 
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
@@ -13,10 +14,17 @@ const Profile: NextPage = () => {
   const favorites = api.favorite.getByUserId.useQuery({
     id: String(user.data?.id),
   });
+  const savedRestaurants = api.savedRestaurant.getByUserId.useQuery({
+    id: String(user.data?.id),
+  });
   const [favoriteList, setFavoriteList] = useState(favorites.data || []);
+  const [savedList, setSavedList] = useState(savedRestaurants.data || []);
   useEffect(() => {
     setFavoriteList(favorites.data || []);
   }, [favorites.data]);
+  useEffect(() => {
+    setSavedList(savedRestaurants.data || []);
+  }, [savedRestaurants.data]);
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -98,7 +106,8 @@ const Profile: NextPage = () => {
                 <FavoriteContainer
                   favoriteList={favoriteList}
                   setFavoriteList={setFavoriteList}
-                />
+                />{" "}
+                <RestaurantCardContainer list={savedList} />
               </div>
             </div>
           </div>

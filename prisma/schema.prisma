@@ -111,8 +111,10 @@ model Favorite {
     id String @id @default(cuid())
     user_id String
     restaurant_id String
-    placement Int   
+    placement Int?  
 
+
+    @@unique([user_id, placement(sort: Asc) ])
     @@unique([user_id, restaurant_id])
 }
 model DownVote {
@@ -136,4 +138,10 @@ model Photo {
     comment_id String?
     application_id String?
 }
-
+model SavedRestaurants {
+    id String @id @default(cuid())
+    user_id String
+    restaurant_id String
+      
+    @@unique([user_id, restaurant_id])
+}

@@ -24,10 +24,17 @@ const SingleRestaurant = () => {
   });
   const createFavorite = api.favorite.createFavorite.useMutation();
   const deleteFavorite = api.favorite.delete.useMutation();
+
+  const createSavedRestaurant =
+    api.savedRestaurant.addSavedRestaurant.useMutation();
+  const deleteSavedRestaurant = api.savedRestaurant.delete.useMutation();
   const photos = api.photo.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
+    restaurantId: String(restaurantId),
+  });
+  const isSaved = api.savedRestaurant.isRestaurantSaved.useQuery({
     restaurantId: String(restaurantId),
   });
   const createPhoto = api.photo.createPhoto.useMutation();
@@ -115,6 +122,28 @@ const SingleRestaurant = () => {
     );
   };
 
+  const handleSave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    createSavedRestaurant.mutate(
+      { restaurantId: String(restaurantId) },
+      {
+        async onSuccess() {
+          await isSaved.refetch();
+        },
+      }
+    );
+  };
+  const handleUnSave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    deleteSavedRestaurant.mutate(
+      { restaurantId: String(restaurantId) },
+      {
+        async onSuccess() {
+          await isSaved.refetch();
+        },
+      }
+    );
+  };
   return (
     <>
       <Head>
@@ -174,7 +203,27 @@ const SingleRestaurant = () => {
                   Favorite
                 </button>
               )}
-            </div>
+            </div>{" "}
+            {isSaved.data && isSaved.data ? (
+              <div>
+                <button
+                  disabled={false}
+                  onClick={handleUnSave}
+                  className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+                >
+                  Un-Save
+                </button>
+              </div>
+            ) : (
+              <button
+                disabled={false}
+                onClick={handleSave}
+                className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+              >
+                {" "}
+                Save
+              </button>
+            )}
             <div className="space-y-4">
               <h3 className="text-lg font-bold">Reviews</h3>
               {comments.data?.map((comment) => (
