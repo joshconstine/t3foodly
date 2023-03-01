@@ -100,7 +100,7 @@ const SingleRestaurant = () => {
   const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     createFavorite.mutate(
-      { placement: 1, restaurantId: String(restaurantId) },
+      { restaurantId: String(restaurantId) },
       {
         async onSuccess() {
           await isFavorited.refetch();

@@ -114,7 +114,6 @@ model Favorite {
     placement Int?  
 
 
-    @@unique([user_id, placement(sort: Asc) ])
     @@unique([user_id, restaurant_id])
 }
 model DownVote {
