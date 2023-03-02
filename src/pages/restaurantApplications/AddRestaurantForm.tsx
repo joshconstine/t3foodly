@@ -1,9 +1,10 @@
 import { RestaurantApplication } from "@prisma/client";
 import axios from "axios";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import { motion, MotionConfig } from "framer-motion";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import useMeasure from "react-use-measure";
+import CityForm from "../../components/forms/CityForm";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
 
@@ -11,6 +12,7 @@ const AddRestaurantForm = () => {
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
+
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [createdApplication, setCreatedApplication] =
     useState<RestaurantApplication | null>(null);
@@ -53,20 +55,7 @@ const AddRestaurantForm = () => {
       heading: "Restaurant Name",
     },
     {
-      forms: [
-        {
-          name: "city",
-          label: "City",
-        },
-        {
-          name: "state",
-          label: "State",
-        },
-        {
-          name: "zipCode",
-          label: "Zip Code",
-        },
-      ],
+      forms: [],
       heading: "Restaurant Location",
     },
     {
@@ -131,6 +120,7 @@ const AddRestaurantForm = () => {
           setCreatedApplication(applicationData);
 
           await restaurantApplications.refetch();
+          setRequestStep(0);
         },
       }
     );
@@ -146,105 +136,113 @@ const AddRestaurantForm = () => {
   };
   const transition = { type: "ease", ease: "easeInOut", duration: ".4" };
   return (
-    <MotionConfig transition={transition}>
-      <div className="mx-auto w-full max-w-md">
-        <div className="relative overflow-hidden rounded bg-white text-zinc-500">
-          <div className="px-8 pt-8 ">Create Restaurant</div>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={(values, actions) => {
-              actions.setSubmitting(false);
-              setConfirmModalOpen(true);
-              handleSubmit(values);
-              actions.resetForm();
+    <>
+      <div>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, actions) => {
+            actions.setSubmitting(false);
+            setConfirmModalOpen(true);
 
-              setRequestStep(0);
-            }}
-          >
-            {(props) => (
-              <Form className="mb-4">
-                <motion.div
-                  animate={{ height: bounds.height > 0 ? bounds.height : "" }}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
-                  className="bg-red-100"
-                >
-                  <h1 className="cursor-pointer font-bold text-gray-700 hover:text-gray-500">
-                    {formSteps[requestStep]?.heading}
-                  </h1>
-                  {formSteps[requestStep]?.forms.map((form, i) => (
+            handleSubmit(values);
+            actions.resetForm();
+          }}
+        >
+          {(props) => (
+            <Form className="mb-4">
+              <motion.div
+                animate={{ height: bounds.height > 0 ? bounds.height : "" }}
+                transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
+                className="flex h-72 w-64 flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
+              >
+                <h1 className="cursor-pointer text-2xl font-bold text-gray-700">
+                  {formSteps[requestStep]?.heading}
+                </h1>
+                {requestStep === 1 && (
+                  <div className="max-w-xl">
+                    <CityForm
+                      setCity={(newVal) => props.setFieldValue("city", newVal)}
+                      setState={(newVal) =>
+                        props.setFieldValue("state", newVal)
+                      }
+                    />
+                  </div>
+                )}
+                {formSteps[requestStep]?.forms.map((form, i) => {
+                  return (
                     <div key={i} className="mb-4">
                       <Field
-                        className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+                        className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
                         id={form.name}
                         name={form.name}
                         type="text"
                         placeholder={form.label}
                       />
                     </div>
-                  ))}
-                  {requestStep === formSteps.length - 1 && (
-                    <div className="max-w-xl">
-                      <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                        <span className="flex items-center space-x-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-gray-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                            />
-                          </svg>
-                          <span className="font-medium text-gray-600">
-                            Drop files to Attach, or
-                            <span className="text-blue-600 underline">
-                              browse
-                            </span>
+                  );
+                })}
+                {requestStep === formSteps.length - 1 && (
+                  <div className="max-w-xl">
+                    <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+                      <span className="flex items-center space-x-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 text-gray-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                        <span className="font-medium text-gray-600">
+                          Drop files to Attach, or
+                          <span className="text-blue-600 underline">
+                            browse
                           </span>
                         </span>
-                        <input
-                          type="file"
-                          name="file_upload"
-                          className="hidden"
-                          onChange={(e) => storeFile(e)}
-                        />
-                      </label>
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                    onClick={() => {
-                      if (requestStep === formSteps.length - 1) {
-                        props.handleSubmit();
-                      } else {
-                        setRequestStep(requestStep + 1);
-                      }
-                    }}
-                  >
-                    {requestStep === formSteps.length - 1
-                      ? props.isSubmitting
-                        ? "Submitting"
-                        : "Submit"
-                      : "Next"}
-                  </button>
-                </motion.div>
-              </Form>
-            )}
-          </Formik>
-          <ConfirmModal
-            restaurant={createdApplication}
-            open={confirmModalOpen}
-            setOpen={setConfirmModalOpen}
-          />
-        </div>
+                      </span>
+                      <input
+                        type="file"
+                        name="file_upload"
+                        className="hidden"
+                        onChange={(e) => storeFile(e)}
+                      />
+                    </label>
+                  </div>
+                )}{" "}
+                <button
+                  type="button"
+                  className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                  onClick={() => {
+                    if (requestStep === formSteps.length - 1) {
+                      props.handleSubmit();
+                    } else {
+                      setRequestStep(requestStep + 1);
+                    }
+                  }}
+                >
+                  {requestStep === formSteps.length - 1
+                    ? props.isSubmitting
+                      ? "Submitting"
+                      : "Submit"
+                    : "Next"}
+                </button>
+              </motion.div>
+            </Form>
+          )}
+        </Formik>
       </div>
-    </MotionConfig>
+      <ConfirmModal
+        restaurant={createdApplication}
+        open={confirmModalOpen}
+        setOpen={setConfirmModalOpen}
+      />
+    </>
   );
 };
 

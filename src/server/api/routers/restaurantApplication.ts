@@ -29,6 +29,7 @@ export const RestaurantApplication = z.object({
   status: z.string(),
   created_by_user_id: z.string(),
 });
+export type RestaurantApplicationData = z.infer<typeof RestaurantApplication>;
 
 export const restaurantApplicationRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {

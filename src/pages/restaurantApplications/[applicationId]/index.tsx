@@ -8,6 +8,7 @@ import Link from "next/link";
 import Layout from "../../../components/Layout";
 
 import Image from "next/image";
+import SimelarRestaurants from "../SimelarRestaurants";
 const SingleRestaurantApplication = () => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
@@ -335,6 +336,11 @@ const SingleRestaurantApplication = () => {
               <button type="submit">save</button>
             </form>
           )}
+          <SimelarRestaurants
+            city={restaurantApplication?.data?.cityName || "999"}
+            state={restaurantApplication?.data?.stateName || "999"}
+            name={restaurantApplication?.data?.name || "999"}
+          />
         </Layout>
       </>
     );

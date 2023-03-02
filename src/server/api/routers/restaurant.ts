@@ -146,6 +146,27 @@ export const restaurantRouter = createTRPCRouter({
         },
       });
     }),
+  isCreated: publicProcedure
+    .input(
+      z.object({
+        city: z.string().nullable(),
+        state: z.string().nullable(),
+        name: z.string().nullable(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.restaurant.findMany({
+        where: {
+          AND: [
+            {
+              cityName: input.city || "****",
+            },
+            { stateName: input.state || "*****" },
+            { name: input.name || "*****" },
+          ],
+        },
+      });
+    }),
   createRestaurant: protectedProcedure
     .input(RestaurantToCreate)
     .mutation(({ input, ctx }) => {
