@@ -110,7 +110,7 @@ const Restaurant: NextPage = () => {
               <div className="flex w-full justify-center md:justify-between ">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-4">
-                    <h1 className="relative z-10 text-2xl font-bold text-primary">
+                    <h1 className="relative  text-2xl font-bold text-primary">
                       Results
                     </h1>
                     <span>
