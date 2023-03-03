@@ -9,7 +9,6 @@ import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
 import Image from "next/image";
-import PriceDataContainer from "./PriceDataContainer";
 
 export interface IPriceData {
   price: number;
