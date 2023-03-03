@@ -9,8 +9,19 @@ import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
 import Image from "next/image";
+import PriceDataContainer from "./PriceDataContainer";
+
+export interface IPriceData {
+  price: number;
+  order: {
+    name: string;
+    quantity: number;
+  }[];
+}
+
 const SingleRestaurant = () => {
   const router = useRouter();
+  const [priceData, setPriceData] = useState<IPriceData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [file, setFile] = useState<any>();
   const { restaurantId } = router.query;
@@ -41,6 +52,7 @@ const SingleRestaurant = () => {
   const numberOfFavorites = api.favorite.getNumberOfFavorites.useQuery({
     restaurantId: String(restaurantId),
   });
+
   const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
     const input = e.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -258,6 +270,10 @@ const SingleRestaurant = () => {
                 </button>
               </div>
             </form>
+            <PriceDataContainer
+              setPriceData={setPriceData}
+              priceData={priceData}
+            />
           </div>
         </div>
       </Layout>

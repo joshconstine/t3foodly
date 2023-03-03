@@ -2,11 +2,13 @@ import { RestaurantApplication } from "@prisma/client";
 import axios from "axios";
 import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import { motion, MotionConfig } from "framer-motion";
-import React, { ChangeEvent, useState } from "react";
+import Image from "next/image";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
 import CityForm from "../../components/forms/CityForm";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
+import CuisineContainer from "./CuisineContainer";
 
 const AddRestaurantForm = () => {
   const createRestaurant =
@@ -17,9 +19,21 @@ const AddRestaurantForm = () => {
   const [createdApplication, setCreatedApplication] =
     useState<RestaurantApplication | null>(null);
   const [file, setFile] = useState<any>();
+  const [preview, setPreview] = useState<undefined | string>();
   const [requestStep, setRequestStep] = useState(0);
   const [ref, bounds] = useMeasure();
+  useEffect(() => {
+    if (!file) {
+      setPreview(undefined);
+      return;
+    }
 
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
   interface FormValues {
     name: string;
     address: string;
@@ -59,12 +73,7 @@ const AddRestaurantForm = () => {
       heading: "Restaurant Location",
     },
     {
-      forms: [
-        {
-          name: "cuisineType",
-          label: "Cuisine Type",
-        },
-      ],
+      forms: [],
       heading: "Restaurant Details",
     },
     {
@@ -137,7 +146,7 @@ const AddRestaurantForm = () => {
   const transition = { type: "ease", ease: "easeInOut", duration: ".4" };
   return (
     <>
-      <div>
+      <>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
@@ -149,11 +158,11 @@ const AddRestaurantForm = () => {
           }}
         >
           {(props) => (
-            <Form className="mb-4">
+            <Form className="mb-4 h-full w-full">
               <motion.div
                 animate={{ height: bounds.height > 0 ? bounds.height : "" }}
                 transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
-                className="flex h-72 w-64 flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
+                className="flex min-h-full w-full min-w-full flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
               >
                 <h1 className="cursor-pointer text-2xl font-bold text-gray-700">
                   {formSteps[requestStep]?.heading}
@@ -164,6 +173,15 @@ const AddRestaurantForm = () => {
                       setCity={(newVal) => props.setFieldValue("city", newVal)}
                       setState={(newVal) =>
                         props.setFieldValue("state", newVal)
+                      }
+                    />
+                  </div>
+                )}{" "}
+                {requestStep === 2 && (
+                  <div className="max-w-xl">
+                    <CuisineContainer
+                      setCuisines={(newVal) =>
+                        props.getFieldHelpers("cuisineType").setValue(newVal)
                       }
                     />
                   </div>
@@ -213,30 +231,54 @@ const AddRestaurantForm = () => {
                         onChange={(e) => storeFile(e)}
                       />
                     </label>
+                    {file && (
+                      <Image
+                        src={preview || ""}
+                        alt={"photo"}
+                        width={400}
+                        height={200}
+                      />
+                    )}
                   </div>
                 )}{" "}
-                <button
-                  type="button"
-                  className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                  onClick={() => {
-                    if (requestStep === formSteps.length - 1) {
-                      props.handleSubmit();
-                    } else {
-                      setRequestStep(requestStep + 1);
-                    }
-                  }}
-                >
-                  {requestStep === formSteps.length - 1
-                    ? props.isSubmitting
-                      ? "Submitting"
-                      : "Submit"
-                    : "Next"}
-                </button>
+                <div className="flex gap-4">
+                  <motion.button
+                    type="button"
+                    hidden={requestStep === 0}
+                    className="rounded-full border-2 border-secondary bg-white py-2 px-4 font-bold text-secondary "
+                    onClick={() => {
+                      setRequestStep(requestStep - 1);
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Back
+                  </motion.button>
+                  <motion.button
+                    type="button"
+                    className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
+                    onClick={() => {
+                      if (requestStep === formSteps.length - 1) {
+                        props.handleSubmit();
+                      } else {
+                        setRequestStep(requestStep + 1);
+                      }
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {requestStep === formSteps.length - 1
+                      ? props.isSubmitting
+                        ? "Submitting"
+                        : "Submit"
+                      : "Next"}
+                  </motion.button>
+                </div>
               </motion.div>
             </Form>
           )}
         </Formik>
-      </div>
+      </>
       <ConfirmModal
         restaurant={createdApplication}
         open={confirmModalOpen}

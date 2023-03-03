@@ -232,7 +232,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   {destinations.map((destination, i) => (
                     <motion.div
-                      className="flex h-32 w-32 cursor-pointer items-center justify-center rounded-md bg-gray-500"
+                      className="flex h-32 w-32 cursor-pointer items-center justify-center rounded-md bg-gray-600 text-xl text-white"
                       key={i}
                       onClick={() => handleClick(destination)}
                       whileHover={{ scale: 1.1 }}

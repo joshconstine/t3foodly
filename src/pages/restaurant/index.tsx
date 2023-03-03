@@ -9,6 +9,7 @@ import Layout from "../../components/Layout";
 import Link from "next/link";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import RestaurantResults from "./RestaurantResults";
+import { motion } from "framer-motion";
 
 const Restaurant: NextPage = () => {
   const router = useRouter();
@@ -84,9 +85,13 @@ const Restaurant: NextPage = () => {
                   <span>Dont see your favorite</span>
                   <div>
                     <Link href="/restaurant/create">
-                      <div className="rounded-full bg-secondary py-2 px-4 font-bold text-white hover:bg-blue-700">
+                      <motion.div
+                        className="rounded-full bg-secondary py-2 px-4 font-bold text-white"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
                         Add restaurant
-                      </div>
+                      </motion.div>
                     </Link>
                   </div>
                 </div>
