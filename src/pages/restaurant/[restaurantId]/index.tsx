@@ -270,10 +270,10 @@ const SingleRestaurant = () => {
                 </button>
               </div>
             </form>
-            <PriceDataContainer
+            {/* <PriceDataContainer
               setPriceData={setPriceData}
               priceData={priceData}
-            />
+            /> */}
           </div>
         </div>
       </Layout>
