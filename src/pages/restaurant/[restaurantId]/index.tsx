@@ -3,16 +3,11 @@ import Head from "next/head";
 
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
-
 import Layout from "../../../components/Layout";
-import { ChangeEvent, useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
 import Image from "next/image";
-import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import { IconButton, Tooltip } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { motion } from "framer-motion";
+
 export interface IPriceData {
   price: number;
   order: {
@@ -20,158 +15,32 @@ export interface IPriceData {
     quantity: number;
   }[];
 }
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import UpVoteDownVote from "../../../components/RestaurantCards/UpVoteDownVote";
+import FavoriteSaveActions from "./FavoriteSaveActions";
+import CreateCommentContainer from "./CreateCommentContainer";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [priceData, setPriceData] = useState<IPriceData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const [file, setFile] = useState<any>();
-  const [preview, setPreview] = useState<undefined | string>();
-
-  useEffect(() => {
-    if (!file) {
-      setPreview(undefined);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [file]);
   const { restaurantId } = router.query;
 
   const restaurant = api.restaurant.getById.useQuery({
     id: String(restaurantId),
   });
-  const createComment = api.comment.createComment.useMutation();
   const comments = api.comment.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
-  const createFavorite = api.favorite.createFavorite.useMutation();
-  const deleteFavorite = api.favorite.delete.useMutation();
 
-  const createSavedRestaurant =
-    api.savedRestaurant.addSavedRestaurant.useMutation();
-  const deleteSavedRestaurant = api.savedRestaurant.delete.useMutation();
   const photos = api.photo.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
-  const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
-    restaurantId: String(restaurantId),
-  });
-  const isSaved = api.savedRestaurant.isRestaurantSaved.useQuery({
-    restaurantId: String(restaurantId),
-  });
-  const createPhoto = api.photo.createPhoto.useMutation();
+
   const numberOfFavorites = api.favorite.getNumberOfFavorites.useQuery({
     restaurantId: String(restaurantId),
   });
 
-  const storeFile = (e: ChangeEvent<HTMLInputElement>): void => {
-    const input = e.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-
-    const uploadedFile = input.files[0];
-    setFile(uploadedFile);
-  };
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
-  };
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formElements = form.elements as typeof form.elements & {
-      comment: { value: string };
-    };
-    createComment.mutate(
-      { text: formElements.comment.value, restaurantId: String(restaurantId) },
-      {
-        onSuccess(commentData) {
-          const uploadPhoto = async () => {
-            try {
-              let { data } = await axios.post("/api/s3/upload-url", {
-                name: file.name,
-                type: file.type,
-              });
-              const url = data.url;
-
-              let res = await axios.put(url, file, {
-                headers: {
-                  "Content-type": file.type,
-                  "Access-Control-Allow-Origin": "*",
-                },
-              });
-              setFile(null);
-              if (res.status === 200) {
-                createPhoto.mutate({
-                  commentId: commentData.id,
-                  photoUrl: `https://foodly-bucket.s3.us-west-1.amazonaws.com/${file.name}`,
-                });
-              } else {
-                console.error("Upload failed.");
-              }
-            } catch (e) {
-              console.log(e);
-            }
-          };
-          uploadPhoto();
-          comments.refetch();
-        },
-      }
-    );
-  };
-
-  const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    createFavorite.mutate(
-      { restaurantId: String(restaurantId) },
-      {
-        async onSuccess() {
-          await isFavorited.refetch();
-          await numberOfFavorites.refetch();
-        },
-      }
-    );
-  };
-  const handleUnfavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    deleteFavorite.mutate(
-      { restaurantId: String(restaurantId) },
-      {
-        async onSuccess() {
-          await isFavorited.refetch();
-          await numberOfFavorites.refetch();
-        },
-      }
-    );
-  };
-
-  const handleSave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    createSavedRestaurant.mutate(
-      { restaurantId: String(restaurantId) },
-      {
-        async onSuccess() {
-          await isSaved.refetch();
-        },
-      }
-    );
-  };
-  const handleUnSave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    deleteSavedRestaurant.mutate(
-      { restaurantId: String(restaurantId) },
-      {
-        async onSuccess() {
-          await isSaved.refetch();
-        },
-      }
-    );
   };
   return (
     <>
@@ -214,46 +83,7 @@ const SingleRestaurant = () => {
               </div>
             </div>
             <div className="flex gap-4">
-              {isFavorited.data && isFavorited.data ? (
-                <Tooltip title="Unfavorite">
-                  <IconButton disabled={false} onClick={handleUnfavorite}>
-                    <StarIcon className="text-4xl text-secondary" />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Tooltip title="Favorite">
-                    <IconButton disabled={false} onClick={handleFavorite}>
-                      <StarBorderOutlinedIcon className="text-4xl text-secondary" />
-                    </IconButton>
-                  </Tooltip>
-                </motion.div>
-              )}
-              {isSaved.data && isSaved.data ? (
-                <div>
-                  <button
-                    disabled={false}
-                    onClick={handleUnSave}
-                    className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-                  >
-                    Un-Save
-                  </button>
-                </div>
-              ) : (
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Tooltip title="save">
-                    <IconButton disabled={false} onClick={handleSave}>
-                      <SaveAltIcon className="text-4xl text-secondary" />
-                    </IconButton>
-                  </Tooltip>
-                </motion.div>
-              )}
+              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
               <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
             </div>
             <div className="space-y-4">
@@ -262,42 +92,7 @@ const SingleRestaurant = () => {
                 <MinimalCommentCard comment={comment} />
               ))}
             </div>
-            <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-              <h3 className="mb-4 text-lg font-bold">Leave a comment</h3>
-              <div className="mb-4">
-                <label
-                  htmlFor="comment"
-                  className="mb-2 block font-bold text-gray-700"
-                >
-                  Comment
-                </label>
-                <textarea
-                  id="comment"
-                  name="comment"
-                  className="form-textarea  h-32 w-full rounded-md border-2 border-secondary shadow-sm "
-                  required
-                />
-              </div>
-              {file && (
-                <Image
-                  src={preview || ""}
-                  alt={"photo"}
-                  width={400}
-                  height={200}
-                />
-              )}
-              <div>
-                <input type="file" onChange={(e) => storeFile(e)} />
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>{" "}
+            <CreateCommentContainer restaurantId={String(restaurantId) || ""} />
           </div>
         </div>
       </Layout>
