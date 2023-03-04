@@ -1,11 +1,11 @@
 import { Restaurant } from "@prisma/client";
-import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { api } from "../../utils/api";
 import Image from "next/image";
 import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined";
 import ForwardIcon from "@mui/icons-material/Forward";
 import { useRouter } from "next/router";
+import { Tooltip } from "@mui/material";
 const RestaurantCard = (props: { restaurant: Restaurant }) => {
   const router = useRouter();
   const { restaurant } = props;
@@ -108,7 +108,9 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
                 )}
                 {!isUpVotedByMe.data && (
                   <div onClick={handleUpVote}>
-                    <ForwardOutlinedIcon />
+                    <Tooltip title="Upvote">
+                      <ForwardOutlinedIcon />
+                    </Tooltip>
                   </div>
                 )}
               </div>
@@ -122,7 +124,9 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
                 )}
                 {!isDownVotedByMe.data && (
                   <div onClick={handleDownVote}>
-                    <ForwardOutlinedIcon />
+                    <Tooltip title="Downvote">
+                      <ForwardOutlinedIcon />
+                    </Tooltip>
                   </div>
                 )}
               </div>

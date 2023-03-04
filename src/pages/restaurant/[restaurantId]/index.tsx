@@ -5,11 +5,14 @@ import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
 
 import Layout from "../../../components/Layout";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
 import Image from "next/image";
-
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import { IconButton, Tooltip } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import { motion } from "framer-motion";
 export interface IPriceData {
   price: number;
   order: {
@@ -17,12 +20,25 @@ export interface IPriceData {
     quantity: number;
   }[];
 }
-
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [priceData, setPriceData] = useState<IPriceData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [file, setFile] = useState<any>();
+  const [preview, setPreview] = useState<undefined | string>();
+  useEffect(() => {
+    if (!file) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
   const { restaurantId } = router.query;
 
   const restaurant = api.restaurant.getById.useQuery({
@@ -165,10 +181,10 @@ const SingleRestaurant = () => {
       <Layout>
         <div className="mx-auto my-8 max-w-4xl px-4">
           <div className="flex flex-col space-y-8">
-            <div className="relative h-64 w-full">
+            <div className="relative h-96 w-full">
               <Image
-                width={800}
-                height={400}
+                width={1920}
+                height={1280}
                 src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
                 alt={restaurant.data?.name || ""}
                 className="absolute inset-0 h-full w-full object-cover"
@@ -191,50 +207,52 @@ const SingleRestaurant = () => {
             </div>
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
-              <div>
+              <div className="text-bold text-3xl text-primary">
                 Favorties: {numberOfFavorites.data && numberOfFavorites.data}
               </div>
+            </div>
+            <div className="flex gap-4">
               {isFavorited.data && isFavorited.data ? (
+                <Tooltip title="Unfavorite">
+                  <IconButton disabled={false} onClick={handleUnfavorite}>
+                    <StarIcon className="text-4xl text-secondary" />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Tooltip title="Favorite">
+                    <IconButton disabled={false} onClick={handleFavorite}>
+                      <StarBorderOutlinedIcon className="text-4xl text-secondary" />
+                    </IconButton>
+                  </Tooltip>
+                </motion.div>
+              )}
+              {isSaved.data && isSaved.data ? (
                 <div>
                   <button
                     disabled={false}
-                    onClick={handleUnfavorite}
+                    onClick={handleUnSave}
                     className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
                   >
-                    Un-Favorite
+                    Un-Save
                   </button>
                 </div>
               ) : (
-                <button
-                  disabled={false}
-                  onClick={handleFavorite}
-                  className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  {" "}
-                  Favorite
-                </button>
+                  <Tooltip title="save">
+                    <IconButton disabled={false} onClick={handleSave}>
+                      <SaveAltIcon className="text-4xl text-secondary" />
+                    </IconButton>
+                  </Tooltip>
+                </motion.div>
               )}
-            </div>{" "}
-            {isSaved.data && isSaved.data ? (
-              <div>
-                <button
-                  disabled={false}
-                  onClick={handleUnSave}
-                  className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-                >
-                  Un-Save
-                </button>
-              </div>
-            ) : (
-              <button
-                disabled={false}
-                onClick={handleSave}
-                className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-              >
-                {" "}
-                Save
-              </button>
-            )}
+            </div>
             <div className="space-y-4">
               <h3 className="text-lg font-bold">Reviews</h3>
               {comments.data?.map((comment) => (
@@ -253,10 +271,18 @@ const SingleRestaurant = () => {
                 <textarea
                   id="comment"
                   name="comment"
-                  className="form-textarea block h-32 w-full rounded-md shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="form-textarea  h-32 w-full rounded-md border-2 border-secondary shadow-sm "
                   required
                 />
               </div>
+              {file && (
+                <Image
+                  src={preview || ""}
+                  alt={"photo"}
+                  width={400}
+                  height={200}
+                />
+              )}
               <div>
                 <input type="file" onChange={(e) => storeFile(e)} />
               </div>
@@ -268,11 +294,7 @@ const SingleRestaurant = () => {
                   Submit
                 </button>
               </div>
-            </form>
-            {/* <PriceDataContainer
-              setPriceData={setPriceData}
-              priceData={priceData}
-            /> */}
+            </form>{" "}
           </div>
         </div>
       </Layout>

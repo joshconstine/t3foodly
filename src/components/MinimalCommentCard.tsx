@@ -3,6 +3,8 @@ import React from "react";
 import { api } from "../utils/api";
 
 import Image from "next/image";
+import { IconButton, Tooltip } from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 const MinimalCommentCard = (props: { comment: any }) => {
   const router = useRouter();
   const comment = props.comment;
@@ -31,7 +33,7 @@ const MinimalCommentCard = (props: { comment: any }) => {
     );
   };
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+    <div className="w-72 overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
         <Image
           width={40}
@@ -52,12 +54,11 @@ const MinimalCommentCard = (props: { comment: any }) => {
         <p className="text-gray-700">{comment.text}</p>
       </div>
       {isUsersComment && (
-        <button
-          className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-          onClick={handleDeleteComment}
-        >
-          delete
-        </button>
+        <Tooltip title="delete">
+          <IconButton disabled={false} onClick={handleDeleteComment}>
+            <DeleteOutlineOutlinedIcon className="text-4xl text-secondary" />
+          </IconButton>
+        </Tooltip>
       )}
     </div>
   );

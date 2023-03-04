@@ -5,7 +5,6 @@ import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-
 import SearchForm from "../components/forms/SearchForm";
 
 const Home: NextPage = () => {
