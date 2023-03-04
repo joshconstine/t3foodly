@@ -21,12 +21,14 @@ export interface IPriceData {
   }[];
 }
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import UpVoteDownVote from "../../../components/RestaurantCards/UpVoteDownVote";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [priceData, setPriceData] = useState<IPriceData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
+
   useEffect(() => {
     if (!file) {
       setPreview(undefined);
@@ -252,6 +254,7 @@ const SingleRestaurant = () => {
                   </Tooltip>
                 </motion.div>
               )}
+              <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
             </div>
             <div className="space-y-4">
               <h3 className="text-lg font-bold">Reviews</h3>
