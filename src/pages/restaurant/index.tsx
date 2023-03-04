@@ -76,9 +76,8 @@ const Restaurant: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {" "}
         <section className="py-12">
-          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
             <div className="flex w-full flex-col  items-center gap-2 ">
               <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 px-4 md:flex-row">
                 <div>
