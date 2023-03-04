@@ -86,13 +86,17 @@ const SingleRestaurant = () => {
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
               <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
             </div>
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold">Reviews</h3>
-              {comments.data?.map((comment) => (
-                <MinimalCommentCard comment={comment} />
-              ))}
+            <div className="flex flex-col-reverse gap-8 md:flex-row">
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold">Reviews</h3>
+                {comments.data?.map((comment) => (
+                  <MinimalCommentCard comment={comment} />
+                ))}
+              </div>
+              <CreateCommentContainer
+                restaurantId={String(restaurantId) || ""}
+              />
             </div>
-            <CreateCommentContainer restaurantId={String(restaurantId) || ""} />
           </div>
         </div>
       </Layout>
