@@ -91,7 +91,7 @@ const FavoriteSaveActions = (props: IProps) => {
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Tooltip title="Favorite">
             <IconButton disabled={false} onClick={handleFavorite}>
-              <SrBorderOutlinedIcon className="text-4xl text-secondary" />
+              <StarBorderOutlinedIcon className="text-4xl text-secondary" />
             </IconButton>
           </Tooltip>
         </motion.div>

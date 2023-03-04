@@ -33,7 +33,7 @@ const MinimalCommentCard = (props: { comment: any }) => {
     );
   };
   return (
-    <div className="w-72 overflow-hidden rounded-lg bg-white shadow-lg">
+    <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
         <Image
           width={40}
