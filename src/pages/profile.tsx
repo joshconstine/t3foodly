@@ -82,7 +82,7 @@ const Profile: NextPage = () => {
                             className="border-2 bg-gray-200"
                             type="submit"
                           >
-                            Save
+                            save
                           </button>{" "}
                           <button
                             className="border-2 bg-gray-200"
