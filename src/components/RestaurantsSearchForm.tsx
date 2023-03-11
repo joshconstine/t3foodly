@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 import AppsIcon from "@mui/icons-material/Apps";
 import { IconButton } from "@mui/material";
+import { Point } from "./forms/Map";
+import { Autocomplete } from "./forms/Autocomplete";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
     ? process.env.NEXT_PUBLIC_PLACES_KEY
@@ -16,6 +18,7 @@ interface ISearchFormProps {
   state: string;
   setCity: (city: string) => void;
   setState: (state: string) => void;
+  setMapCenter: (center: Point) => void;
 }
 interface IDestination {
   name: string;
@@ -124,7 +127,7 @@ const destinations: IDestination[] = [
 ];
 
 export default function RestaurantSearchForm(props: ISearchFormProps) {
-  const { city, state, setCity, setState } = props;
+  const { city, state, setCity, setState, setMapCenter } = props;
   const router = useRouter();
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
@@ -167,6 +170,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
   const handleClick = (destination: IDestination) => {
     setCity(destination.city);
     setState(destination.state);
+
     setShowDestinationModal(false);
     if (inputEl && inputEl.current) {
       // @ts-ignore
@@ -190,24 +194,14 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
           <h1 className="relative z-10 text-3xl font-bold text-primary">
             Select a City
           </h1>
-          <div className="flex ">
+          <div className="flex content-start">
             <Autocomplete
-              onLoad={onLoad}
-              fields={["place_id"]}
-              onPlaceChanged={onPlaceChanged}
-              className="bg-transparent"
-            >
-              <motion.input
-                whileFocus={{ scale: 1.1 }}
-                ref={inputEl}
-                id="autocomplete"
-                defaultValue={city && state ? `${city}, ${state}` : ""}
-                type="text"
-                placeholder="Type keywords..."
-                className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                onKeyPress={onKeypress}
-              />
-            </Autocomplete>
+              setCity={setCity}
+              setState={setState}
+              city={city}
+              state={state}
+              setMapCenter={setMapCenter}
+            />
             <IconButton onClick={() => setShowDestinationModal(true)}>
               <AppsIcon />
             </IconButton>
@@ -222,7 +216,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
             >
               <motion.div
                 onClick={(e) => e.stopPropagation()}
-                className="flex max-h-96 w-11/12 flex-col items-center gap-4 overflow-auto rounded-md bg-white p-4 shadow-md md:max-h-full md:max-w-2xl"
+                className="z-10 flex max-h-96 w-11/12 flex-col items-center gap-4 overflow-auto rounded-md bg-white p-4 shadow-md md:max-h-full md:max-w-2xl"
               >
                 <div>
                   <h1 className="relative z-10 text-3xl font-bold text-primary">

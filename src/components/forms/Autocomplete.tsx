@@ -2,16 +2,18 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import React from "react";
+import React, { useEffect } from "react";
 import { Point } from "./Map";
 
 interface IAutocomplete {
   setCity: (city: string) => void;
   setState: (state: string) => void;
   setMapCenter: (center: Point) => void;
+  city: string;
+  state: string;
 }
 export const Autocomplete = (props: IAutocomplete) => {
-  const { setCity, setState, setMapCenter } = props;
+  const { setCity, setState, setMapCenter, city, state } = props;
   const {
     ready,
     value,
@@ -24,7 +26,11 @@ export const Autocomplete = (props: IAutocomplete) => {
     },
     debounce: 300,
   });
-
+  useEffect(() => {
+    if (city && state) {
+      setValue(`${city}, ${state}`, false);
+    }
+  }, [city, state, setValue]);
   const handleInput = (e: any) => {
     // Update the keyword of the input element
 
@@ -77,6 +83,7 @@ export const Autocomplete = (props: IAutocomplete) => {
           key={place_id}
           onClick={handleSelect(suggestion)}
           style={{ cursor: "pointer" }}
+          className="py-2 px-4 hover:bg-gray-100"
         >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
@@ -91,9 +98,14 @@ export const Autocomplete = (props: IAutocomplete) => {
           onChange={handleInput}
           disabled={!ready}
           placeholder="Where are you going?"
+          className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
         />
         {/* We can use the "status" to decide whether we should display the dropdown or not */}
-        {status === "OK" && <ul>{renderSuggestions()}</ul>}
+        {status === "OK" && (
+          <div className="absolute rounded-lg bg-white p-4 shadow-lg">
+            <ul>{renderSuggestions()}</ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
 import { Autocomplete } from "../../components/forms/Autocomplete";
 import Map, { Point } from "../../components/forms/Map";
+import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 const center = {
   lat: 32.715,
   lng: -117.16,
@@ -128,7 +129,7 @@ const Restaurant: NextPage = () => {
         <section className="py-12">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
             <div className="flex w-full flex-col  items-center gap-2 ">
-              <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 px-4 md:flex-row">
+              <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 md:flex-row">
                 <div>
                   <span>Dont see your favorite</span>
                   <div>
@@ -143,21 +144,19 @@ const Restaurant: NextPage = () => {
                     </Link>
                   </div>
                 </div>
-                <Autocomplete
+
+                <RestaurantSearchForm
                   setCity={setCity}
                   setState={setState}
+                  city={city}
+                  state={state}
                   setMapCenter={setMapCenter}
                 />
                 <div></div>
               </div>
 
-              <div
-                className=" flex w-full  flex-col justify-center md:flex-row  "
-                style={{
-                  height: "calc(100vh - 300px)",
-                }}
-              >
-                <div className="lg flex w-full flex-col gap-4 overflow-auto  md:w-860 md:min-w-860 ">
+              <div className=" flex w-full  flex-col justify-center md:h-special md:flex-row ">
+                <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                   <div className="min-w-96 flex flex-col gap-4">
                     <h1 className="text-l  relative font-bold text-primary">
                       {`${resultsNum} Restaurants`}
@@ -168,7 +167,7 @@ const Restaurant: NextPage = () => {
                     apiRestaurants={apiRestaurants.data}
                   />
                 </div>
-                <div className=" min-w-96 relative left-0 top-0 z-10 h-full w-full">
+                <div className="min-w-96 relative left-0 top-0 h-full w-full">
                   <Map mapCenter={mapCenter} markers={markers} />
                 </div>
               </div>
