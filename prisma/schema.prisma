@@ -85,6 +85,8 @@ model Restaurant {
    website String? 
    hoursInterval String?  
    cuisineType String?
+   lat String
+   lng String
    created_at  DateTime @default(now())   
 }   
 model RestaurantApplication {

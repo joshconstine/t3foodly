@@ -11,6 +11,8 @@ async function main() {
       cityName: "San Diego",
       stateName: "CA",
       zipCode: "92101",
+      lat: "32.9127563",
+      lng: "-117.221044",
     },
   });
   const joses = await prisma.restaurant.upsert({
@@ -22,6 +24,8 @@ async function main() {
       cityName: "San Diego",
       stateName: "CA",
       zipCode: "92101",
+      lat: "32.8478312",
+      lng: "-117.8342262",
     },
   });
   const user1 = await prisma.user.upsert({
