@@ -58,7 +58,7 @@ const ConfirmModal = (props: IConfirmModalProps) => {
         ) : (
           <div>
             The folowing informatio was submitted and will be reviewed by an
-            Foodly admin:
+            Foodley admin:
             <ul>
               <li>name: {props.restaurant?.name}</li>
               <li>status: {props.restaurant?.status}</li>
