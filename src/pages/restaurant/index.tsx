@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Link from "next/link";
-
 import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
 import { Autocomplete } from "../../components/forms/Autocomplete";
@@ -102,6 +101,14 @@ const Restaurant: NextPage = () => {
     }
   }, [apiRestaurants.data, apiRestaurants.status]);
 
+  const resultsNum = useMemo(() => {
+    if (apiRestaurants.status === "success") {
+      if (dbRestaurants.status === "success") {
+        return apiRestaurants.data?.length + dbRestaurants.data?.length;
+      }
+    }
+    return 0;
+  }, [apiRestaurants.data, dbRestaurants.data]);
   return (
     <>
       <Head>
@@ -119,7 +126,7 @@ const Restaurant: NextPage = () => {
       </Head>
       <Layout>
         <section className="py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
             <div className="flex w-full flex-col  items-center gap-2 ">
               <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 px-4 md:flex-row">
                 <div>
@@ -136,44 +143,32 @@ const Restaurant: NextPage = () => {
                     </Link>
                   </div>
                 </div>
-
                 <Autocomplete
                   setCity={setCity}
                   setState={setState}
                   setMapCenter={setMapCenter}
                 />
-
-                <Image
-                  width={160}
-                  height={160}
-                  src="/static/photos/Gradianticon.png"
-                  alt="Clock Image"
-                  className="relative hidden md:block"
-                  z-index={0}
-                />
+                <div></div>
               </div>
 
               <div
-                className=" w-full  justify-center md:flex md:justify-between "
+                className=" flex w-full  flex-col justify-center md:flex-row  "
                 style={{
-                  height: "calc(100vh - 350px)",
+                  height: "calc(100vh - 300px)",
                 }}
               >
-                <div className="min-w-3/4  flex  flex-col gap-4 p-4">
-                  <div className="flex w-96 flex-col gap-4">
-                    <h1 className="relative  text-2xl font-bold text-primary">
-                      Results
+                <div className="lg flex w-full flex-col gap-4 overflow-auto  md:w-860 md:min-w-860 ">
+                  <div className="min-w-96 flex flex-col gap-4">
+                    <h1 className="text-l  relative font-bold text-primary">
+                      {`${resultsNum} Restaurants`}
                     </h1>
-                    <span>
-                      Results with pictures have been reviewed by our users
-                    </span>
                   </div>
                   <RestaurantResults
                     dbRestaurants={dbRestaurants.data}
                     apiRestaurants={apiRestaurants.data}
                   />
                 </div>
-                <div className={` relative left-0 top-0 z-10 h-full w-full  `}>
+                <div className=" min-w-96 relative left-0 top-0 z-10 h-full w-full">
                   <Map mapCenter={mapCenter} markers={markers} />
                 </div>
               </div>

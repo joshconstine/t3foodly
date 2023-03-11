@@ -97,13 +97,12 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
           <div className="flex gap-2">
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
           </div>
-          <span>Have you been here? Tell us your experience.</span>
           <div className={`$ mt-4`}>
             <button
               className="rounded-full bg-primary py-2 px-4 font-bold text-white"
               onClick={handleSaveRestaurantData}
             >
-              leave a review
+              review
             </button>
             {/* <button
               onClick={handleSaveRestaurantData}

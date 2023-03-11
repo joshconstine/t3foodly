@@ -7,6 +7,13 @@ module.exports = {
         primary: "#355170",
         secondary: "#EE2650",
       },
+
+      width: {
+        860: "860px",
+      },
+      minWidth: {
+        860: "860px",
+      },
     },
   },
 
