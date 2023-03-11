@@ -15,6 +15,8 @@ const Restaurant = z.object({
   website: z.string(),
   hoursInterval: z.string(),
   cuisineType: z.string(),
+  lat: z.number(),
+  lng: z.number(),
 });
 const RestaurantToCreate = z.object({
   name: z.string(),
@@ -27,6 +29,8 @@ const RestaurantToCreate = z.object({
   website: z.string(),
   hoursInterval: z.string(),
   cuisineType: z.string(),
+  lat: z.string(),
+  lng: z.string(),
 });
 
 export type RestaurantData = z.infer<typeof Restaurant>;
@@ -121,6 +125,8 @@ export const restaurantRouter = createTRPCRouter({
                   phone: elem.phone,
                   email: elem.email,
                   hoursInterval: elem.hoursInterval,
+                  lat: elem.latitude,
+                  lng: elem.longitude,
                 };
               })
             : [];
@@ -182,6 +188,8 @@ export const restaurantRouter = createTRPCRouter({
           website: input.website,
           hoursInterval: input.hoursInterval,
           cuisineType: input.cuisineType,
+          lat: `${input.lat}`,
+          lng: `${input.lng}`,
         },
       });
     }),

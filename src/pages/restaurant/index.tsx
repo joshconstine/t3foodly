@@ -7,16 +7,22 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Link from "next/link";
-import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
+
 import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
-
+import { Autocomplete } from "../../components/forms/Autocomplete";
+import Map, { Point } from "../../components/forms/Map";
+const center = {
+  lat: 32.715,
+  lng: -117.16,
+};
 const Restaurant: NextPage = () => {
   const router = useRouter();
   const params = router.query;
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
-
+  const [markers, setMarkers] = useState<any>([]);
+  const [mapCenter, setMapCenter] = useState(center);
   useEffect(() => {
     if (params.city) {
       localStorage.setItem("city", String(params.city));
@@ -44,6 +50,34 @@ const Restaurant: NextPage = () => {
     city,
     state,
   });
+
+  useEffect(() => {
+    let markersToAdd: Point[] = [];
+    if (
+      apiRestaurants.status === "success" &&
+      dbRestaurants.status === "success"
+    )
+      if (apiRestaurants.status === "success") {
+        const markers = apiRestaurants.data?.map((restaurant) => {
+          return {
+            lat: Number(restaurant.lat),
+            lng: Number(restaurant.lng),
+          };
+        });
+        markersToAdd = [...markersToAdd, ...markers];
+      }
+    if (dbRestaurants.status === "success") {
+      const markers = dbRestaurants.data?.map((restaurant) => {
+        return {
+          lat: Number(restaurant.lat),
+          lng: Number(restaurant.lng),
+        };
+      });
+      markersToAdd = [...markersToAdd, ...markers];
+    }
+    setMarkers(markersToAdd);
+  }, [apiRestaurants.data, dbRestaurants.data]);
+
   const handleSearchByCity = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -74,6 +108,14 @@ const Restaurant: NextPage = () => {
         <title>Foodley</title>
         <meta name="description" content="find great local restaurants" />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          defer
+          src={`https://maps.googleapis.com/maps/api/js?key=${
+            process.env.NEXT_PUBLIC_PLACES_KEY
+              ? process.env.NEXT_PUBLIC_PLACES_KEY
+              : ""
+          }&libraries=places`}
+        ></script>
       </Head>
       <Layout>
         <section className="py-12">
@@ -94,11 +136,11 @@ const Restaurant: NextPage = () => {
                     </Link>
                   </div>
                 </div>
-                <RestaurantSearchForm
-                  city={city}
-                  state={state}
+
+                <Autocomplete
                   setCity={setCity}
                   setState={setState}
+                  setMapCenter={setMapCenter}
                 />
 
                 <Image
@@ -111,9 +153,14 @@ const Restaurant: NextPage = () => {
                 />
               </div>
 
-              <div className="flex w-full justify-center md:justify-between ">
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-4">
+              <div
+                className=" w-full  justify-center md:flex md:justify-between "
+                style={{
+                  height: "calc(100vh - 350px)",
+                }}
+              >
+                <div className="min-w-3/4  flex  flex-col gap-4 p-4">
+                  <div className="flex w-96 flex-col gap-4">
                     <h1 className="relative  text-2xl font-bold text-primary">
                       Results
                     </h1>
@@ -126,15 +173,8 @@ const Restaurant: NextPage = () => {
                     apiRestaurants={apiRestaurants.data}
                   />
                 </div>
-
-                <div>
-                  <Image
-                    width={600}
-                    height={400}
-                    src="/static/photos/4.png"
-                    alt="Hero Image"
-                    className="hidden  md:relative md:block"
-                  />
+                <div className={` relative left-0 top-0 z-10 h-full w-full  `}>
+                  <Map mapCenter={mapCenter} markers={markers} />
                 </div>
               </div>
             </div>

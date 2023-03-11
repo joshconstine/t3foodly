@@ -15,6 +15,8 @@ export interface IRestaurantData {
   website: string;
   zipCode: string;
   address: string;
+  lat: string;
+  lng: string;
 }
 
 const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
@@ -69,6 +71,8 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
         cuisineType: singleResraurantData?.cuisine
           ? singleResraurantData?.cuisine
           : "",
+        lat: singleResraurantData?.lat ? singleResraurantData?.lat : "",
+        lng: singleResraurantData?.lng ? singleResraurantData?.lng : "",
       },
       {
         onSuccess(data) {
