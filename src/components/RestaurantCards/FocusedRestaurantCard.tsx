@@ -61,9 +61,9 @@ const FocusedRestaurantCard = (props: { restaurantId: string }) => {
               details
             </button>
           </div>{" "}
-          {comments.data?.map((comment) => (
-            <MinimalCommentCard comment={comment} />
-          ))}
+          {comments.data && comments.data.length > 0 && (
+            <MinimalCommentCard comment={comments.data[0]} />
+          )}
         </div>
       </div>
     </div>

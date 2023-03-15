@@ -11,8 +11,8 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurant.id });
 
   return (
-    <div className=" h-64">
-      <div className="flex flex-col items-center gap-8 md:flex-row">
+    <div className="h-64">
+      <div className="flex flex-col items-center gap-4 md:flex-row">
         <Image
           width={220}
           height={220}
@@ -21,8 +21,8 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
           className="relative rounded-lg"
           z-index={0}
         />
-        <div>
-          <div className="flex gap-2">
+        <div className="flex flex-col items-center">
+          <div className="flex gap-2 ">
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
             <UpVoteDownVote restaurantId={restaurant.id} />
           </div>

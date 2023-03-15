@@ -93,7 +93,7 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
           className="relative rounded-lg"
           z-index={0}
         />
-        <div>
+        <div className="flex flex-col items-center">
           <div className="flex gap-2">
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
           </div>
