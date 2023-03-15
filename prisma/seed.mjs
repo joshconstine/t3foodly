@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  const deleted = await prisma.restaurant.deleteMany();
+  console.log({ deleted });
   const phills = await prisma.restaurant.upsert({
     where: { id: "1" },
     update: {},
@@ -12,7 +14,7 @@ async function main() {
       stateName: "CA",
       zipCode: "92101",
       lat: "32.9127563",
-      lng: "-117.221044",
+      lng: "-117.2158625",
     },
   });
   const joses = await prisma.restaurant.upsert({
@@ -24,7 +26,7 @@ async function main() {
       cityName: "San Diego",
       stateName: "CA",
       zipCode: "92101",
-      lat: "32.8478312",
+      lat: "32.7548759",
       lng: "-117.8342262",
     },
   });
@@ -118,11 +120,34 @@ async function main() {
     },
   });
 
+  const deletedPhotos = await prisma.photo.deleteMany();
+  console.log({ deletedPhotos });
+
+  const phillsPhotos = await prisma.photo.upsert({
+    where: { id: "1" },
+    update: {},
+    create: {
+      id: "1",
+      restaurant_id: "1",
+      photoUrl: `${process.env.BUCKET_URL}/phills.jpeg`,
+    },
+  });
+  const josesPhotos = await prisma.photo.upsert({
+    where: { id: "2" },
+    update: {},
+    create: {
+      id: "2",
+      restaurant_id: "2",
+      photoUrl: `${process.env.BUCKET_URL}/joses.jpeg`,
+    },
+  });
+
   console.log({ phills, joses });
   console.log({ comment1, comment2, comment3 });
   console.log({ user1, user2 });
   console.log({ upvote1, upvote2, upvote3 });
   console.log({ downvote1 });
+  console.log({ phillsPhotos, josesPhotos });
 }
 main()
   .then(async () => {
