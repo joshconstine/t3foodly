@@ -137,8 +137,8 @@ const Restaurant: NextPage = () => {
     return 0;
   }, [apiRestaurants.data, dbRestaurants.data]);
 
-  if (loadError) return "Error";
-  if (!isLoaded) return "Loading...";
+  if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
+  if (!isLoaded) return <div>Loading...</div>;
   if (isLoaded)
     return (
       <>
