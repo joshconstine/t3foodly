@@ -212,6 +212,7 @@ const Restaurant: NextPage = () => {
         </Layout>
       </>
     );
+  else return <div></div>;
 };
 
 export default Restaurant;
