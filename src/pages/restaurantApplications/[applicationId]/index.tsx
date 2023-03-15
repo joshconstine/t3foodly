@@ -9,6 +9,7 @@ import Layout from "../../../components/Layout";
 
 import Image from "next/image";
 import SimelarRestaurants from "../SimelarRestaurants";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 const SingleRestaurantApplication = () => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
@@ -81,77 +82,94 @@ const SingleRestaurantApplication = () => {
       }
     );
   };
-  const handlePublish = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    if (restaurantApplication.data)
-      createRestaurant.mutate(
-        {
-          name: restaurantApplication.data.name,
-          address: restaurantApplication.data.address
-            ? restaurantApplication.data.address
-            : "",
-          cityName: restaurantApplication.data.cityName,
-          stateName: restaurantApplication.data.stateName,
-          zipCode: restaurantApplication.data.zipCode,
-          email: restaurantApplication.data.email
-            ? restaurantApplication.data.email
-            : "",
-          phone: restaurantApplication.data.phone
-            ? restaurantApplication.data.phone
-            : "",
-          website: restaurantApplication.data.website
-            ? restaurantApplication.data.website
-            : "",
-          hoursInterval: restaurantApplication.data.hoursInterval
-            ? restaurantApplication.data.hoursInterval
-            : "",
-          cuisineType: restaurantApplication.data.cuisineType
-            ? restaurantApplication.data.cuisineType
-            : "",
-        },
-        {
-          async onSuccess(restaurantData) {
-            if (restaurantApplication.data)
-              updateApplciation.mutate({
-                id: restaurantApplication.data?.id,
-                name: restaurantApplication.data.name,
-                address: restaurantApplication.data.address
-                  ? restaurantApplication.data.address
-                  : "",
-                cityName: restaurantApplication.data.cityName,
-                stateName: restaurantApplication.data.stateName,
-                zipCode: restaurantApplication.data.zipCode,
-                email: restaurantApplication.data.email
-                  ? restaurantApplication.data.email
-                  : "",
-                phone: restaurantApplication.data.phone
-                  ? restaurantApplication.data.phone
-                  : "",
-                website: restaurantApplication.data.website
-                  ? restaurantApplication.data.website
-                  : "",
-                hoursInterval: restaurantApplication.data.hoursInterval
-                  ? restaurantApplication.data.hoursInterval
-                  : "",
-                cuisineType: restaurantApplication.data.cuisineType
-                  ? restaurantApplication.data.cuisineType
-                  : "",
-                status: "created",
-                created_by_user_id:
-                  restaurantApplication.data.created_by_user_id,
-              });
-            if (restaurantApplication.data)
-              updatePhoto.mutate({
-                applicationId: restaurantApplication.data.id,
-                restaurantId: restaurantData.id,
-              });
-
-            applications.refetch();
-            restaurantApplication.refetch();
-
-            router.push(`/restaurant/${restaurantData.id}`);
+  const handlePublish = async (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    if (restaurantApplication.data) {
+      getGeocode({
+        address: `${restaurantApplication.data.address} ${restaurantApplication.data.cityName} ${restaurantApplication.data.stateName} ${restaurantApplication.data.zipCode}`,
+      }).then((results) => {
+        if (results.length === 0 || results[0] === undefined) return;
+        const { lat, lng } = getLatLng(results[0]);
+        createRestaurant.mutate(
+          {
+            name: restaurantApplication?.data?.name
+              ? restaurantApplication.data.name
+              : "",
+            address: restaurantApplication?.data?.address
+              ? restaurantApplication.data.address
+              : "",
+            cityName: restaurantApplication?.data?.cityName
+              ? restaurantApplication.data.cityName
+              : "",
+            stateName: restaurantApplication?.data?.stateName
+              ? restaurantApplication.data.stateName
+              : "",
+            zipCode: restaurantApplication?.data?.zipCode
+              ? restaurantApplication.data.zipCode
+              : "",
+            email: restaurantApplication?.data?.email
+              ? restaurantApplication.data.email
+              : "",
+            phone: restaurantApplication?.data?.phone
+              ? restaurantApplication.data.phone
+              : "",
+            website: restaurantApplication?.data?.website
+              ? restaurantApplication.data.website
+              : "",
+            hoursInterval: restaurantApplication?.data?.hoursInterval
+              ? restaurantApplication.data.hoursInterval
+              : "",
+            cuisineType: restaurantApplication?.data?.cuisineType
+              ? restaurantApplication.data.cuisineType
+              : "",
+            lat: String(lat),
+            lng: String(lng),
           },
-        }
-      );
+          {
+            async onSuccess(restaurantData) {
+              if (restaurantApplication.data)
+                updateApplciation.mutate({
+                  id: restaurantApplication.data?.id,
+                  name: restaurantApplication.data.name,
+                  address: restaurantApplication.data.address
+                    ? restaurantApplication.data.address
+                    : "",
+                  cityName: restaurantApplication.data.cityName,
+                  stateName: restaurantApplication.data.stateName,
+                  zipCode: restaurantApplication.data.zipCode,
+                  email: restaurantApplication.data.email
+                    ? restaurantApplication.data.email
+                    : "",
+                  phone: restaurantApplication.data.phone
+                    ? restaurantApplication.data.phone
+                    : "",
+                  website: restaurantApplication.data.website
+                    ? restaurantApplication.data.website
+                    : "",
+                  hoursInterval: restaurantApplication.data.hoursInterval
+                    ? restaurantApplication.data.hoursInterval
+                    : "",
+                  cuisineType: restaurantApplication.data.cuisineType
+                    ? restaurantApplication.data.cuisineType
+                    : "",
+                  status: "created",
+                  created_by_user_id:
+                    restaurantApplication.data.created_by_user_id,
+                });
+              if (restaurantApplication.data)
+                updatePhoto.mutate({
+                  applicationId: restaurantApplication.data.id,
+                  restaurantId: restaurantData.id,
+                });
+
+              applications.refetch();
+              restaurantApplication.refetch();
+
+              router.push(`/restaurant/${restaurantData.id}`);
+            },
+          }
+        );
+      });
+    }
   };
 
   if (restaurantApplication.status === "loading") return <>loading</>;
