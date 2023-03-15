@@ -7,6 +7,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import { IconButton } from "@mui/material";
 import { Point } from "./forms/Map";
 import { Autocomplete } from "./forms/Autocomplete";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
     ? process.env.NEXT_PUBLIC_PLACES_KEY
@@ -170,6 +171,14 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
   const handleClick = (destination: IDestination) => {
     setCity(destination.city);
     setState(destination.state);
+
+    getGeocode({ address: `${destination.city}, ${destination.state}` }).then(
+      (results) => {
+        if (!results.length || results[0] === undefined) return;
+        const { lat, lng } = getLatLng(results[0]);
+        setMapCenter({ lat, lng });
+      }
+    );
 
     setShowDestinationModal(false);
     if (inputEl && inputEl.current) {

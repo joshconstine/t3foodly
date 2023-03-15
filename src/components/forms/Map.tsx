@@ -28,20 +28,24 @@ export interface Point {
   lat: number;
   lng: number;
 }
-
+export interface IMarker {
+  location: Point;
+  name: string;
+  id: string;
+}
 interface IMap {
   mapCenter: Point;
-  markers: Point[];
+  markers: IMarker[];
+  setFocusedRestaurant: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Map = (props: IMap) => {
-  const { mapCenter, markers } = props;
+  const { mapCenter, markers, setFocusedRestaurant } = props;
   const [current, setCurrnet] = React.useState<number | null>(null);
   console.log("markers", markers);
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
-  const [selected, setSelected] = React.useState(null);
   const onMapClick = React.useCallback((e: any) => {
     // setMarkers((current: any) => [
     //   ...current,
@@ -79,24 +83,12 @@ const Map = (props: IMap) => {
       {markers?.map((marker: any, i: number) => (
         <>
           <Marker
-            key={`${marker.lat}-${marker.lng}`}
-            position={{ lat: marker.lat, lng: marker.lng }}
+            key={`${marker.location.lat}-${marker.location.lng}`}
+            position={{ lat: marker.location.lat, lng: marker.location.lng }}
             onClick={() => {
-              setSelected(marker);
-            }}
-            onMouseOver={() => {
-              // window.alert(`Mouse over ${i}`);
-              setCurrnet(i);
-            }}
-            onMouseOut={() => {
-              setCurrnet(null);
+              setFocusedRestaurant(String(marker.id));
             }}
           />
-          {current === i && (
-            <InfoWindow position={{ lat: marker.lat, lng: marker.lng }}>
-              <div>hello world</div>
-            </InfoWindow>
-          )}
         </>
       ))}
     </GoogleMap>

@@ -10,8 +10,9 @@ import Link from "next/link";
 import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
 import { Autocomplete } from "../../components/forms/Autocomplete";
-import Map, { Point } from "../../components/forms/Map";
+import Map, { IMarker, Point } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
+import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 const center = {
   lat: 32.715,
   lng: -117.16,
@@ -21,8 +22,12 @@ const Restaurant: NextPage = () => {
   const params = router.query;
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
-  const [markers, setMarkers] = useState<any>([]);
+  const [markers, setMarkers] = useState<IMarker[]>([]);
   const [mapCenter, setMapCenter] = useState(center);
+
+  const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
+    null
+  );
   useEffect(() => {
     if (params.city) {
       localStorage.setItem("city", String(params.city));
@@ -51,28 +56,40 @@ const Restaurant: NextPage = () => {
     state,
   });
 
-  useEffect(() => {
-    let markersToAdd: Point[] = [];
+  useMemo(() => {
+    let markersToAdd: IMarker[] = [];
     if (
       apiRestaurants.status === "success" &&
       dbRestaurants.status === "success"
     )
       if (apiRestaurants.status === "success") {
-        const markers = apiRestaurants.data?.map((restaurant) => {
-          return {
-            lat: Number(restaurant.lat),
-            lng: Number(restaurant.lng),
-          };
-        });
+        const markers = apiRestaurants.data?.map(
+          (restaurant: { lat: any; lng: any; name: any; id: any }) => {
+            return {
+              location: {
+                lat: Number(restaurant.lat),
+                lng: Number(restaurant.lng),
+              },
+              name: restaurant.name,
+              id: restaurant.id,
+            };
+          }
+        );
         markersToAdd = [...markersToAdd, ...markers];
       }
     if (dbRestaurants.status === "success") {
-      const markers = dbRestaurants.data?.map((restaurant) => {
-        return {
-          lat: Number(restaurant.lat),
-          lng: Number(restaurant.lng),
-        };
-      });
+      const markers = dbRestaurants.data?.map(
+        (restaurant: { lat: any; lng: any; name: any; id: any }) => {
+          return {
+            location: {
+              lat: Number(restaurant.lat),
+              lng: Number(restaurant.lng),
+            },
+            name: restaurant.name,
+            id: restaurant.id,
+          };
+        }
+      );
       markersToAdd = [...markersToAdd, ...markers];
     }
     setMarkers(markersToAdd);
@@ -144,7 +161,6 @@ const Restaurant: NextPage = () => {
                     </Link>
                   </div>
                 </div>
-
                 <RestaurantSearchForm
                   setCity={setCity}
                   setState={setState}
@@ -162,13 +178,20 @@ const Restaurant: NextPage = () => {
                       {`${resultsNum} Restaurants`}
                     </h1>
                   </div>
+                  {focusedRestaurant && (
+                    <FocusedRestaurantCard restaurantId={focusedRestaurant} />
+                  )}
                   <RestaurantResults
                     dbRestaurants={dbRestaurants.data}
                     apiRestaurants={apiRestaurants.data}
                   />
                 </div>
                 <div className="min-w-96 relative left-0 top-0 h-full w-full">
-                  <Map mapCenter={mapCenter} markers={markers} />
+                  <Map
+                    mapCenter={mapCenter}
+                    markers={markers}
+                    setFocusedRestaurant={setFocusedRestaurant}
+                  />
                 </div>
               </div>
             </div>
