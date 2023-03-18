@@ -19,6 +19,9 @@ const Profile: NextPage = () => {
   const savedRestaurants = api.savedRestaurant.getByUserId.useQuery({
     id: String(user.data?.id),
   });
+  const myRestaurants = api.usersRestaurant.getByUserId.useQuery({
+    id: String(user.data?.id),
+  });
   const [favoriteList, setFavoriteList] = useState(favorites.data || []);
   const [savedList, setSavedList] = useState(savedRestaurants.data || []);
   useEffect(() => {
@@ -143,7 +146,11 @@ const Profile: NextPage = () => {
                   favoriteList={favoriteList}
                   setFavoriteList={setFavoriteList}
                 />{" "}
-                <RestaurantCardContainer list={savedList} />
+                <RestaurantCardContainer list={savedList} title="saved" />
+                <RestaurantCardContainer
+                  list={myRestaurants.data}
+                  title="My restaurants"
+                />
               </div>
             </div>
           </div>

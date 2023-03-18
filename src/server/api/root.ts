@@ -9,6 +9,7 @@ import { photoRouter } from "./routers/photo";
 import { upVoteRouter } from "./routers/upVote";
 import { downVoteRouter } from "./routers/downVote";
 import { savedRestaurant } from "./routers/savedRestaurant";
+import { usersRestaurant } from "./routers/usersRestaurant";
 
 /**
  * This is the primary router for your server.
@@ -26,6 +27,7 @@ export const appRouter = createTRPCRouter({
   upVote: upVoteRouter,
   downVote: downVoteRouter,
   savedRestaurant: savedRestaurant,
+  usersRestaurant: usersRestaurant,
 });
 
 // export type definition of API

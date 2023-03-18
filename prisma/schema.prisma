@@ -149,3 +149,10 @@ model SavedRestaurants {
       
     @@unique([user_id, restaurant_id])
 }
+model UsersRestaurant {
+    id String @id @default(cuid())
+    user_id String
+    restaurant_id String
+      
+    @@unique([user_id, restaurant_id])
+}
