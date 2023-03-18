@@ -146,13 +146,6 @@ const Restaurant: NextPage = () => {
           <title>Foodley</title>
           <meta name="description" content="find great local restaurants" />
           <link rel="icon" href="/favicon.ico" />
-          {/* <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${
-            process.env.NEXT_PUBLIC_PLACES_KEY
-              ? process.env.NEXT_PUBLIC_PLACES_KEY
-              : ""
-          }&libraries=places`}
-        ></script> */}
         </Head>
         <Layout>
           <section className="py-12">
