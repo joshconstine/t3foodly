@@ -28,6 +28,9 @@ const SingleRestaurantApplication = () => {
   const photos = api.photo.getByApplicationId.useQuery({
     id: String(applicationId),
   });
+  const userName = api.user.getUsername.useQuery({
+    id: restaurantApplication?.data?.created_by_user_id || "",
+  });
   const handleUpdate = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -204,7 +207,7 @@ const SingleRestaurantApplication = () => {
                 <Link
                   href={`/user/${restaurantApplication?.data?.created_by_user_id}`}
                 >
-                  <div>{`created by : ${restaurantApplication.data?.created_by_user_id}`}</div>
+                  <div>{`created by : ${userName?.data}`}</div>
                 </Link>
                 <div className="flex w-20 flex-col gap-1">
                   <button
