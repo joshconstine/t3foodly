@@ -12,16 +12,21 @@ export interface IPriceData {
   }[];
 }
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { useSession } from "next-auth/react";
 interface IProps {
   restaurantId: string;
 }
 
 const FavoriteSaveActions = (props: IProps) => {
   const { restaurantId } = props;
+  const session = useSession();
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
     restaurantId: String(restaurantId),
   });
   const isSaved = api.savedRestaurant.isRestaurantSaved.useQuery({
+    restaurantId: String(restaurantId),
+  });
+  const isMyRestaurant = api.usersRestaurant.isRestaurantAUsers.useQuery({
     restaurantId: String(restaurantId),
   });
   const createFavorite = api.favorite.createFavorite.useMutation();
@@ -31,6 +36,8 @@ const FavoriteSaveActions = (props: IProps) => {
   });
   const createSavedRestaurant =
     api.savedRestaurant.addSavedRestaurant.useMutation();
+  const createUsersRestaurantApplication =
+    api.usersRestaurantApplication.createUsersRestaurantApplication.useMutation();
   const deleteSavedRestaurant = api.savedRestaurant.delete.useMutation();
   const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -79,6 +86,21 @@ const FavoriteSaveActions = (props: IProps) => {
       }
     );
   };
+  const handleAddRestaurantToUser = (
+    e: React.SyntheticEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    createUsersRestaurantApplication.mutate(
+      {
+        restaurantId: String(restaurantId),
+      },
+      {
+        async onSuccess() {
+          await isMyRestaurant.refetch();
+        },
+      }
+    );
+  };
   return (
     <div className="flex items-center gap-4">
       {isFavorited.data && isFavorited.data ? (
@@ -115,6 +137,15 @@ const FavoriteSaveActions = (props: IProps) => {
           </Tooltip>
         </motion.div>
       )}
+      <div>
+        <button
+          disabled={false}
+          onClick={handleAddRestaurantToUser}
+          className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+        >
+          My restaurant
+        </button>
+      </div>
     </div>
   );
 };

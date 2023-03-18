@@ -5,10 +5,12 @@ import Link from "next/link";
 import { api } from "../../utils/api";
 import Layout from "../../components/Layout";
 import RestaurantApplicationCard from "../../components/RestaurantCards/RestaurantApplicationCard";
+import UsersRestaurantApplicationCard from "../../components/RestaurantCards/UsersRestaurantApplicationCard";
 
 const restaurantApplications: NextPage = () => {
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
-
+  const usersRestaurantApplications =
+    api.usersRestaurantApplication.getAll.useQuery();
   return (
     <>
       <Head>
@@ -19,7 +21,9 @@ const restaurantApplications: NextPage = () => {
       <Layout>
         <section className="bg-gray-100 py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="mb-8 text-3xl font-bold">Open Applications</h2>
+            <h2 className="mb-8 text-3xl font-bold">
+              Restaurant Creation Applications
+            </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {" "}
               {restaurantApplications.data?.map((elem) => {
@@ -30,6 +34,25 @@ const restaurantApplications: NextPage = () => {
                     href={`restaurantApplications/${elem.id}`}
                   >
                     <RestaurantApplicationCard restaurant={elem} />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>{" "}
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 className="mb-8 text-3xl font-bold">
+              Users Restaurant application
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {" "}
+              {usersRestaurantApplications.data?.map((elem) => {
+                return (
+                  <Link
+                    key={elem.id}
+                    className="flex flex-col"
+                    href={`restaurantApplications/usersRestaurant/${elem.id}`}
+                  >
+                    <UsersRestaurantApplicationCard application={elem} />
                   </Link>
                 );
               })}

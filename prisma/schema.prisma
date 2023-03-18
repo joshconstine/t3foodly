@@ -105,6 +105,14 @@ model RestaurantApplication {
    status String 
    created_at  DateTime @default(now())   
 }   
+model UsersRestaurantApplication {
+    id String @id @default(cuid())
+    created_by_user_id String
+    restaurant_id String
+    status String
+    created_at  DateTime @default(now())
+
+}
 model Comment {
   id     String    @id @default(cuid())
   text  String @db.VarChar(255)
