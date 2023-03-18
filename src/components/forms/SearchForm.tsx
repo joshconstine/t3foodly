@@ -71,13 +71,11 @@ export default function SearchForm() {
     setValue(e.target?.value);
   };
 
-  return (
-    <div className="relative z-10 bg-transparent">
-      {loadError && (
-        <div>Google Map script can't be loaded, please reload the page</div>
-      )}
-
-      {isLoaded && (
+  if (loadError) return <div>error loading autocomplete</div>;
+  if (!isLoaded) return <div>loading...</div>;
+  if (isLoaded && ready)
+    return (
+      <div className="relative z-10 bg-transparent">
         <React.Fragment>
           <div>
             <input
@@ -95,7 +93,7 @@ export default function SearchForm() {
             )}
           </div>
         </React.Fragment>
-      )}
-    </div>
-  );
+      </div>
+    );
+  else return <div>loading...</div>;
 }
