@@ -22,6 +22,7 @@ export const Autocomplete = (props: IAutocomplete) => {
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
+      types: ["(cities)"],
       /* Define search scope here */
     },
     debounce: 300,

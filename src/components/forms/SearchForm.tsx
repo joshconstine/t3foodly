@@ -24,6 +24,7 @@ export default function SearchForm() {
   } = usePlacesAutocomplete({
     requestOptions: {
       /* Define search scope here */
+      types: ["(cities)"],
     },
     debounce: 300,
   });
