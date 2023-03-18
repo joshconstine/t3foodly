@@ -32,7 +32,6 @@ const FocusedRestaurantCard = (props: { restaurantId: string }) => {
   if (restaurant.status === "loading" || photos.status === "loading") {
     return <div>Loading...</div>;
   }
-  console.log(singleResraurantData);
   return (
     <div className=" h-64">
       <div className="flex flex-col items-center gap-8 md:flex-row">

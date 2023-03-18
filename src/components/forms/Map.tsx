@@ -42,7 +42,6 @@ interface IMap {
 const Map = (props: IMap) => {
   const { mapCenter, markers, setFocusedRestaurant } = props;
   const [current, setCurrnet] = React.useState<number | null>(null);
-  console.log("markers", markers);
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 

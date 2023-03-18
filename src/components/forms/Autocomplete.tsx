@@ -54,7 +54,6 @@ export const Autocomplete = (props: IAutocomplete) => {
         const { lat, lng } = getLatLng(results[0]);
         // setMapCenter({ lat, lng });
         // setMarkers([{ lat: lat, lng: lng }]);
-        console.log("📍 Coordinates: ", { lat, lng });
         setMapCenter({ lat, lng });
         const city = results[0]?.address_components.find((elem) =>
           elem.types.includes("locality")
@@ -66,9 +65,6 @@ export const Autocomplete = (props: IAutocomplete) => {
           setCity(city);
           setState(state);
         }
-
-        console.log("address: ", description);
-        console.log("results: ", results[0]);
       });
     };
 
