@@ -22,7 +22,7 @@ export const usersRestaurant = createTRPCRouter({
       return ctx.prisma.usersRestaurant
         .findMany({
           where: {
-            user_id: ctx.session?.user.id,
+            user_id: ctx.session?.user.id || "923929292929",
             restaurant_id: input.restaurantId,
           },
         })
