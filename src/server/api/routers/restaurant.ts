@@ -193,4 +193,27 @@ export const restaurantRouter = createTRPCRouter({
         },
       });
     }),
+  updateRestaurant: protectedProcedure
+    .input(Restaurant)
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.restaurant.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+          address: input.address,
+          cityName: input.cityName,
+          stateName: input.stateName,
+          zipCode: input.zipCode,
+          email: input.email,
+          phone: input.phone,
+          website: input.website,
+          hoursInterval: input.hoursInterval,
+          cuisineType: input.cuisineType,
+          lat: `${input.lat}`,
+          lng: `${input.lng}`,
+        },
+      });
+    }),
 });

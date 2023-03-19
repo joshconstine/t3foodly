@@ -18,9 +18,11 @@ export interface IPriceData {
 import UpVoteDownVote from "../../../components/RestaurantCards/UpVoteDownVote";
 import FavoriteSaveActions from "./FavoriteSaveActions";
 import CreateCommentContainer from "./CreateCommentContainer";
+import EditRestaurantCard from "./EditRestaurantCard";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [priceData, setPriceData] = useState<IPriceData | null>(null);
+  const [showEditCard, setShowEditCard] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const { restaurantId } = router.query;
 
@@ -36,6 +38,9 @@ const SingleRestaurant = () => {
   });
 
   const numberOfFavorites = api.favorite.getNumberOfFavorites.useQuery({
+    restaurantId: String(restaurantId),
+  });
+  const isMyRestaurant = api.usersRestaurant.isRestaurantAUsers.useQuery({
     restaurantId: String(restaurantId),
   });
 
@@ -81,11 +86,27 @@ const SingleRestaurant = () => {
               <div className="text-bold text-3xl text-primary">
                 Favorties: {numberOfFavorites.data && numberOfFavorites.data}
               </div>
+              {isMyRestaurant.data && (
+                <button
+                  className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                  onClick={() => {
+                    setShowEditCard(true);
+                  }}
+                >
+                  edit
+                </button>
+              )}
             </div>
             <div className="flex gap-4">
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
               <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
             </div>
+            {showEditCard && (
+              <EditRestaurantCard
+                setEditMode={setShowEditCard}
+                restaurantId={String(restaurantId)}
+              />
+            )}
             <div className="flex flex-col-reverse gap-8 md:flex-row">
               <div className="space-y-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
