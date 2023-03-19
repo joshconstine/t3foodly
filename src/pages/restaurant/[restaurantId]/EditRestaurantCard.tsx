@@ -2,6 +2,8 @@ import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { api } from "../../../utils/api";
 import Image from "next/image";
+import AddMenu from "./AddMenu";
+import Menu from "./Menu";
 interface IProps {
   restaurantId: string;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +15,8 @@ const EditRestaurantCard = (props: IProps) => {
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurantId });
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
+
+  const createPhoto = api.photo.createPhoto.useMutation();
   useEffect(() => {
     if (!file) {
       setPreview(undefined);
@@ -25,6 +29,7 @@ const EditRestaurantCard = (props: IProps) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
+
   const handleUpdate = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -65,7 +70,6 @@ const EditRestaurantCard = (props: IProps) => {
         }
       );
   };
-  const createPhoto = api.photo.createPhoto.useMutation();
   const handleSubmit = () => {
     const uploadPhoto = async () => {
       try {
@@ -112,6 +116,7 @@ const EditRestaurantCard = (props: IProps) => {
     const uploadedFile = input.files[0];
     setFile(uploadedFile);
   };
+
   return (
     <div>
       <h1>Edit Restaurant Card</h1>
@@ -280,7 +285,9 @@ const EditRestaurantCard = (props: IProps) => {
             </button>
           </div>
         )}
-      </div>
+      </div>{" "}
+      <Menu restaurantId={restaurantId} />
+      <AddMenu restaurantId={restaurantId} />
     </div>
   );
 };

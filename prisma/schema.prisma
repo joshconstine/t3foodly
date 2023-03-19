@@ -164,3 +164,8 @@ model UsersRestaurant {
       
     @@unique([user_id, restaurant_id])
 }
+model Menu {
+    id String @id @default(cuid())
+    photoUrl String
+    restaurant_id String?
+}
