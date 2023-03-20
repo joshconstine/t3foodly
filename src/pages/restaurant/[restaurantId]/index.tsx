@@ -23,6 +23,7 @@ const SingleRestaurant = () => {
   const router = useRouter();
   const [priceData, setPriceData] = useState<IPriceData | null>(null);
   const [showEditCard, setShowEditCard] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const { restaurantId } = router.query;
 
@@ -30,6 +31,9 @@ const SingleRestaurant = () => {
     id: String(restaurantId),
   });
   const comments = api.comment.getByRestaurantId.useQuery({
+    id: String(restaurantId),
+  });
+  const menu = api.menu.getByRestaurantId.useQuery({
     id: String(restaurantId),
   });
 
@@ -47,6 +51,7 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
+  console.log("menu", menu);
   return (
     <>
       <Head>
@@ -80,6 +85,43 @@ const SingleRestaurant = () => {
                   ))}
                 </div>
               </div>
+            </div>
+            <div>
+              {menu.data && menu.data?.length > 0 && (
+                <div>
+                  {!showMenu && (
+                    <button
+                      className="rounded-full bg-primary py-2 px-4 font-bold text-white "
+                      onClick={() => setShowMenu(true)}
+                    >
+                      Menu
+                    </button>
+                  )}
+                  {showMenu && (
+                    <div>
+                      <div>
+                        {menu?.data?.map((menuPhoto) => {
+                          return (
+                            <Image
+                              key={menuPhoto.id}
+                              src={menuPhoto.photoUrl}
+                              alt="menu"
+                              width={500}
+                              height={500}
+                            />
+                          );
+                        })}
+                      </div>
+                      <button
+                        className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                        onClick={() => setShowMenu(false)}
+                      >
+                        close
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
