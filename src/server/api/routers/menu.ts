@@ -32,4 +32,13 @@ export const menuRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.menu.deleteMany({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

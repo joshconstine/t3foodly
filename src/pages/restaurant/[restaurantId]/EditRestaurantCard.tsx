@@ -4,6 +4,7 @@ import { api } from "../../../utils/api";
 import Image from "next/image";
 import AddMenu from "./AddMenu";
 import Menu from "./Menu";
+import Photos from "./Photos";
 interface IProps {
   restaurantId: string;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -245,6 +246,7 @@ const EditRestaurantCard = (props: IProps) => {
       </form>
       <div className=" m-4 p-4">
         <h1 className="text-2xl text-primary">Add A photo</h1>
+        <Photos restaurantId={restaurantId} />
         <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
           <span className="flex items-center space-x-2">
             <svg
