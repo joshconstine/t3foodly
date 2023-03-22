@@ -16,13 +16,13 @@ export const savedRestaurant = createTRPCRouter({
         },
       });
     }),
-  isRestaurantSaved: publicProcedure
+  isRestaurantSaved: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.savedRestaurants
         .findMany({
           where: {
-            user_id: ctx.session?.user.id,
+            user_id: ctx.session.user.id,
             restaurant_id: input.restaurantId,
           },
         })
@@ -44,17 +44,17 @@ export const savedRestaurant = createTRPCRouter({
     .mutation(({ input, ctx }) => {
       return ctx.prisma.savedRestaurants.create({
         data: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
         },
       });
     }),
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.savedRestaurants.deleteMany({
         where: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
         },
       });

@@ -30,13 +30,13 @@ export const favoriteRouter = createTRPCRouter({
           });
         });
     }),
-  isRestaurantFavorited: publicProcedure
+  isRestaurantFavorited: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.favorite
         .findMany({
           where: {
-            user_id: ctx.session?.user.id,
+            user_id: ctx.session.user.id,
             restaurant_id: input.restaurantId,
           },
         })
@@ -71,7 +71,7 @@ export const favoriteRouter = createTRPCRouter({
     .mutation(({ input, ctx }) => {
       return ctx.prisma.favorite.create({
         data: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
           placement: input.placement,
         },
@@ -87,7 +87,7 @@ export const favoriteRouter = createTRPCRouter({
     .mutation(({ input, ctx }) => {
       return ctx.prisma.favorite.updateMany({
         where: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
         },
         data: {
@@ -95,12 +95,12 @@ export const favoriteRouter = createTRPCRouter({
         },
       });
     }),
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.favorite.deleteMany({
         where: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
         },
       });

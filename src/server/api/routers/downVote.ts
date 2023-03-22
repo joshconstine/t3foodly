@@ -16,13 +16,13 @@ export const downVoteRouter = createTRPCRouter({
         },
       });
     }),
-  isRestaurantDownVoted: publicProcedure
+  isRestaurantDownVoted: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.downVote
         .findMany({
           where: {
-            user_id: ctx.session?.user.id,
+            user_id: ctx.session.user.id,
             restaurant_id: input.restaurantId,
           },
         })
@@ -61,12 +61,12 @@ export const downVoteRouter = createTRPCRouter({
         },
       });
     }),
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.downVote.deleteMany({
         where: {
-          user_id: ctx.session?.user.id,
+          user_id: ctx.session.user.id,
           restaurant_id: input.restaurantId,
         },
       });
