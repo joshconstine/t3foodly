@@ -80,6 +80,7 @@ const CreateCommentContainer = (props: IProps) => {
           };
           uploadPhoto();
           comments.refetch();
+          form.reset();
         },
       }
     );
