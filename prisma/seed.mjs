@@ -141,6 +141,34 @@ async function main() {
       photoUrl: `${process.env.BUCKET_URL}/joses.jpeg`,
     },
   });
+  const cuisines = [
+    "American",
+    "Asian",
+    "Barbecue",
+    "Burgers",
+    "Cajun",
+    "Caribbean",
+    "Chinese",
+    "Deli",
+    "Desserts",
+    "Fast Food",
+    "French",
+    "Greek",
+    "Indian",
+    "Italian",
+    "Japanese",
+    "Korean",
+    S,
+  ];
+  cuisines.forEach(async (cuisine) => {
+    await prisma.cuisine.upsert({
+      where: { name: cuisine },
+      update: {},
+      create: {
+        name: cuisine,
+      },
+    });
+  });
 
   console.log({ phills, joses });
   console.log({ comment1, comment2, comment3 });
