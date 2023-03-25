@@ -114,7 +114,6 @@ export const restaurantRouter = createTRPCRouter({
                 return {
                   id: elem.id,
                   name: elem.restaurantName,
-                  cuisine: elem.cuisineType,
                   address: elem.address,
                   cityName: elem.cityName,
                   stateName: elem.stateName,
