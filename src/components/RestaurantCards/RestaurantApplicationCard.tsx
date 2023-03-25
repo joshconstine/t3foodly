@@ -38,9 +38,6 @@ const RestaurantApplicationCard = (props: {
       </div>
       <div className={`mt-4`}>
         <p className="text-gray-700">
-          <strong>Cuisine:</strong> {restaurant.cuisineType}
-        </p>
-        <p className="text-gray-700">
           <strong>Address:</strong> {restaurant.address}
         </p>
         <p className="text-gray-700">

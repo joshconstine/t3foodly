@@ -74,7 +74,6 @@ const ConfirmModal = (props: IConfirmModalProps) => {
               <li>phone: {props.restaurant?.phone}</li>
               <li>website: {props.restaurant?.website}</li>
               <li>hoursInterval: {props.restaurant?.hoursInterval}</li>
-              <li>cuisineType: {props.restaurant?.cuisineType}</li>
             </ul>
             <div>
               <button onClick={handleClose}>Close</button>

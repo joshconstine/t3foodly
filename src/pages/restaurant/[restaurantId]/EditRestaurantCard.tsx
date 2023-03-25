@@ -40,7 +40,6 @@ const EditRestaurantCard = (props: IProps) => {
       city: { value: string };
       state: { value: string };
       zipCode: { value: string };
-      cuisineType: { value: string };
       email: { value: string };
       website: { value: string };
       phone: { value: string };
@@ -59,7 +58,6 @@ const EditRestaurantCard = (props: IProps) => {
           phone: formElements.phone.value,
           website: formElements.website.value,
           hoursInterval: formElements.hoursInterval.value,
-          cuisineType: formElements.cuisineType.value,
           lat: Number(restaurant.data.lat),
           lng: Number(restaurant.data.lng),
         },
@@ -181,16 +179,6 @@ const EditRestaurantCard = (props: IProps) => {
           className="bg-gray-200"
           placeholder="zipcode"
           defaultValue={restaurant?.data?.zipCode}
-        ></input>{" "}
-        <label>Cuisine Type:</label>
-        <input
-          type="text"
-          name="cuisineType"
-          className="bg-gray-200"
-          placeholder="cuisine"
-          defaultValue={
-            restaurant?.data?.cuisineType ? restaurant.data.cuisineType : ""
-          }
         ></input>{" "}
         <label>Email:</label>
         <input
