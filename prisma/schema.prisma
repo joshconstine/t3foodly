@@ -179,4 +179,5 @@ model RestaurantCuisine {
     cuisine_id String
 
     @@index([restaurant_id, cuisine_id])
+    @@unique([restaurant_id, cuisine_id])
 }

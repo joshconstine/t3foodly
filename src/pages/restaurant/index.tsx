@@ -14,6 +14,7 @@ import Map, { IMarker, Point } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 import { useLoadScript } from "@react-google-maps/api";
+import CuisineFilter from "./CuisineFilter";
 const center = {
   lat: 32.715,
   lng: -117.16,
@@ -34,9 +35,11 @@ const Restaurant: NextPage = () => {
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
+  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
   );
+  const cuisines = api.cuisine.getAll.useQuery();
   useEffect(() => {
     if (params.city) {
       localStorage.setItem("city", String(params.city));
@@ -182,6 +185,13 @@ const Restaurant: NextPage = () => {
                       <h1 className="text-l  relative font-bold text-primary">
                         {`${resultsNum} Restaurants`}
                       </h1>
+                      {cuisines && (
+                        <CuisineFilter
+                          cuisines={cuisines?.data || []}
+                          selectedCuisines={selectedCuisines}
+                          setCuisines={setSelectedCuisines}
+                        />
+                      )}
                     </div>
                     {focusedRestaurant && (
                       <FocusedRestaurantCard restaurantId={focusedRestaurant} />
