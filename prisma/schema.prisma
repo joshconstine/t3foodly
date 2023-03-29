@@ -87,6 +87,8 @@ model Restaurant {
    lat String @default("0")
    lng String @default("0")
    created_at  DateTime @default(now())   
+
+   cuisines RestaurantCuisine[]
 }   
 model RestaurantApplication {
    id    String    @id @default(cuid())
@@ -169,14 +171,18 @@ model Menu {
 }
 model Cuisine {
     id String @id @default(cuid())
-    name String 
+    name String
 
+
+    RestaurantCuisines RestaurantCuisine[]
     @@unique([name])
 }
 model RestaurantCuisine {
     id String @id @default(cuid())
     restaurant_id String
+    restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
     cuisine_id String
+    cuisine Cuisine @relation(fields: [cuisine_id], references: [id])
 
     @@index([restaurant_id, cuisine_id])
     @@unique([restaurant_id, cuisine_id])

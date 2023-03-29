@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // const deleted = await prisma.restaurant.deleteMany();
-  // console.log({ deleted });
+  const deleted = await prisma.restaurant.deleteMany();
+  console.log({ deleted });
   const phills = await prisma.restaurant.upsert({
     where: { id: "1" },
     update: {},
@@ -158,7 +158,6 @@ async function main() {
     "Italian",
     "Japanese",
     "Korean",
-    S,
   ];
   cuisines.forEach(async (cuisine) => {
     await prisma.cuisine.upsert({

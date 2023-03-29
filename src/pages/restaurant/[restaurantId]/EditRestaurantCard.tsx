@@ -5,6 +5,8 @@ import Image from "next/image";
 import AddMenu from "./AddMenu";
 import Menu from "./Menu";
 import Photos from "./Photos";
+import CuisineFilter from "../CuisineFilter";
+import { Cuisine, RestaurantCuisine } from "@prisma/client";
 interface IProps {
   restaurantId: string;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +18,26 @@ const EditRestaurantCard = (props: IProps) => {
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurantId });
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
+
+  const cuisines = api.cuisine.getAll.useQuery();
+  const clearCuisines = api.restaurantCuisine.deleteByRestaurant.useMutation();
+  const createCuisine =
+    api.restaurantCuisine.createRestaurantCuisine.useMutation();
+  const restaurantCuisines = api.restaurantCuisine.getByRestaurantId.useQuery({
+    restaurantId: restaurantId,
+  });
+  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
+
+  useEffect(() => {
+    if (cuisines?.data && restaurantCuisines?.data) {
+      const selectedCuisines = cuisines.data.filter((cuisine) => {
+        return restaurantCuisines.data.some(
+          (restaurantCuisine) => restaurantCuisine.cuisine_id === cuisine.id
+        );
+      });
+      setSelectedCuisines(selectedCuisines);
+    }
+  }, [cuisines.data, restaurantCuisines.data]);
 
   const createPhoto = api.photo.createPhoto.useMutation();
   useEffect(() => {
@@ -69,6 +91,29 @@ const EditRestaurantCard = (props: IProps) => {
         }
       );
   };
+  const handleSetCuisines = () => {
+    if (selectedCuisines.length > 0) {
+      clearCuisines.mutate(
+        { restaurantId: restaurantId },
+        {
+          onSuccess() {
+            createCuisine.mutate(
+              {
+                restaurantId: restaurantId,
+                cuisines: selectedCuisines,
+              },
+              {
+                onSuccess() {
+                  restaurantCuisines.refetch();
+                },
+              }
+            );
+          },
+        }
+      );
+    }
+  };
+
   const handleSubmit = () => {
     const uploadPhoto = async () => {
       try {
@@ -132,6 +177,32 @@ const EditRestaurantCard = (props: IProps) => {
         <p>Restaurant Hours: {restaurant.data?.hoursInterval}</p>
         <p>Restaurant Lat: {restaurant.data?.lat}</p>
         <p>Restaurant Lng: {restaurant.data?.lng}</p>
+        <p>
+          Cuisines:{" "}
+          {restaurantCuisines?.data?.map((el) => (
+            <div>
+              {
+                cuisines?.data?.find((cuisine) => cuisine.id === el.cuisine_id)
+                  ?.name
+              }
+            </div>
+          ))}
+        </p>
+      </div>
+      <div>
+        {cuisines && (
+          <CuisineFilter
+            cuisines={cuisines?.data || []}
+            selectedCuisines={selectedCuisines}
+            setCuisines={setSelectedCuisines}
+          />
+        )}
+        <button
+          className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+          onClick={handleSetCuisines}
+        >
+          save
+        </button>
       </div>
       <form
         onSubmit={handleUpdate}

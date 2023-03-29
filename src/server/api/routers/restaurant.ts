@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { z } from "zod";
 
@@ -32,7 +33,27 @@ const RestaurantToCreate = z.object({
 });
 
 export type RestaurantData = z.infer<typeof Restaurant>;
-
+export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
+  {
+    select: {
+      id: true,
+      name: true,
+      cuisines: {
+        include: {
+          cuisine: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  }
+);
+export type RestaurantWithCuisines = Prisma.RestaurantGetPayload<
+  typeof restaurantWithCuisines
+>;
 export const restaurantRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.restaurant.findMany();
@@ -145,6 +166,35 @@ export const restaurantRouter = createTRPCRouter({
             },
             { stateName: input.state || "*****" },
           ],
+        },
+      });
+    }),
+  getByCityAndStateFromDBMinimal: publicProcedure
+    .input(z.object({ city: z.string(), state: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.restaurant.findMany({
+        where: {
+          AND: [
+            {
+              cityName: input.city,
+            },
+            { stateName: input.state },
+          ],
+        },
+
+        select: {
+          id: true,
+          name: true,
+          cuisines: {
+            include: {
+              cuisine: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
     }),

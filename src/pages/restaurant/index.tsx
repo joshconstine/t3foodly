@@ -15,6 +15,7 @@ import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 import { useLoadScript } from "@react-google-maps/api";
 import CuisineFilter from "./CuisineFilter";
+import { Cuisine } from "@prisma/client";
 const center = {
   lat: 32.715,
   lng: -117.16,
@@ -35,11 +36,12 @@ const Restaurant: NextPage = () => {
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
-  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
   );
   const cuisines = api.cuisine.getAll.useQuery();
+  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
+  const ids = selectedCuisines.map((elem) => elem.id);
   useEffect(() => {
     if (params.city) {
       localStorage.setItem("city", String(params.city));
@@ -59,23 +61,28 @@ const Restaurant: NextPage = () => {
     }
   }, []);
 
-  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
-    city,
-    state,
-  });
   const dbRestaurants = api.restaurant.getByCityAndStateFromDB.useQuery({
     city,
     state,
   });
-
+  const dbRestaurantsMinimal =
+    api.restaurant.getByCityAndStateFromDBMinimal.useQuery({
+      city,
+      state,
+    });
+  const filterd = dbRestaurantsMinimal?.data?.filter((elem) => {
+    if (selectedCuisines.length === 0) {
+      return true;
+    } else if (elem.cuisines) {
+      return elem.cuisines.some((elem) => ids.includes(elem.cuisine.id));
+    }
+  });
+  console.log("new data", dbRestaurantsMinimal?.data);
   useMemo(() => {
     let markersToAdd: IMarker[] = [];
-    if (
-      apiRestaurants.status === "success" &&
-      dbRestaurants.status === "success"
-    )
-      if (apiRestaurants.status === "success") {
-        const markers = apiRestaurants.data?.map(
+    if (dbRestaurants.status === "success")
+      if (dbRestaurants.status === "success") {
+        const markers = dbRestaurants.data?.map(
           (restaurant: { lat: any; lng: any; name: any; id: any }) => {
             return {
               location: {
@@ -89,56 +96,14 @@ const Restaurant: NextPage = () => {
         );
         markersToAdd = [...markersToAdd, ...markers];
       }
-    if (dbRestaurants.status === "success") {
-      const markers = dbRestaurants.data?.map(
-        (restaurant: { lat: any; lng: any; name: any; id: any }) => {
-          return {
-            location: {
-              lat: Number(restaurant.lat),
-              lng: Number(restaurant.lng),
-            },
-            name: restaurant.name,
-            id: restaurant.id,
-          };
-        }
-      );
-      markersToAdd = [...markersToAdd, ...markers];
-    }
     setMarkers(markersToAdd);
-  }, [apiRestaurants.data, dbRestaurants.data]);
-
-  const handleSearchByCity = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formElements = form.elements as typeof form.elements & {
-      city: { value: string };
-      state: { value: string };
-    };
-    setCity(formElements.city.value);
-    setState(formElements.state.value);
-    router.push(
-      `/restaurant?city=${formElements.city.value}&state=${formElements.state.value}`
-    );
-    window.localStorage.setItem("city", city);
-    window.localStorage.setItem("state", state);
-  };
-  useMemo(() => {
-    if (apiRestaurants.status === "success") {
-      window.localStorage.setItem(
-        "restaurants",
-        JSON.stringify(apiRestaurants.data)
-      );
-    }
-  }, [apiRestaurants.data, apiRestaurants.status]);
+  }, [, dbRestaurants.data]);
 
   const resultsNum = useMemo(() => {
-    if (apiRestaurants.status === "success") {
-      if (dbRestaurants.status === "success") {
-        return apiRestaurants.data?.length + dbRestaurants.data?.length;
-      }
+    if (dbRestaurants.status === "success") {
+      return dbRestaurants.data?.length;
     }
-    return 0;
-  }, [apiRestaurants.data, dbRestaurants.data]);
+  }, [dbRestaurants.data]);
 
   if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
   if (!isLoaded) return <div>Loading...</div>;
@@ -185,21 +150,18 @@ const Restaurant: NextPage = () => {
                       <h1 className="text-l  relative font-bold text-primary">
                         {`${resultsNum} Restaurants`}
                       </h1>
-                      {cuisines && (
-                        <CuisineFilter
-                          cuisines={cuisines?.data || []}
-                          selectedCuisines={selectedCuisines}
-                          setCuisines={setSelectedCuisines}
-                        />
-                      )}
-                    </div>
+                    </div>{" "}
+                    {cuisines && (
+                      <CuisineFilter
+                        cuisines={cuisines?.data || []}
+                        selectedCuisines={selectedCuisines}
+                        setCuisines={setSelectedCuisines}
+                      />
+                    )}
                     {focusedRestaurant && (
                       <FocusedRestaurantCard restaurantId={focusedRestaurant} />
                     )}
-                    <RestaurantResults
-                      dbRestaurants={dbRestaurants.data}
-                      apiRestaurants={apiRestaurants.data}
-                    />
+                    <RestaurantResults restaurants={filterd} />
                   </div>
                   <div className="min-w-96 relative left-0 top-0 h-full w-full">
                     <Map
