@@ -178,12 +178,11 @@ model Cuisine {
     @@unique([name])
 }
 model RestaurantCuisine {
-    id String @id @default(cuid())
     restaurant_id String
-    restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
     cuisine_id String
+    restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
     cuisine Cuisine @relation(fields: [cuisine_id], references: [id])
-
+    @@id([restaurant_id, cuisine_id])
     @@index([restaurant_id, cuisine_id])
     @@unique([restaurant_id, cuisine_id])
 }
