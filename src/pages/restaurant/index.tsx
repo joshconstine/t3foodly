@@ -99,12 +99,6 @@ const Restaurant: NextPage = () => {
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
 
-  const resultsNum = useMemo(() => {
-    if (dbRestaurants.status === "success") {
-      return dbRestaurants.data?.length;
-    }
-  }, [dbRestaurants.data]);
-
   if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
   if (!isLoaded) return <div>Loading...</div>;
   if (isLoaded)
@@ -148,7 +142,12 @@ const Restaurant: NextPage = () => {
                   <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                     <div className="min-w-96 flex flex-col gap-4">
                       <h1 className="text-l  relative font-bold text-primary">
-                        {`${resultsNum} Restaurants`}
+                        {`${filterd?.length} ${
+                          filterd &&
+                          (filterd?.length === 0 || filterd.length > 1)
+                            ? "Restaurants"
+                            : "Restaurant"
+                        }`}
                       </h1>
                     </div>{" "}
                     {cuisines && (
