@@ -1,7 +1,6 @@
 "use client";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { api } from "../../utils/api";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
@@ -9,7 +8,6 @@ import Layout from "../../components/Layout";
 import Link from "next/link";
 import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
-import { Autocomplete } from "../../components/forms/Autocomplete";
 import Map, { IMarker, Point } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";

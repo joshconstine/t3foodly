@@ -10,10 +10,10 @@ const CuisineFilter = (props: IProps) => {
   const { selectedCuisines, setCuisines } = props;
   return (
     <div className="flex w-full flex-wrap gap-4">
-      {props.cuisines.map((cuisine) => {
+      {props?.cuisines?.map((cuisine) => {
         const handleClick = () => {
-          if (selectedCuisines.includes(cuisine))
-            setCuisines(selectedCuisines.filter((c) => c.id !== cuisine.id));
+          if (selectedCuisines?.includes(cuisine))
+            setCuisines(selectedCuisines?.filter((c) => c.id !== cuisine.id));
           else setCuisines([...selectedCuisines, cuisine]);
         };
         return (
@@ -21,7 +21,7 @@ const CuisineFilter = (props: IProps) => {
             <button
               onClick={handleClick}
               className={`rounded-full ${
-                selectedCuisines.includes(cuisine)
+                selectedCuisines?.includes(cuisine)
                   ? "bg-secondary text-white"
                   : "border-2 border-secondary "
               } p-2`}
