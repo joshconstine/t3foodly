@@ -149,7 +149,7 @@ const Restaurant: NextPage = () => {
                             : "Restaurant"
                         }`}
                       </h1>
-                    </div>{" "}
+                    </div>
                     {cuisines && (
                       <CuisineFilter
                         cuisines={cuisines?.data || []}
