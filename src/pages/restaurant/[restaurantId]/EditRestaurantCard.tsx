@@ -6,7 +6,7 @@ import AddMenu from "./AddMenu";
 import Menu from "./Menu";
 import Photos from "./Photos";
 import CuisineFilter from "../CuisineFilter";
-import { Cuisine, RestaurantCuisine } from "@prisma/client";
+import { Cuisine } from "@prisma/client";
 interface IProps {
   restaurantId: string;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
