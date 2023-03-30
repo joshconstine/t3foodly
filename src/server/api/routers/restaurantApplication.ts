@@ -12,7 +12,6 @@ export const RestaurantRequest = z.object({
   phone: z.string(),
   website: z.string(),
   hoursInterval: z.string(),
-  cuisineType: z.string(),
 });
 export const RestaurantApplication = z.object({
   id: z.string(),
@@ -25,7 +24,6 @@ export const RestaurantApplication = z.object({
   phone: z.string(),
   website: z.string(),
   hoursInterval: z.string(),
-  cuisineType: z.string(),
   status: z.string(),
   created_by_user_id: z.string(),
 });
@@ -73,7 +71,6 @@ export const restaurantApplicationRouter = createTRPCRouter({
           phone: input.phone,
           website: input.website,
           hoursInterval: input.hoursInterval,
-          cuisineType: input.cuisineType,
           status: "new",
           created_by_user_id: ctx.session.user.id,
         },
@@ -105,7 +102,6 @@ export const restaurantApplicationRouter = createTRPCRouter({
           phone: input.phone,
           website: input.website,
           hoursInterval: input.hoursInterval,
-          cuisineType: input.cuisineType,
           status: input.status,
           created_by_user_id: input.created_by_user_id,
         },

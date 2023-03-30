@@ -40,7 +40,6 @@ const AddRestaurantForm = () => {
     city: string;
     state: string;
     zipCode: string;
-    cuisineType: string;
     email: string;
     website: string;
     phone: string;
@@ -52,7 +51,6 @@ const AddRestaurantForm = () => {
     city: "",
     state: "",
     zipCode: "",
-    cuisineType: "",
     email: "",
     website: "",
     phone: "",
@@ -94,7 +92,6 @@ const AddRestaurantForm = () => {
         phone: values.phone,
         website: values.website,
         hoursInterval: values.hoursInterval,
-        cuisineType: values.cuisineType,
       },
       {
         async onSuccess(applicationData) {
@@ -179,11 +176,11 @@ const AddRestaurantForm = () => {
                 )}{" "}
                 {requestStep === 2 && (
                   <div className="max-w-xl">
-                    <CuisineContainer
+                    {/* <CuisineContainer
                       setCuisines={(newVal) =>
                         props.getFieldHelpers("cuisineType").setValue(newVal)
                       }
-                    />
+                    /> */}
                   </div>
                 )}
                 {formSteps[requestStep]?.forms.map((form, i) => {

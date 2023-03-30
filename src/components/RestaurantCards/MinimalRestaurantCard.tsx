@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 export interface IRestaurantData {
   cityName: string;
-  cuisine: string;
   email: string;
   hoursInterval: string;
   id: number;
@@ -67,9 +66,6 @@ const MinimalRestaurantCard = (props: { restaurant: Restaurant }) => {
           : "",
         hoursInterval: singleResraurantData?.hoursInterval
           ? singleResraurantData?.hoursInterval
-          : "",
-        cuisineType: singleResraurantData?.cuisine
-          ? singleResraurantData?.cuisine
           : "",
         lat: singleResraurantData?.lat ? singleResraurantData?.lat : "",
         lng: singleResraurantData?.lng ? singleResraurantData?.lng : "",

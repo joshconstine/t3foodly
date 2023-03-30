@@ -84,10 +84,11 @@ model Restaurant {
    phone String?
    website String? 
    hoursInterval String?  
-   cuisineType String?
    lat String @default("0")
    lng String @default("0")
    created_at  DateTime @default(now())   
+
+   cuisines RestaurantCuisine[]
 }   
 model RestaurantApplication {
    id    String    @id @default(cuid())
@@ -100,7 +101,6 @@ model RestaurantApplication {
    phone String?
    website String? 
    hoursInterval String?  
-   cuisineType String?
    created_by_user_id String 
    status String 
    created_at  DateTime @default(now())   
@@ -168,4 +168,21 @@ model Menu {
     id String @id @default(cuid())
     photoUrl String
     restaurant_id String?
+}
+model Cuisine {
+    id String @id @default(cuid())
+    name String
+
+
+    RestaurantCuisines RestaurantCuisine[]
+    @@unique([name])
+}
+model RestaurantCuisine {
+    restaurant_id String
+    cuisine_id String
+    restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
+    cuisine Cuisine @relation(fields: [cuisine_id], references: [id])
+    @@id([restaurant_id, cuisine_id])
+    @@index([restaurant_id, cuisine_id])
+    @@unique([restaurant_id, cuisine_id])
 }

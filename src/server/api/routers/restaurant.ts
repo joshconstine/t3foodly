@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { z } from "zod";
 
@@ -14,7 +15,6 @@ const Restaurant = z.object({
   phone: z.string(),
   website: z.string(),
   hoursInterval: z.string(),
-  cuisineType: z.string(),
   lat: z.number(),
   lng: z.number(),
 });
@@ -28,13 +28,32 @@ const RestaurantToCreate = z.object({
   phone: z.string(),
   website: z.string(),
   hoursInterval: z.string(),
-  cuisineType: z.string(),
   lat: z.string(),
   lng: z.string(),
 });
 
 export type RestaurantData = z.infer<typeof Restaurant>;
-
+export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
+  {
+    select: {
+      id: true,
+      name: true,
+      cuisines: {
+        include: {
+          cuisine: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  }
+);
+export type RestaurantWithCuisines = Prisma.RestaurantGetPayload<
+  typeof restaurantWithCuisines
+>;
 export const restaurantRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.restaurant.findMany();
@@ -55,7 +74,6 @@ export const restaurantRouter = createTRPCRouter({
         z.object({
           name: z.string(),
           id: z.number(),
-          cuisine: z.string(),
         })
       )
     )
@@ -117,7 +135,6 @@ export const restaurantRouter = createTRPCRouter({
                 return {
                   id: elem.id,
                   name: elem.restaurantName,
-                  cuisine: elem.cuisineType,
                   address: elem.address,
                   cityName: elem.cityName,
                   stateName: elem.stateName,
@@ -149,6 +166,35 @@ export const restaurantRouter = createTRPCRouter({
             },
             { stateName: input.state || "*****" },
           ],
+        },
+      });
+    }),
+  getByCityAndStateFromDBMinimal: publicProcedure
+    .input(z.object({ city: z.string(), state: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.restaurant.findMany({
+        where: {
+          AND: [
+            {
+              cityName: input.city,
+            },
+            { stateName: input.state },
+          ],
+        },
+
+        select: {
+          id: true,
+          name: true,
+          cuisines: {
+            include: {
+              cuisine: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
     }),
@@ -187,7 +233,6 @@ export const restaurantRouter = createTRPCRouter({
           phone: input.phone,
           website: input.website,
           hoursInterval: input.hoursInterval,
-          cuisineType: input.cuisineType,
           lat: `${input.lat}`,
           lng: `${input.lng}`,
         },
@@ -210,7 +255,6 @@ export const restaurantRouter = createTRPCRouter({
           phone: input.phone,
           website: input.website,
           hoursInterval: input.hoursInterval,
-          cuisineType: input.cuisineType,
           lat: `${input.lat}`,
           lng: `${input.lng}`,
         },

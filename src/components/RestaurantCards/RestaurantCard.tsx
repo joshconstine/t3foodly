@@ -4,9 +4,11 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import UpVoteDownVote from "./UpVoteDownVote";
-const RestaurantCard = (props: { restaurant: Restaurant }) => {
+import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
+const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
   const router = useRouter();
   const { restaurant } = props;
+  console.log("in restaurant card", restaurant);
 
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurant.id });
 
@@ -25,6 +27,11 @@ const RestaurantCard = (props: { restaurant: Restaurant }) => {
           <div className="flex gap-2 ">
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
             <UpVoteDownVote restaurantId={restaurant.id} />
+          </div>
+          <div className="flex flex-col gap-2">
+            {restaurant.cuisines.map((cuisine) => {
+              return <div>{cuisine.cuisine.name}</div>;
+            })}
           </div>
           <div className={`$ mt-4`}>
             <button

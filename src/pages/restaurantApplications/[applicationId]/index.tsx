@@ -40,7 +40,6 @@ const SingleRestaurantApplication = () => {
       city: { value: string };
       state: { value: string };
       zipCode: { value: string };
-      cuisineType: { value: string };
       email: { value: string };
       website: { value: string };
       phone: { value: string };
@@ -59,7 +58,6 @@ const SingleRestaurantApplication = () => {
           phone: formElements.phone.value,
           website: formElements.website.value,
           hoursInterval: formElements.hoursInterval.value,
-          cuisineType: formElements.cuisineType.value,
           status: "updated",
           created_by_user_id: restaurantApplication?.data?.created_by_user_id,
         },
@@ -121,9 +119,7 @@ const SingleRestaurantApplication = () => {
             hoursInterval: restaurantApplication?.data?.hoursInterval
               ? restaurantApplication.data.hoursInterval
               : "",
-            cuisineType: restaurantApplication?.data?.cuisineType
-              ? restaurantApplication.data.cuisineType
-              : "",
+
             lat: String(lat),
             lng: String(lng),
           },
@@ -151,9 +147,7 @@ const SingleRestaurantApplication = () => {
                   hoursInterval: restaurantApplication.data.hoursInterval
                     ? restaurantApplication.data.hoursInterval
                     : "",
-                  cuisineType: restaurantApplication.data.cuisineType
-                    ? restaurantApplication.data.cuisineType
-                    : "",
+
                   status: "created",
                   created_by_user_id:
                     restaurantApplication.data.created_by_user_id,
@@ -242,7 +236,6 @@ const SingleRestaurantApplication = () => {
                   <div>{`city: ${restaurantApplication.data?.cityName}`}</div>
                   <div>{`state: ${restaurantApplication.data?.stateName}`}</div>
                   <div>{`zip-code: ${restaurantApplication.data?.zipCode}`}</div>
-                  <div>{`cuisineType: ${restaurantApplication.data?.cuisineType}`}</div>
                   <div>{`email: ${restaurantApplication.data?.email}`}</div>
                 </div>
               )}
@@ -293,18 +286,6 @@ const SingleRestaurantApplication = () => {
                 className="bg-gray-200"
                 placeholder="zipcode"
                 defaultValue={restaurantApplication?.data?.zipCode}
-              ></input>{" "}
-              <label>Cuisine Type:</label>
-              <input
-                type="text"
-                name="cuisineType"
-                className="bg-gray-200"
-                placeholder="cuisine"
-                defaultValue={
-                  restaurantApplication?.data?.cuisineType
-                    ? restaurantApplication.data.cuisineType
-                    : ""
-                }
               ></input>{" "}
               <label>Email:</label>
               <input
