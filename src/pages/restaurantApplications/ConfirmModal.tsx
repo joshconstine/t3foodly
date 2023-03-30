@@ -1,7 +1,7 @@
 import Dialog from "@mui/material/Dialog";
 import { RestaurantApplication } from "@prisma/client";
 import { useState } from "react";
-import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
+import MinimalRestaurantCard from "../../components/RestaurantCards/MinimalRestaurantCard";
 import { api } from "../../utils/api";
 
 interface IConfirmModalProps {
@@ -39,7 +39,7 @@ const ConfirmModal = (props: IConfirmModalProps) => {
         {isCreated.data && isCreated.data[0] && showError ? (
           <div className="flex flex-col items-center gap-8">
             <p className="text-lg text-primary">{`Found another restaurant nammed ${props.restaurant?.name} in ${props.restaurant?.cityName}.`}</p>
-            <RestaurantCard restaurant={isCreated.data[0]} />
+            <MinimalRestaurantCard restaurant={isCreated.data[0]} />
             <div className="flex gap-8">
               <button
                 className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
