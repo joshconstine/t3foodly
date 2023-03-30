@@ -1,3 +1,4 @@
+"use client";
 import { Cuisine } from "@prisma/client";
 
 interface IProps {
