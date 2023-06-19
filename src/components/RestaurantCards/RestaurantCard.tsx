@@ -13,33 +13,35 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurant.id });
 
   return (
-    <div className="h-64">
-      <div className="flex flex-col items-center gap-4 md:flex-row">
+    <div
+      className="h-64 w-64 cursor-pointer"
+      onClick={() => router.push(`restaurant/${restaurant.id}`)}
+    >
+      <div>
         <Image
-          width={220}
-          height={220}
+          width={400}
+          height={400}
           src={photos.data?.at(0)?.photoUrl || "/static/photos/yum.png"}
           alt="Yum"
           className="relative rounded-lg"
           z-index={0}
         />
-        <div className="flex flex-col items-center">
-          <div className="flex gap-2 ">
+        <div>
+          <div className="flex justify-between gap-2 ">
             <h3 className="text-xl font-bold">{restaurant.name}</h3>
-            <UpVoteDownVote restaurantId={restaurant.id} />
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <UpVoteDownVote restaurantId={restaurant.id} />
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <span>{`${restaurant.cityName}, ${restaurant.stateName}`}</span>
+          <div className="flex gap-2">
             {restaurant.cuisines.map((cuisine) => {
               return <div>{cuisine.cuisine.name}</div>;
             })}
-          </div>
-          <div className={`$ mt-4`}>
-            <button
-              className="rounded-full bg-primary py-2 px-4 font-bold text-white"
-              onClick={() => router.push(`restaurant/${restaurant.id}`)}
-            >
-              details
-            </button>
           </div>
         </div>
       </div>

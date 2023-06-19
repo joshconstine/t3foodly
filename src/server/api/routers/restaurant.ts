@@ -38,6 +38,8 @@ export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
     select: {
       id: true,
       name: true,
+      cityName: true,
+      stateName: true,
       cuisines: {
         include: {
           cuisine: {
@@ -185,6 +187,8 @@ export const restaurantRouter = createTRPCRouter({
         select: {
           id: true,
           name: true,
+          cityName: true,
+          stateName: true,
           cuisines: {
             include: {
               cuisine: {
