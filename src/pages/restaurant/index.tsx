@@ -27,8 +27,8 @@ const scriptOptions = {
 const Restaurant: NextPage = () => {
   const router = useRouter();
   const params = router.query;
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState<string>("");
+  const [city, setCity] = useState<string>(String(params.city) || "");
+  const [state, setState] = useState<string>(String(params.state) || "");
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [mapCenter, setMapCenter] = useState(center);
   const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
@@ -41,24 +41,6 @@ const Restaurant: NextPage = () => {
   const cuisines = api.cuisine.getAll.useQuery();
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
-  useEffect(() => {
-    if (params.city) {
-      localStorage.setItem("city", String(params.city));
-    }
-    if (params.state) {
-      localStorage.setItem("state", String(params.state));
-    }
-  }, [params]);
-  useEffect(() => {
-    if (localStorage.getItem("city") && localStorage.getItem("city") !== null) {
-      const searchedCity = localStorage.getItem("city");
-      setCity(searchedCity || "");
-    }
-    if (localStorage.getItem("state") && localStorage.getItem("state")) {
-      const searchedState = localStorage.getItem("state");
-      setState(searchedState || "");
-    }
-  }, []);
 
   const dbRestaurants = api.restaurant.getByLatLong.useQuery({
     latitude: mapCenter.lat,
