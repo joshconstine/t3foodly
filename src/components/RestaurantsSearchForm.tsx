@@ -20,6 +20,8 @@ interface ISearchFormProps {
   setCity: (city: string) => void;
   setState: (state: string) => void;
   setMapCenter: (center: Point) => void;
+  setSearchRadiusInMiles: (radius: number) => void;
+  searchRadiusInMiles: number;
 }
 interface IDestination {
   name: string;
@@ -191,7 +193,14 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
       `${destination.city}, ${destination.state}`
     );
   };
-
+  const searchRadiusOptions = [
+    { value: 5, label: "5 miles" },
+    { value: 10, label: "10 miles" },
+    { value: 15, label: "15 miles" },
+    { value: 20, label: "20 miles" },
+    { value: 25, label: "25 miles" },
+    { value: 50, label: "50 miles" },
+  ];
   return (
     <div className="relative z-10 w-64 max-w-full bg-transparent md:w-1/3">
       {loadError && (
@@ -203,7 +212,20 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
           <h1 className="relative z-10 text-3xl font-bold text-primary">
             Select a City
           </h1>
+
           <div className="flex content-start">
+            <select
+              onChange={(e) =>
+                props.setSearchRadiusInMiles(Number(e.target.value))
+              }
+              className="relative z-10 w-1/2 appearance-none rounded-md border border-gray-300 bg-white p-2 text-lg font-semibold text-gray-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              {searchRadiusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
             <Autocomplete
               setCity={setCity}
               setState={setState}

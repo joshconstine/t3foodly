@@ -31,6 +31,7 @@ const Restaurant: NextPage = () => {
   const [state, setState] = useState<string>("");
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [mapCenter, setMapCenter] = useState(center);
+  const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
@@ -59,15 +60,16 @@ const Restaurant: NextPage = () => {
     }
   }, []);
 
-  const dbRestaurants = api.restaurant.getByCityAndStateFromDB.useQuery({
-    city,
-    state,
+  const dbRestaurants = api.restaurant.getByLatLong.useQuery({
+    latitude: mapCenter.lat,
+    longitude: mapCenter.lng,
+    searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
-  const dbRestaurantsMinimal =
-    api.restaurant.getByCityAndStateFromDBMinimal.useQuery({
-      city,
-      state,
-    });
+  const dbRestaurantsMinimal = api.restaurant.getByLatLong.useQuery({
+    latitude: mapCenter.lat,
+    longitude: mapCenter.lng,
+    searchRadiusInMeters: searchRadiusInMiles * 1609.34,
+  });
   const filterd = dbRestaurantsMinimal?.data?.filter((elem) => {
     if (selectedCuisines.length === 0) {
       return true;
@@ -132,6 +134,8 @@ const Restaurant: NextPage = () => {
                     city={city}
                     state={state}
                     setMapCenter={setMapCenter}
+                    setSearchRadiusInMiles={setSearchRadiusInMiles}
+                    searchRadiusInMiles={searchRadiusInMiles}
                   />
                   <div></div>
                 </div>

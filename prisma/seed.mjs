@@ -2,6 +2,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  const comments = await prisma.comment.deleteMany();
+  console.log({ comments });
+  const favorites = await prisma.favorite.deleteMany();
   const deleted = await prisma.restaurant.deleteMany();
   console.log({ deleted });
   const phills = await prisma.restaurant.upsert({
@@ -13,8 +16,8 @@ async function main() {
       cityName: "San Diego",
       stateName: "CA",
       zipCode: "92101",
-      lat: "32.9127563",
-      lng: "-117.2158625",
+      lat: "32.7485834",
+      lng: "-117.2357851",
     },
   });
   const joses = await prisma.restaurant.upsert({
@@ -26,8 +29,8 @@ async function main() {
       cityName: "San Diego",
       stateName: "CA",
       zipCode: "92101",
-      lat: "32.7548759",
-      lng: "-117.8342262",
+      lat: "32.8478312",
+      lng: "-117.2761122",
     },
   });
   const user1 = await prisma.user.upsert({
