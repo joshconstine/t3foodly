@@ -33,6 +33,20 @@ async function main() {
       lng: "-117.2761122",
     },
   });
+  const thai = await prisma.restaurant.upsert({
+    where: { id: "3" },
+    update: {},
+    create: {
+      id: "3",
+      name: "Thai Thai",
+      cityName: "Santee",
+      stateName: "CA",
+      zipCode: "92071",
+      lat: "32.8455439",
+      lng: "-117.0083525",
+    },
+  });
+
   const user1 = await prisma.user.upsert({
     where: { id: "1" },
     update: {},
@@ -172,7 +186,7 @@ async function main() {
     });
   });
 
-  console.log({ phills, joses });
+  console.log({ phills, joses, thai });
   console.log({ comment1, comment2, comment3 });
   console.log({ user1, user2 });
   console.log({ upvote1, upvote2, upvote3 });

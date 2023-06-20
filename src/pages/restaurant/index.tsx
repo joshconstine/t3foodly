@@ -14,6 +14,7 @@ import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedResta
 import { useLoadScript } from "@react-google-maps/api";
 import CuisineFilter from "./CuisineFilter";
 import { Cuisine } from "@prisma/client";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 const center = {
   lat: 32.715,
   lng: -117.16,
@@ -29,8 +30,13 @@ const Restaurant: NextPage = () => {
   const params = router.query;
   const [city, setCity] = useState<string>(String(params.city) || "");
   const [state, setState] = useState<string>(String(params.state) || "");
-  const [markers, setMarkers] = useState<IMarker[]>([]);
   const [mapCenter, setMapCenter] = useState(center);
+  const [markers, setMarkers] = useState<IMarker[]>([]);
+  getGeocode({ address: `${city}, ${state}` }).then((results) => {
+    if (!results.length || results[0] === undefined) return;
+    const { lat, lng } = getLatLng(results[0]);
+    setMapCenter({ lat, lng });
+  });
   const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);

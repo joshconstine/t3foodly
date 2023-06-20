@@ -171,6 +171,7 @@ export const restaurantRouter = createTRPCRouter({
         },
       });
     }),
+  //uses the haversine formula to calculate distance between two points
   getByLatLong: publicProcedure
     .input(
       z.object({
