@@ -171,6 +171,25 @@ export const restaurantRouter = createTRPCRouter({
         },
       });
     }),
+  getByLatLong: publicProcedure
+    .input(
+      z.object({
+        latitude: z.number(),
+        longitude: z.number(),
+        searchRadiusInMeters: z.number(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.$queryRaw`SELECT *,
+      (6371000 * Acos (Cos (Radians(${input.latitude})) * Cos(Radians(lat)) *
+                        Cos(Radians(lng) - Radians(${input.longitude}))
+                          + Sin (Radians(${input.latitude})) *
+                            Sin(Radians(lat)))
+              ) AS distance_m
+      FROM   Restaurant
+      HAVING distance_m < ${input.searchRadiusInMeters}
+      ORDER  BY distance_m;`;
+    }),
   getByCityAndStateFromDBMinimal: publicProcedure
     .input(z.object({ city: z.string(), state: z.string() }))
     .query(({ input, ctx }) => {

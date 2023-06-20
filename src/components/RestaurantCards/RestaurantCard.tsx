@@ -39,7 +39,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
           </div>
           <span>{`${restaurant.cityName}, ${restaurant.stateName}`}</span>
           <div className="flex gap-2">
-            {restaurant.cuisines.map((cuisine) => {
+            {restaurant?.cuisines?.map((cuisine) => {
               return <div>{cuisine.cuisine.name}</div>;
             })}
           </div>
