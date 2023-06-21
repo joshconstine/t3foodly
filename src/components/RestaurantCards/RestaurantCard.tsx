@@ -8,7 +8,6 @@ import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
 const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
   const router = useRouter();
   const { restaurant } = props;
-  console.log("in restaurant card", restaurant);
 
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurant.id });
 

@@ -51,7 +51,6 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
-  console.log("menu", menu);
   return (
     <>
       <Head>
