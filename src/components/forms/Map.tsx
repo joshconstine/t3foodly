@@ -1,13 +1,16 @@
 import {
+  Circle,
   GoogleMap,
   InfoWindow,
   Marker,
-  useLoadScript,
+  useJsApiLoader,
 } from "@react-google-maps/api";
 import React from "react";
 import mapStyles from "../../styles/mapStyles";
+import CustumCircle from "./CustomCircle";
 
 const mapContainerStyle = {
+  display: "block",
   height: "100%",
   width: "100%",
 };
@@ -36,6 +39,7 @@ export interface IMarker {
 interface IMap {
   mapCenter: Point;
   markers: IMarker[];
+  radius: number;
   setFocusedRestaurant: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
@@ -43,7 +47,7 @@ const Map = (props: IMap) => {
   const { mapCenter, markers, setFocusedRestaurant } = props;
   const [current, setCurrnet] = React.useState<number | null>(null);
   // @ts-ignore
-  const { isLoaded, loadError } = useLoadScript(scriptOptions);
+  const { isLoaded, loadError } = useJsApiLoader(scriptOptions);
 
   const onMapClick = React.useCallback((e: any) => {
     // setMarkers((current: any) => [
@@ -79,16 +83,15 @@ const Map = (props: IMap) => {
       onClick={onMapClick}
       onLoad={onMapLoad}
     >
+      <CustumCircle center={mapCenter} radius={props.radius} />
       {markers?.map((marker: any, i: number) => (
-        <>
-          <Marker
-            key={`${marker.location.lat}-${marker.location.lng}`}
-            position={{ lat: marker.location.lat, lng: marker.location.lng }}
-            onClick={() => {
-              setFocusedRestaurant(String(marker.id));
-            }}
-          />
-        </>
+        <Marker
+          key={`${marker.location.lat}-${marker.location.lng}`}
+          position={{ lat: marker.location.lat, lng: marker.location.lng }}
+          onClick={() => {
+            setFocusedRestaurant(String(marker.id));
+          }}
+        />
       ))}
     </GoogleMap>
   );

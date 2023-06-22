@@ -37,9 +37,10 @@ const Restaurant: NextPage = () => {
     const { lat, lng } = getLatLng(results[0]);
     setMapCenter({ lat, lng });
   });
-  const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
+
+  const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
 
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
@@ -65,7 +66,6 @@ const Restaurant: NextPage = () => {
       return elem.cuisines.some((elem) => ids.includes(elem.cuisine.id));
     }
   });
-  console.log("new data", dbRestaurantsMinimal?.data);
   useMemo(() => {
     let markersToAdd: IMarker[] = [];
     if (dbRestaurants.status === "success")
@@ -154,6 +154,7 @@ const Restaurant: NextPage = () => {
                   </div>
                   <div className="min-w-96 relative left-0 top-0 h-full w-full">
                     <Map
+                      radius={searchRadiusInMiles}
                       mapCenter={mapCenter}
                       markers={markers}
                       setFocusedRestaurant={setFocusedRestaurant}

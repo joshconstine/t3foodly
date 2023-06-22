@@ -218,6 +218,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
               onChange={(e) =>
                 props.setSearchRadiusInMiles(Number(e.target.value))
               }
+              defaultValue={props.searchRadiusInMiles}
               className="relative z-10 w-1/2 appearance-none rounded-md border border-gray-300 bg-white p-2 text-lg font-semibold text-gray-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             >
               {searchRadiusOptions.map((option) => (
