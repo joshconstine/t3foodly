@@ -59,10 +59,12 @@ const Restaurant: NextPage = () => {
     longitude: mapCenter.lng,
     searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
+  //@ts-ignore
   const filterd = dbRestaurantsMinimal?.data?.filter((elem) => {
     if (selectedCuisines.length === 0) {
       return true;
     } else if (elem.cuisines) {
+      //@ts-ignore
       return elem.cuisines.some((elem) => ids.includes(elem.cuisine.id));
     }
   });
@@ -70,6 +72,7 @@ const Restaurant: NextPage = () => {
     let markersToAdd: IMarker[] = [];
     if (dbRestaurants.status === "success")
       if (dbRestaurants.status === "success") {
+        //@ts-ignore
         const markers = dbRestaurants.data?.map(
           (restaurant: { lat: any; lng: any; name: any; id: any }) => {
             return {
