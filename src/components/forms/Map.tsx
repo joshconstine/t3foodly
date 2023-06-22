@@ -68,7 +68,7 @@ const Map = (props: IMap) => {
 
   const panTo = React.useCallback(({ lat, lng }: any) => {
     mapRef?.current?.panTo({ lat, lng });
-    mapRef?.current?.setZoom(14);
+    mapRef?.current?.setZoom(10);
   }, []);
 
   if (!isLoaded) return <div>Loading...</div>;
