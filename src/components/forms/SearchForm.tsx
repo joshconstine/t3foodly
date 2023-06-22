@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useLoadScript } from "@react-google-maps/api";
-import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
 
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
@@ -43,7 +46,13 @@ export default function SearchForm() {
           elem.types.includes("administrative_area_level_1")
         )?.short_name;
         if (city && state) {
-          router.push(`/restaurant?city=${city}&state=${state}`);
+          getGeocode({ address: `${city}, ${state}` })?.then((results) => {
+            if (!results.length || results[0] === undefined) return;
+            const { lat, lng } = getLatLng(results[0]);
+            router.push(
+              `/restaurant?city=${city}&state=${state}&lat=${lat}&lng=${lng}`
+            );
+          });
         }
       });
     };
