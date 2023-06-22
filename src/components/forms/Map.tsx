@@ -77,7 +77,7 @@ const Map = (props: IMap) => {
     <GoogleMap
       id="map"
       mapContainerStyle={mapContainerStyle}
-      zoom={11}
+      zoom={10}
       center={mapCenter}
       options={options}
       onClick={onMapClick}
