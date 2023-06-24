@@ -189,13 +189,33 @@ const AddRestaurantForm = () => {
                       }
                     /> */}
                 </div>
-
                 <Field
                   className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
                   id={"name"}
                   name={"name"}
                   type="text"
                   placeholder={"restaurant name"}
+                />
+                <Field
+                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+                  id={"email"}
+                  name={"email"}
+                  type="text"
+                  placeholder={"email"}
+                />
+                <Field
+                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+                  id={"phone"}
+                  name={"phone"}
+                  type="text"
+                  placeholder={"phone"}
+                />
+                <Field
+                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+                  id={"website"}
+                  name={"website"}
+                  type="text"
+                  placeholder={"website"}
                 />
                 <div className="max-w-xl">
                   <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
