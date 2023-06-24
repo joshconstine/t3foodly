@@ -29,10 +29,22 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
       <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="px-8 py-6">
           <h3 className="mb-2 text-xl font-bold">Favorites</h3>
-          <button onClick={() => setIsEditMode(!isEditMode)}>
+          <button
+            onClick={() => setIsEditMode(!isEditMode)}
+            className={`rounded-full ${
+              !isEditMode ? "bg-green-500" : "bg-red-500"
+            }  py-2 px-4 font-bold text-white`}
+          >
             {isEditMode ? "cancel" : "edit"}
           </button>
-          {isEditMode && <button onClick={handleSave}>Save</button>}
+          {isEditMode && (
+            <button
+              className="rounded-full bg-green-500 py-2 px-4 font-bold text-white"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          )}
           {isEditMode && (
             <Reorder.Group
               axis="y"
