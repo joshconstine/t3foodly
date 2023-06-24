@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { getGeocode } from "use-places-autocomplete";
+import { get } from "http";
 
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
@@ -11,9 +13,20 @@ const scriptOptions = {
 interface ISearchFormProps {
   setCity: (city: string) => void;
   setState: (state: string) => void;
+  setAddress: (address: string) => void;
+  setZipCode: (zipCode: string) => void;
+  setLat: (lat: string) => void;
+  setLng: (lng: string) => void;
 }
 
-export default function CityForm({ setCity, setState }: ISearchFormProps) {
+export default function CityForm({
+  setCity,
+  setState,
+  setAddress,
+  setZipCode,
+  setLat,
+  setLng,
+}: ISearchFormProps) {
   const router = useRouter();
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
@@ -36,16 +49,41 @@ export default function CityForm({ setCity, setState }: ISearchFormProps) {
 
   const onPlaceChanged = async () => {
     //@ts-ignore
-    const inputs = inputEl.current?.value?.split(",");
-    const city = inputs[0].trim();
-    const state = inputs[1].trim();
+    const input = inputEl.current?.value;
+    const geocodeResp = await getGeocode({ address: input });
+    const addressComponents = geocodeResp[0]?.address_components;
+    if (addressComponents) {
+      console.log(addressComponents);
+      const city = addressComponents.find((c) =>
+        c.types.includes("locality")
+      )?.long_name;
+      const state = addressComponents.find((c) =>
+        c.types.includes("administrative_area_level_1")
+      )?.short_name;
+      const zipCode = addressComponents.find((c) =>
+        c.types.includes("postal_code")
+      )?.long_name;
+      const lat = String(geocodeResp[0]?.geometry?.location?.lat());
+      const lng = String(geocodeResp[0]?.geometry?.location?.lng());
+      console.log(geocodeResp[0]?.geometry);
+      const address = `${
+        addressComponents.find((c) => c.types.includes("street_number"))
+          ?.long_name
+      } ${addressComponents.find((c) => c.types.includes("route"))?.long_name}`;
 
-    if (autocomplete) {
-      // @ts-ignore
-      const place = autocomplete.getPlace();
       if (city && state) {
         setCity(city);
         setState(state);
+      }
+      if (zipCode) {
+        setZipCode(zipCode);
+      }
+      if (lat && lng) {
+        setLat(lat);
+        setLng(lng);
+      }
+      if (address) {
+        setAddress(address);
       }
     }
   };
@@ -67,7 +105,7 @@ export default function CityForm({ setCity, setState }: ISearchFormProps) {
             <input
               ref={inputEl}
               type="text"
-              placeholder="Type keywords..."
+              placeholder="Type Address"
               className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
               onKeyPress={onKeypress}
             />

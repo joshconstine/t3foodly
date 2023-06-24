@@ -20,7 +20,6 @@ const AddRestaurantForm = () => {
     useState<RestaurantApplication | null>(null);
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
-  const [requestStep, setRequestStep] = useState(0);
   const [ref, bounds] = useMeasure();
   useEffect(() => {
     if (!file) {
@@ -40,6 +39,8 @@ const AddRestaurantForm = () => {
     city: string;
     state: string;
     zipCode: string;
+    lat: string;
+    lng: string;
     email: string;
     website: string;
     phone: string;
@@ -51,6 +52,8 @@ const AddRestaurantForm = () => {
     city: "",
     state: "",
     zipCode: "",
+    lat: "0",
+    lng: "0",
     email: "",
     website: "",
     phone: "",
@@ -84,6 +87,8 @@ const AddRestaurantForm = () => {
     createRestaurant.mutate(
       {
         name: values.name,
+        lat: values.lat,
+        lng: values.lng,
         address: values.address,
         cityName: values.city,
         stateName: values.state,
@@ -126,7 +131,6 @@ const AddRestaurantForm = () => {
           setCreatedApplication(applicationData);
 
           await restaurantApplications.refetch();
-          setRequestStep(0);
         },
       }
     );
@@ -162,113 +166,86 @@ const AddRestaurantForm = () => {
                 className="flex min-h-full w-full min-w-full flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
               >
                 <h1 className="cursor-pointer text-2xl font-bold text-gray-700">
-                  {formSteps[requestStep]?.heading}
+                  Add a Restaurant
                 </h1>
-                {requestStep === 1 && (
-                  <div className="max-w-xl">
-                    <CityForm
-                      setCity={(newVal) => props.setFieldValue("city", newVal)}
-                      setState={(newVal) =>
-                        props.setFieldValue("state", newVal)
-                      }
-                    />
-                  </div>
-                )}{" "}
-                {requestStep === 2 && (
-                  <div className="max-w-xl">
-                    {/* <CuisineContainer
+                <div className="max-w-xl">
+                  <CityForm
+                    setCity={(newVal) => props.setFieldValue("city", newVal)}
+                    setState={(newVal) => props.setFieldValue("state", newVal)}
+                    setAddress={(newVal) =>
+                      props.setFieldValue("address", newVal)
+                    }
+                    setZipCode={(newVal) =>
+                      props.setFieldValue("zipCode", newVal)
+                    }
+                    setLat={(newVal) => props.setFieldValue("lat", newVal)}
+                    setLng={(newVal) => props.setFieldValue("lng", newVal)}
+                  />
+                </div>
+                <div className="max-w-xl">
+                  {/* <CuisineContainer
                       setCuisines={(newVal) =>
                         props.getFieldHelpers("cuisineType").setValue(newVal)
                       }
                     /> */}
-                  </div>
-                )}
-                {formSteps[requestStep]?.forms.map((form, i) => {
-                  return (
-                    <div key={i} className="mb-4">
-                      <Field
-                        className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                        id={form.name}
-                        name={form.name}
-                        type="text"
-                        placeholder={form.label}
-                      />
-                    </div>
-                  );
-                })}
-                {requestStep === formSteps.length - 1 && (
-                  <div className="max-w-xl">
-                    <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                      <span className="flex items-center space-x-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6 text-gray-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          />
-                        </svg>
-                        <span className="font-medium text-gray-600">
-                          Drop files to Attach, or
-                          <span className="text-blue-600 underline">
-                            browse
-                          </span>
-                        </span>
+                </div>
+
+                <Field
+                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+                  id={"name"}
+                  name={"name"}
+                  type="text"
+                  placeholder={"restaurant name"}
+                />
+                <div className="max-w-xl">
+                  <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+                    <span className="flex items-center space-x-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span className="font-medium text-gray-600">
+                        Drop files to Attach, or
+                        <span className="text-blue-600 underline">browse</span>
                       </span>
-                      <input
-                        type="file"
-                        name="file_upload"
-                        className="hidden"
-                        onChange={(e) => storeFile(e)}
-                      />
-                    </label>
-                    {file && (
-                      <Image
-                        src={preview || ""}
-                        alt={"photo"}
-                        width={400}
-                        height={200}
-                      />
-                    )}
-                  </div>
-                )}{" "}
+                    </span>
+                    <input
+                      type="file"
+                      name="file_upload"
+                      className="hidden"
+                      onChange={(e) => storeFile(e)}
+                    />
+                  </label>
+                  {file && (
+                    <Image
+                      src={preview || ""}
+                      alt={"photo"}
+                      width={400}
+                      height={200}
+                    />
+                  )}
+                </div>
                 <div className="flex gap-4">
-                  <motion.button
-                    type="button"
-                    hidden={requestStep === 0}
-                    className="rounded-full border-2 border-secondary bg-white py-2 px-4 font-bold text-secondary "
-                    onClick={() => {
-                      setRequestStep(requestStep - 1);
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Back
-                  </motion.button>
                   <motion.button
                     type="button"
                     className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
                     onClick={() => {
-                      if (requestStep === formSteps.length - 1) {
-                        props.handleSubmit();
-                      } else {
-                        setRequestStep(requestStep + 1);
-                      }
+                      props.handleSubmit();
                     }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {requestStep === formSteps.length - 1
-                      ? props.isSubmitting
-                        ? "Submitting"
-                        : "Submit"
-                      : "Next"}
+                    {props.isSubmitting ? "Submitting" : "Submit"}
                   </motion.button>
                 </div>
               </motion.div>

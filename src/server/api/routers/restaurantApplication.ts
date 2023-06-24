@@ -10,6 +10,8 @@ export const RestaurantRequest = z.object({
   zipCode: z.string(),
   email: z.string(),
   phone: z.string(),
+  lat: z.string(),
+  lng: z.string(),
   website: z.string(),
   hoursInterval: z.string(),
 });
@@ -70,6 +72,8 @@ export const restaurantApplicationRouter = createTRPCRouter({
           email: input.email,
           phone: input.phone,
           website: input.website,
+          lat: input.lat,
+          lng: input.lng,
           hoursInterval: input.hoursInterval,
           status: "new",
           created_by_user_id: ctx.session.user.id,
