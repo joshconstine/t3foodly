@@ -208,7 +208,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
       )}
 
       {isLoaded && (
-        <div className="flex flex-col gap-2">
+        <div className="flex w-64 flex-col  items-center gap-2">
           <h1 className="relative z-10 text-3xl font-bold text-primary">
             Select a City
           </h1>
@@ -239,39 +239,6 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
               ))}
             </select>
           </div>
-          {showDestinationModal && (
-            <motion.div
-              onClick={() => setShowDestinationModal(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="max-w-5/6 fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50"
-            >
-              <motion.div
-                onClick={(e) => e.stopPropagation()}
-                className="z-10 flex max-h-96 w-11/12 flex-col items-center gap-4 overflow-auto rounded-md bg-white p-4 shadow-md md:max-h-full md:max-w-2xl"
-              >
-                <div>
-                  <h1 className="relative z-10 text-3xl font-bold text-primary">
-                    Destinations
-                  </h1>
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  {destinations.map((destination, i) => (
-                    <motion.div
-                      className="flex h-32 w-32 cursor-pointer items-center justify-center rounded-md bg-gray-600 text-xl text-white"
-                      key={i}
-                      onClick={() => handleClick(destination)}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <div>{destination.name}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
         </div>
       )}
     </div>

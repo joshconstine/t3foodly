@@ -8,10 +8,13 @@ import FavoriteContainer from "../components/Favorites/FavoriteContainer";
 import RestaurantCardContainer from "../components/RestaurantCards/RestaurantCardContainer";
 import Dialog from "@mui/material/Dialog";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { IconButton } from "@mui/material";
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
   const updateUsername = api.user.updateUsername.useMutation();
+  const { data: sessionData } = useSession();
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [showUserNameModal, setShowUserNameModal] = useState(false);
   const favorites = api.favorite.getByUserId.useQuery({
@@ -132,6 +135,22 @@ const Profile: NextPage = () => {
                         </button>
                       </form>
                     )}
+                    <div>
+                      <button
+                        onClick={
+                          sessionData
+                            ? () => void signOut()
+                            : () => void signIn()
+                        }
+                        className={
+                          sessionData
+                            ? "rounded-full border-2  border-secondary bg-transparent  py-2 px-2 text-sm "
+                            : "rounded-full bg-secondary  text-sm"
+                        }
+                      >
+                        {sessionData ? "Sign out" : "Sign in"}
+                      </button>
+                    </div>
                     {user.data?.role === "ADMIN" && (
                       <p className="mb-2 text-gray-700">
                         Role: {user.data?.role}
