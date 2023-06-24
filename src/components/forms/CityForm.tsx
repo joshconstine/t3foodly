@@ -53,7 +53,6 @@ export default function CityForm({
     const geocodeResp = await getGeocode({ address: input });
     const addressComponents = geocodeResp[0]?.address_components;
     if (addressComponents) {
-      console.log(addressComponents);
       const city = addressComponents.find((c) =>
         c.types.includes("locality")
       )?.long_name;
@@ -68,7 +67,7 @@ export default function CityForm({
       console.log(geocodeResp[0]?.geometry);
       const address = `${
         addressComponents.find((c) => c.types.includes("street_number"))
-          ?.long_name
+          ?.long_name || ""
       } ${addressComponents.find((c) => c.types.includes("route"))?.long_name}`;
 
       if (city && state) {
@@ -76,6 +75,7 @@ export default function CityForm({
         setState(state);
       }
       if (zipCode) {
+        if (!zipCode) return;
         setZipCode(zipCode);
       }
       if (lat && lng) {
@@ -83,6 +83,7 @@ export default function CityForm({
         setLng(lng);
       }
       if (address) {
+        if (!address) return;
         setAddress(address);
       }
     }
