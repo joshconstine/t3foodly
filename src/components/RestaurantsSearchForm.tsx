@@ -213,20 +213,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
             Select a City
           </h1>
 
-          <div className="flex content-start">
-            <select
-              onChange={(e) =>
-                props.setSearchRadiusInMiles(Number(e.target.value))
-              }
-              defaultValue={props.searchRadiusInMiles}
-              className="relative z-10 w-1/2 appearance-none rounded-md border border-gray-300 bg-white p-2 text-lg font-semibold text-gray-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            >
-              {searchRadiusOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+          <div className="flex w-full flex-col content-start items-center gap-2">
             <Autocomplete
               setCity={setCity}
               setState={setState}
@@ -234,9 +221,23 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
               state={state}
               setMapCenter={setMapCenter}
             />
-            <IconButton onClick={() => setShowDestinationModal(true)}>
-              <AppsIcon />
-            </IconButton>
+            <select
+              onChange={(e) =>
+                props.setSearchRadiusInMiles(Number(e.target.value))
+              }
+              defaultValue={props.searchRadiusInMiles}
+              className="w-full rounded-full bg-gray-100 py-2 px-8"
+            >
+              {searchRadiusOptions.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  className="py-2 px-4 hover:bg-gray-100"
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
           {showDestinationModal && (
             <motion.div
