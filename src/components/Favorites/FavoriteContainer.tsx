@@ -25,8 +25,8 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
     });
   };
   return (
-    <div className="w-full px-4 md:w-2/3">
-      <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+    <div className="w-full  md:w-2/3">
+      <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="px-8 py-6">
           <h3 className="mb-2 text-xl font-bold">Favorites</h3>
           <button onClick={() => setIsEditMode(!isEditMode)}>

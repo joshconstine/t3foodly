@@ -7,7 +7,8 @@ import Image from "next/image";
 import FavoriteContainer from "../components/Favorites/FavoriteContainer";
 import RestaurantCardContainer from "../components/RestaurantCards/RestaurantCardContainer";
 import Dialog from "@mui/material/Dialog";
-
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { IconButton } from "@mui/material";
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
   const updateUsername = api.user.updateUsername.useMutation();
@@ -65,7 +66,7 @@ const Profile: NextPage = () => {
       <Layout>
         {" "}
         <section className="bg-gray-100 py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="container mx-auto px-4 py-10">
               <div className="-mx-4 flex flex-wrap">
                 <Dialog
@@ -94,63 +95,59 @@ const Profile: NextPage = () => {
                     )}
                   </div>
                 </Dialog>
-                <div className="mb-4 w-full px-4 md:w-1/3">
-                  <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+                <div className="mb-4 flex w-full flex-col rounded-md bg-white p-4 px-4 md:w-1/3 ">
+                  <div className="flex items-center justify-between">
                     <Image
-                      width={300}
-                      height={300}
-                      className="w-full"
+                      width={60}
+                      height={60}
+                      className="rounded-full"
                       src={user.data?.image || ""}
                       alt="Profile Image"
                     />
-                    <div className="p-4">
-                      <h3 className="mb-2 text-xl font-bold">
-                        {user.data?.username}
-                      </h3>
-                      <button onClick={() => setIsEditMode(true)}>edit</button>
-                      {isEditMode && (
-                        <form
-                          onSubmit={handleSubmit}
-                          className="flex w-48 flex-col"
-                        >
-                          <input
-                            name="newUsername"
-                            className="border-2 bg-gray-200"
-                          ></input>
-                          <button
-                            className="border-2 bg-gray-200"
-                            type="submit"
-                          >
-                            save
-                          </button>{" "}
-                          <button
-                            className="border-2 bg-gray-200"
-                            onClick={() => setIsEditMode(false)}
-                          >
-                            cancel
-                          </button>
-                        </form>
-                      )}
-                      <p className="mb-2 text-gray-700">
-                        Email: {user.data?.email}
-                      </p>
-                      {user.data?.role === "ADMIN" && (
-                        <p className="mb-2 text-gray-700">
-                          Role: {user.data?.role}
-                        </p>
-                      )}
+                    <div className="flex content-center items-center">
+                      <IconButton onClick={() => setIsEditMode(true)}>
+                        <EditOutlinedIcon></EditOutlinedIcon>
+                      </IconButton>
+                      <h3 className="mb-2 text-xl ">{user.data?.username}</h3>
                     </div>
+                  </div>
+                  <div className="p-4">
+                    {isEditMode && (
+                      <form
+                        onSubmit={handleSubmit}
+                        className="flex w-48 flex-col"
+                      >
+                        <input
+                          name="newUsername"
+                          className="border-2 bg-gray-200"
+                        ></input>
+                        <button className="border-2 bg-gray-200" type="submit">
+                          save
+                        </button>{" "}
+                        <button
+                          className="border-2 bg-gray-200"
+                          onClick={() => setIsEditMode(false)}
+                        >
+                          cancel
+                        </button>
+                      </form>
+                    )}
+                    {user.data?.role === "ADMIN" && (
+                      <p className="mb-2 text-gray-700">
+                        Role: {user.data?.role}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <FavoriteContainer
                   favoriteList={favoriteList}
                   setFavoriteList={setFavoriteList}
                 />{" "}
-                <RestaurantCardContainer list={savedList} title="saved" />
-                <RestaurantCardContainer
+                {/* <RestaurantCardContainer list={savedList} title="saved" /> */}
+                {/* <RestaurantCardContainer
                   list={myRestaurants.data}
                   title="My restaurants"
-                />
+                /> */}
               </div>
             </div>
           </div>
