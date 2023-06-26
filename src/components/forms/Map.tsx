@@ -11,7 +11,7 @@ import CustumCircle from "./CustomCircle";
 
 const mapContainerStyle = {
   display: "block",
-  height: "100%",
+  height: "600px",
   width: "100%",
 };
 const options = {

@@ -133,7 +133,7 @@ const Restaurant: NextPage = () => {
                   <div></div>
                 </div>
 
-                <div className=" flex w-full  flex-col justify-center md:h-special md:flex-row ">
+                <div className=" flex w-full flex-col  md:h-special md:flex-row ">
                   <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                     <div className="min-w-96 flex flex-col gap-4">
                       <h1 className="text-l  relative font-bold text-primary">
