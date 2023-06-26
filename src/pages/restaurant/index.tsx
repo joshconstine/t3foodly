@@ -47,6 +47,7 @@ const Restaurant: NextPage = () => {
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
   );
+  const [showFilters, setShowFilters] = useState<boolean>(false);
   const cuisines = api.cuisine.getAll.useQuery();
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
@@ -106,18 +107,18 @@ const Restaurant: NextPage = () => {
           <section className="py-12">
             <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
               <div className="flex w-full flex-col  items-center gap-2 ">
-                <div className=" mx-2 flex w-full flex-col-reverse items-center justify-between gap-4 rounded-lg border-2 px-8 py-4 md:flex-row">
+                <div className=" rounded-lgpx-8 reverse mx-2 flex w-full items-center justify-between gap-4 py-4 md:flex-row">
                   <div>
-                    <span>Dont see your favorite</span>
                     <div>
+                      <span>Add a Restaurant</span>
                       <Link href="/restaurant/create">
-                        <motion.div
-                          className="rounded-full bg-secondary py-2 px-4 font-bold text-white"
+                        <motion.button
+                          className="rounded-full bg-secondary py-2 px-2 font-bold text-white"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                         >
-                          Add restaurant
-                        </motion.div>
+                          +
+                        </motion.button>
                       </Link>
                     </div>
                   </div>
@@ -130,12 +131,11 @@ const Restaurant: NextPage = () => {
                     setSearchRadiusInMiles={setSearchRadiusInMiles}
                     searchRadiusInMiles={searchRadiusInMiles}
                   />
-                  <div></div>
                 </div>
 
                 <div className=" flex w-full flex-col  md:h-special md:flex-row ">
                   <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                    <div className="min-w-96 flex flex-col gap-4">
+                    <div className="min-w-96 flex  gap-4">
                       <h1 className="text-l  relative font-bold text-primary">
                         {`${filterd?.length} ${
                           filterd &&
@@ -144,13 +144,25 @@ const Restaurant: NextPage = () => {
                             : "Restaurant"
                         }`}
                       </h1>
+                      <button
+                        className="text-l  relative rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
+                        onClick={() => {
+                          setShowFilters(!showFilters);
+                        }}
+                      >
+                        filters
+                      </button>
                     </div>
-                    {cuisines && (
-                      <CuisineFilter
-                        cuisines={cuisines?.data || []}
-                        selectedCuisines={selectedCuisines}
-                        setCuisines={setSelectedCuisines}
-                      />
+                    {showFilters && (
+                      <div>
+                        {cuisines && (
+                          <CuisineFilter
+                            cuisines={cuisines?.data || []}
+                            selectedCuisines={selectedCuisines}
+                            setCuisines={setSelectedCuisines}
+                          />
+                        )}
+                      </div>
                     )}
                     {focusedRestaurant && (
                       <FocusedRestaurantCard restaurantId={focusedRestaurant} />

@@ -209,10 +209,6 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
 
       {isLoaded && (
         <div className="flex w-64 flex-col  items-center gap-2">
-          <h1 className="relative z-10 text-3xl font-bold text-primary">
-            Select a City
-          </h1>
-
           <div className="flex w-full flex-col content-start items-center gap-2">
             <Autocomplete
               setCity={setCity}
