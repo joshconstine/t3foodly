@@ -47,9 +47,18 @@ const SingleRestaurant = () => {
   const isMyRestaurant = api.usersRestaurant.isRestaurantAUsers.useQuery({
     restaurantId: String(restaurantId),
   });
+  const createReportedPhoto =
+    api.reportedPhoto.createReportedPhoto.useMutation();
 
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
+  };
+  const handleReportPhoto = (photo: any) => {
+    window.alert("photo reported" + JSON.stringify(photo, null, 2));
+    createReportedPhoto.mutate({
+      photoId: photo.id,
+      restaurantId: String(restaurantId),
+    });
   };
   return (
     <>
@@ -72,15 +81,20 @@ const SingleRestaurant = () => {
               <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-50 p-4 text-sm text-white">
                 <div className="flex space-x-2">
                   {photos.data?.map((photo, index) => (
-                    <button
-                      key={photo.photoUrl}
-                      className={`h-4 w-4 rounded-full ${
-                        index === selectedPhotoIndex
-                          ? "bg-white"
-                          : "bg-gray-500"
-                      }`}
-                      onClick={() => handlePhotoClick(index)}
-                    />
+                    <>
+                      <button
+                        key={photo.photoUrl}
+                        className={`h-4 w-4 rounded-full ${
+                          index === selectedPhotoIndex
+                            ? "bg-white"
+                            : "bg-gray-500"
+                        }`}
+                        onClick={() => handlePhotoClick(index)}
+                      />
+                      <button onClick={() => handleReportPhoto(photo)}>
+                        report photo
+                      </button>
+                    </>
                   ))}
                 </div>
               </div>

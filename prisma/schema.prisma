@@ -152,6 +152,12 @@ model Photo {
     comment_id String?
     application_id String?
 }
+model ReportedPhoto {
+    id String @id @default(cuid())
+    photo_id String
+    restaurant_id String?
+    comment_id String?
+}
 model SavedRestaurants {
     id String @id @default(cuid())
     user_id String
