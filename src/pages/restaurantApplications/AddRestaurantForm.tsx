@@ -15,22 +15,23 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Check from "@mui/icons-material/Check";
-import SettingsIcon from "@mui/icons-material/Settings";
+import InfoIcon from "@mui/icons-material/Info";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import VideoLabelIcon from "@mui/icons-material/VideoLabel";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
-
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 const steps = [
   "Restaurant Information",
   "Restaurant Location",
   "Restaurant Photos",
   "Review",
 ];
+import PreviewIcon from "@mui/icons-material/Preview";
 const ColorlibStepIconRoot = styled("div")<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
@@ -58,9 +59,10 @@ function ColorlibStepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
 
   const icons: { [index: string]: React.ReactElement } = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    1: <InfoIcon />,
+    2: <LocationOnIcon />,
+    3: <ImageSearchIcon />,
+    4: <PreviewIcon />,
   };
 
   return (
