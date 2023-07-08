@@ -1,4 +1,3 @@
-"use client";
 import { ReportedPhoto } from "@prisma/client";
 
 import Image from "next/image";
@@ -42,7 +41,7 @@ const ReportedPhotoCard = (props: IReportedPhotoCardProps) => {
       >
         remove photo
       </button>
-      {reportedPhoto.id}
+      {reportedPhoto?.id}
       {photo.data?.photoUrl && (
         <Image
           src={photo?.data?.photoUrl}
