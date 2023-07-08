@@ -9,6 +9,18 @@ import CityForm from "../../components/forms/CityForm";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
 import CuisineContainer from "./CuisineContainer";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+const steps = [
+  "Restaurant Information",
+  "Restaurant Location",
+  "Restaurant Photos",
+];
 
 const AddRestaurantForm = () => {
   const createRestaurant =
@@ -21,6 +33,52 @@ const AddRestaurantForm = () => {
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
   const [ref, bounds] = useMeasure();
+
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set<number>());
+
+  const isStepOptional = (step: number) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step: number) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   useEffect(() => {
     if (!file) {
       setPreview(undefined);
@@ -145,9 +203,119 @@ const AddRestaurantForm = () => {
     setFile(uploadedFile);
   };
   const transition = { type: "ease", ease: "easeInOut", duration: ".4" };
+  const renderStep = (props: any) => {
+    if (activeStep === 0) {
+      return (
+        <div className="w-1/2">
+          <Field
+            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            id={"name"}
+            name={"name"}
+            type="text"
+            placeholder={"restaurant name"}
+          />
+          <Field
+            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            id={"email"}
+            name={"email"}
+            type="text"
+            placeholder={"email"}
+          />
+          <Field
+            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            id={"phone"}
+            name={"phone"}
+            type="text"
+            placeholder={"phone"}
+          />
+          <Field
+            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            id={"website"}
+            name={"website"}
+            type="text"
+            placeholder={"website"}
+          />
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box sx={{ flex: "1 1 auto" }} />
+
+              <Button onClick={handleNext}>Next</Button>
+            </Box>
+          </React.Fragment>
+        </div>
+      );
+    } else if (activeStep === 1) {
+      return (
+        <div>
+          <div className="max-w-xl">
+            <CityForm
+              setCity={(newVal) => props.setFieldValue("city", newVal)}
+              setState={(newVal) => props.setFieldValue("state", newVal)}
+              setAddress={(newVal) => props.setFieldValue("address", newVal)}
+              setZipCode={(newVal) => props.setFieldValue("zipCode", newVal)}
+              setLat={(newVal) => props.setFieldValue("lat", newVal)}
+              setLng={(newVal) => props.setFieldValue("lng", newVal)}
+            />
+          </div>
+          <React.Fragment>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: "1 1 auto" }} />
+
+              <Button onClick={handleNext}>Next</Button>
+            </Box>
+          </React.Fragment>
+        </div>
+      );
+    } else if (activeStep === 2) {
+      return (
+        <div>
+          Step 3{" "}
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: "1 1 auto" }} />
+              {isStepOptional(activeStep) && (
+                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                  Skip
+                </Button>
+              )}
+              <Button onClick={handleNext}>
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
+            </Box>
+          </React.Fragment>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {" "}
+          <motion.button
+            type="button"
+            className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
+            onClick={() => {
+              props.handleSubmit();
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {props.isSubmitting ? "Submitting" : "Submit"}
+          </motion.button>
+        </div>
+      );
+    }
+  };
   return (
     <>
       <>
+        {" "}
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
@@ -160,63 +328,44 @@ const AddRestaurantForm = () => {
         >
           {(props) => (
             <Form className="mb-4 h-full w-full">
-              <motion.div
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Stepper activeStep={activeStep}>
+                  {steps.map((label, index) => {
+                    const stepProps: { completed?: boolean } = {};
+                    const labelProps: {
+                      optional?: React.ReactNode;
+                    } = {};
+                    if (isStepOptional(index)) {
+                      labelProps.optional = (
+                        <Typography variant="caption">Optional</Typography>
+                      );
+                    }
+                    if (isStepSkipped(index)) {
+                      stepProps.completed = false;
+                    }
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel {...labelProps}>{label}</StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+                {renderStep(props)}
+              </Box>
+              {/* <motion.div
                 animate={{ height: bounds.height > 0 ? bounds.height : "" }}
                 transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
                 className="flex min-h-full w-full min-w-full flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
               >
-                <h1 className="cursor-pointer text-2xl font-bold text-gray-700">
-                  Add a Restaurant
-                </h1>
-                <div className="max-w-xl">
-                  <CityForm
-                    setCity={(newVal) => props.setFieldValue("city", newVal)}
-                    setState={(newVal) => props.setFieldValue("state", newVal)}
-                    setAddress={(newVal) =>
-                      props.setFieldValue("address", newVal)
-                    }
-                    setZipCode={(newVal) =>
-                      props.setFieldValue("zipCode", newVal)
-                    }
-                    setLat={(newVal) => props.setFieldValue("lat", newVal)}
-                    setLng={(newVal) => props.setFieldValue("lng", newVal)}
-                  />
-                </div>
-                <div className="max-w-xl">
-                  {/* <CuisineContainer
-                      setCuisines={(newVal) =>
-                        props.getFieldHelpers("cuisineType").setValue(newVal)
-                      }
-                    /> */}
-                </div>
-                <Field
-                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                  id={"name"}
-                  name={"name"}
-                  type="text"
-                  placeholder={"restaurant name"}
-                />
-                <Field
-                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                  id={"email"}
-                  name={"email"}
-                  type="text"
-                  placeholder={"email"}
-                />
-                <Field
-                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                  id={"phone"}
-                  name={"phone"}
-                  type="text"
-                  placeholder={"phone"}
-                />
-                <Field
-                  className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-                  id={"website"}
-                  name={"website"}
-                  type="text"
-                  placeholder={"website"}
-                />
+              
+
                 <div className="max-w-xl">
                   <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
                     <span className="flex items-center space-x-2">
@@ -255,20 +404,8 @@ const AddRestaurantForm = () => {
                     />
                   )}
                 </div>
-                <div className="flex gap-4">
-                  <motion.button
-                    type="button"
-                    className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
-                    onClick={() => {
-                      props.handleSubmit();
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {props.isSubmitting ? "Submitting" : "Submit"}
-                  </motion.button>
-                </div>
-              </motion.div>
+             
+              </motion.div> */}
             </Form>
           )}
         </Formik>

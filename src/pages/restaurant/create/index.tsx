@@ -26,15 +26,6 @@ const createRestaurant: NextPage = () => {
                 <div className="mx-auto my-8 max-w-4xl px-4">
                   <AddRestaurantForm />
                 </div>
-                <div>
-                  <Image
-                    width={600}
-                    height={400}
-                    src="/static/photos/3.png"
-                    alt="Hero Image"
-                    className="hidden  md:relative md:block"
-                  />
-                </div>
               </div>
             </div>
           </div>
