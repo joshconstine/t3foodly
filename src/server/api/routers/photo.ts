@@ -6,6 +6,15 @@ export const photoRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.photo.findMany();
   }),
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.photo.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 
   getByRestaurantId: publicProcedure
     .input(z.object({ id: z.string() }))

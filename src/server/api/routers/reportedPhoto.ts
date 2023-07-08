@@ -25,13 +25,13 @@ export const reportedPhotoRouter = createTRPCRouter({
       });
     }),
 
-  // delete: publicProcedure
-  //   .input(z.object({ id: z.string() }))
-  //   .mutation(({ input, ctx }) => {
-  //     return ctx.prisma.photo.deleteMany({
-  //       where: {
-  //         id: input.id,
-  //       },
-  //     });
-  //   }),
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.reportedPhoto.deleteMany({
+        where: {
+          photo_id: input.id,
+        },
+      });
+    }),
 });

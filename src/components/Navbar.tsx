@@ -46,6 +46,12 @@ const Navbar = () => {
                 >
                   Admin Dashboard
                 </Link>
+                <Link
+                  href="/reportedItems"
+                  className="rounded-md px-3  text-sm font-medium"
+                >
+                  Reported Items
+                </Link>
               </>
             )}
           </div>

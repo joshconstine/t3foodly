@@ -32,16 +32,29 @@ const MinimalCommentCard = (props: { comment: any }) => {
       }
     );
   };
+  const createReportedPhoto =
+    api.reportedPhoto.createReportedPhoto.useMutation();
+  const handleReport = (id: string) => {
+    createReportedPhoto.mutate({
+      photoId: id,
+      commentId: comment.id,
+    });
+  };
   return (
     <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg">
       {photos.data && photos.data.length > 0 && (
-        <Image
-          width={40}
-          height={40}
-          className="w-48"
-          src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
-          alt="Restaurant Image"
-        />
+        <>
+          <Image
+            width={40}
+            height={40}
+            className="w-48"
+            src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+            alt="Restaurant Image"
+          />
+          <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
+            report
+          </button>
+        </>
       )}
       <div className="p-4">
         <h3
