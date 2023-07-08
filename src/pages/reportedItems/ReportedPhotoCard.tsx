@@ -1,4 +1,6 @@
+"use client";
 import { ReportedPhoto } from "@prisma/client";
+
 import Image from "next/image";
 import { api } from "../../utils/api";
 
