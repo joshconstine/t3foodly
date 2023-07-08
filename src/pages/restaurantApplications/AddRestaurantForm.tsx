@@ -207,7 +207,7 @@ const AddRestaurantForm = () => {
   const renderStep = (props: any) => {
     if (activeStep === 0) {
       return (
-        <div className="w-1/2">
+        <Box className="m-4 flex w-2/3 flex-col gap-4 p-4">
           <Field
             className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
             id={"name"}
@@ -243,12 +243,12 @@ const AddRestaurantForm = () => {
               <Button onClick={handleNext}>Next</Button>
             </Box>
           </React.Fragment>
-        </div>
+        </Box>
       );
     } else if (activeStep === 1) {
       return (
         <div>
-          <div className="max-w-xl">
+          <div className="my-16 max-w-xl p-4 py-16">
             <CityForm
               setCity={(newVal) => props.setFieldValue("city", newVal)}
               setState={(newVal) => props.setFieldValue("state", newVal)}
@@ -273,7 +273,7 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 2) {
       return (
         <div>
-          <div className="max-w-xl">
+          <div className="my-16 flex max-w-xl flex-col gap-4 p-4 py-16">
             <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
               <span className="flex items-center space-x-2">
                 <svg
@@ -381,14 +381,7 @@ const AddRestaurantForm = () => {
                     const labelProps: {
                       optional?: React.ReactNode;
                     } = {};
-                    if (isStepOptional(index)) {
-                      labelProps.optional = (
-                        <Typography variant="caption">Optional</Typography>
-                      );
-                    }
-                    if (isStepSkipped(index)) {
-                      stepProps.completed = false;
-                    }
+
                     return (
                       <Step key={label} {...stepProps}>
                         <StepLabel {...labelProps}>{label}</StepLabel>
