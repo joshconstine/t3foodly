@@ -15,6 +15,7 @@ const scriptOptions = {
 };
 const Home: NextPage = () => {
   const router = useRouter();
+  router.push("/restaurant");
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const dropIn = {

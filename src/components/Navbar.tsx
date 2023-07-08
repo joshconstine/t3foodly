@@ -20,12 +20,12 @@ const Navbar = () => {
             <Link href="/" className="rounded-md px-3  text-sm font-medium">
               Home
             </Link>
-            <Link
+            {/* <Link
               href="/restaurant"
               className="rounded-md px-3  text-sm font-medium"
             >
               Restaurants
-            </Link>
+            </Link> */}
             <Link
               href="/discover"
               className="rounded-md px-3  text-sm font-medium"
