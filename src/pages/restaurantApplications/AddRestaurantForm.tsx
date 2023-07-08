@@ -8,13 +8,11 @@ import useMeasure from "react-use-measure";
 import CityForm from "../../components/forms/CityForm";
 import { api } from "../../utils/api";
 import ConfirmModal from "./ConfirmModal";
-import CuisineContainer from "./CuisineContainer";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 
 const steps = [
   "Restaurant Information",
@@ -93,67 +91,44 @@ const AddRestaurantForm = () => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
   interface FormValues {
-    name: string;
+    restaurantName: string;
     address: string;
     city: string;
     state: string;
     zipCode: string;
     lat: string;
     lng: string;
-    email: string;
+    restaurantEmail: string;
     website: string;
-    phone: string;
+    restaurantPhone: string;
     hoursInterval: string;
   }
   const initialValues: FormValues = {
-    name: "",
+    restaurantName: "",
     address: "",
     city: "",
     state: "",
     zipCode: "",
     lat: "0",
     lng: "0",
-    email: "",
+    restaurantEmail: "",
     website: "",
-    phone: "",
+    restaurantPhone: "",
     hoursInterval: "",
   };
-  const formSteps = [
-    {
-      forms: [
-        {
-          name: "name",
-          label: "Restaurant Name",
-        },
-      ],
-      heading: "Restaurant Name",
-    },
-    {
-      forms: [],
-      heading: "Restaurant Location",
-    },
-    {
-      forms: [],
-      heading: "Restaurant Details",
-    },
-    {
-      forms: [],
-      heading: "Add a Photo",
-    },
-  ];
   const createPhoto = api.photo.createPhoto.useMutation();
   const handleSubmit = (values: FormValues) => {
     createRestaurant.mutate(
       {
-        name: values.name,
+        name: values.restaurantName,
         lat: values.lat,
         lng: values.lng,
         address: values.address,
         cityName: values.city,
         stateName: values.state,
         zipCode: values.zipCode,
-        email: values.email,
-        phone: values.phone,
+        email: values.restaurantEmail,
+        phone: values.restaurantPhone,
         website: values.website,
         hoursInterval: values.hoursInterval,
       },
@@ -210,22 +185,22 @@ const AddRestaurantForm = () => {
         <Box className="m-4 flex w-2/3 flex-col gap-4 p-4">
           <Field
             className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-            id={"name"}
-            name={"name"}
+            id={"restaurantName"}
+            name={"restaurantName"}
             type="text"
             placeholder={"restaurant name"}
           />
           <Field
             className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-            id={"email"}
-            name={"email"}
+            id={"restaurantEmail"}
+            name={"restaurantEmail"}
             type="text"
             placeholder={"email"}
           />
           <Field
             className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-            id={"phone"}
-            name={"phone"}
+            id={"restaurantPhone"}
+            name={"restaurantPhone"}
             type="text"
             placeholder={"phone"}
           />
