@@ -10,19 +10,19 @@ interface IReportedPhotoCardProps {
 const ReportedPhotoCard = (props: IReportedPhotoCardProps) => {
   const { reportedPhoto } = props;
 
-  const photo = api.photo.getById.useQuery({ id: reportedPhoto.photo_id });
+  const photo = api.photo.getById.useQuery({ id: reportedPhoto?.photo_id });
   const deleteReportedPhoto = api.reportedPhoto.delete.useMutation();
   const deletePhoto = api.photo.delete.useMutation();
   const handleRemovePhoto = () => {
     deletePhoto.mutate(
       {
-        id: reportedPhoto.photo_id,
+        id: reportedPhoto?.photo_id,
       },
       {
         onSuccess() {
           deleteReportedPhoto.mutate(
             {
-              id: reportedPhoto.photo_id,
+              id: reportedPhoto?.photo_id,
             },
             {
               onSuccess() {
