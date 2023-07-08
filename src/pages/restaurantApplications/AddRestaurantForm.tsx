@@ -1,4 +1,4 @@
-import { RestaurantApplication } from "@prisma/client";
+import { Restaurant, RestaurantApplication } from "@prisma/client";
 import axios from "axios";
 import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import { motion, MotionConfig } from "framer-motion";
@@ -32,6 +32,7 @@ const steps = [
   "Review",
 ];
 import PreviewIcon from "@mui/icons-material/Preview";
+import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
 const ColorlibStepIconRoot = styled("div")<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
@@ -257,6 +258,24 @@ const AddRestaurantForm = () => {
   };
   const transition = { type: "ease", ease: "easeInOut", duration: ".4" };
   const renderStep = (props: any) => {
+    const makeRestaurant = (): any => {
+      return {
+        id: "11111",
+        name: props.values.restaurantName,
+        cityName: props.values.cityName,
+        stateName: props.values.stateName,
+        zipCode: props.values.zipCode,
+        email: "",
+        phone: "",
+        address: "",
+        website: "",
+        hoursInterval: "",
+        lat: "",
+        lng: "",
+        created_at: new Date(),
+        cuisines: [],
+      };
+    };
     if (activeStep === 0) {
       return (
         <Box className="m-4 flex w-2/3 flex-col gap-4 p-4">
@@ -379,15 +398,16 @@ const AddRestaurantForm = () => {
     } else {
       return (
         <div>
-          {" "}
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
+          <li>name: {props.values?.restaurantName}</li>
 
-            <Button onClick={handleNext}>Next</Button>
-          </Box>
+          <li>address: {props.values?.address}</li>
+          <li>city: {props.values?.city}</li>
+          <li>state: {props.values?.state}</li>
+          <li>zipCode: {props.values?.zipCode}</li>
+          <li>email: {props.values?.restaurantEmail}</li>
+          <li>phone: {props.values?.restaurantPhone}</li>
+          <li>website: {props.values?.website}</li>
+          <li>hoursInterval: {props.values?.hoursInterval}</li>
           <motion.button
             type="button"
             className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
@@ -399,6 +419,14 @@ const AddRestaurantForm = () => {
           >
             {props.isSubmitting ? "Submitting" : "Submit"}
           </motion.button>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+
+            <Button onClick={handleNext}>Next</Button>
+          </Box>
         </div>
       );
     }
