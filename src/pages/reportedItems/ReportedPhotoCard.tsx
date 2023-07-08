@@ -44,7 +44,7 @@ const ReportedPhotoCard = (props: IReportedPhotoCardProps) => {
       {photo.data?.photoUrl && (
         <Image
           src={photo?.data?.photoUrl}
-          alt={reportedPhoto.photo_id}
+          alt={"img"}
           width={200}
           height={200}
         />
