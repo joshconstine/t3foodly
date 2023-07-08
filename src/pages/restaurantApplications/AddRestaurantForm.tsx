@@ -20,6 +20,7 @@ const steps = [
   "Restaurant Information",
   "Restaurant Location",
   "Restaurant Photos",
+  "Review",
 ];
 
 const AddRestaurantForm = () => {
@@ -236,7 +237,6 @@ const AddRestaurantForm = () => {
             placeholder={"website"}
           />
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
 
@@ -273,22 +273,53 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 2) {
       return (
         <div>
-          Step 3{" "}
+          <div className="max-w-xl">
+            <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+              <span className="flex items-center space-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-gray-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                  />
+                </svg>
+                <span className="font-medium text-gray-600">
+                  Drop files to Attach, or
+                  <span className="text-blue-600 underline">browse</span>
+                </span>
+              </span>
+              <input
+                type="file"
+                name="file_upload"
+                className="hidden"
+                onChange={(e) => storeFile(e)}
+              />
+            </label>
+            {file && (
+              <Image
+                src={preview || ""}
+                alt={"photo"}
+                width={400}
+                height={200}
+              />
+            )}
+          </div>
+
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {isStepOptional(activeStep) && (
-                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Skip
-                </Button>
-              )}
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
+
+              <Button onClick={handleNext}>Next</Button>
             </Box>
           </React.Fragment>
         </div>
@@ -297,6 +328,14 @@ const AddRestaurantForm = () => {
       return (
         <div>
           {" "}
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+
+            <Button onClick={handleNext}>Next</Button>
+          </Box>
           <motion.button
             type="button"
             className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
@@ -359,53 +398,6 @@ const AddRestaurantForm = () => {
                 </Stepper>
                 {renderStep(props)}
               </Box>
-              {/* <motion.div
-                animate={{ height: bounds.height > 0 ? bounds.height : "" }}
-                transition={{ type: "spring", bounce: 0.2, duration: 0.8 }}
-                className="flex min-h-full w-full min-w-full flex-col items-center gap-4 rounded-md border-2 border-secondary p-4"
-              >
-              
-
-                <div className="max-w-xl">
-                  <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-                    <span className="flex items-center space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                      <span className="font-medium text-gray-600">
-                        Drop files to Attach, or
-                        <span className="text-blue-600 underline">browse</span>
-                      </span>
-                    </span>
-                    <input
-                      type="file"
-                      name="file_upload"
-                      className="hidden"
-                      onChange={(e) => storeFile(e)}
-                    />
-                  </label>
-                  {file && (
-                    <Image
-                      src={preview || ""}
-                      alt={"photo"}
-                      width={400}
-                      height={200}
-                    />
-                  )}
-                </div>
-             
-              </motion.div> */}
             </Form>
           )}
         </Formik>
