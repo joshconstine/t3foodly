@@ -540,11 +540,13 @@ const AddRestaurantForm = () => {
           )}
         </Formik>
       </>
-      <ConfirmModal
-        restaurant={createdApplication}
-        open={confirmModalOpen}
-        setOpen={setConfirmModalOpen}
-      />
+      {confirmModalOpen && (
+        <ConfirmModal
+          restaurant={createdApplication}
+          open={confirmModalOpen}
+          setOpen={setConfirmModalOpen}
+        />
+      )}
     </>
   );
 };
