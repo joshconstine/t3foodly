@@ -328,10 +328,14 @@ const AddRestaurantForm = () => {
               setLat={(newVal) => props.setFieldValue("lat", newVal)}
               setLng={(newVal) => props.setFieldValue("lng", newVal)}
             />
-            <li>address: {props.values?.address}</li>
-            <li>city: {props.values?.city}</li>
-            <li>state: {props.values?.state}</li>
-            <li>zipCode: {props.values?.zipCode}</li>
+            {props.values?.city && (
+              <div>
+                <li>address: {props.values?.address}</li>
+                <li>city: {props.values?.city}</li>
+                <li>state: {props.values?.state}</li>
+                <li>zipCode: {props.values?.zipCode}</li>
+              </div>
+            )}
           </div>
           <React.Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
