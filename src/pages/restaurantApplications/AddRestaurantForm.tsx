@@ -319,7 +319,7 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 1) {
       return (
         <div>
-          <div className="my-16 max-w-xl p-4 py-16">
+          <div className="my-16 flex max-w-xl flex-col gap-4 p-4 py-16">
             <CityForm
               setCity={(newVal) => props.setFieldValue("city", newVal)}
               setState={(newVal) => props.setFieldValue("state", newVal)}
@@ -328,6 +328,10 @@ const AddRestaurantForm = () => {
               setLat={(newVal) => props.setFieldValue("lat", newVal)}
               setLng={(newVal) => props.setFieldValue("lng", newVal)}
             />
+            <li>address: {props.values?.address}</li>
+            <li>city: {props.values?.city}</li>
+            <li>state: {props.values?.state}</li>
+            <li>zipCode: {props.values?.zipCode}</li>
           </div>
           <React.Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

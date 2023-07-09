@@ -10,6 +10,7 @@ module.exports = {
 
       width: {
         860: "860px",
+        450: "450px",
       },
       minWidth: {
         860: "860px",
