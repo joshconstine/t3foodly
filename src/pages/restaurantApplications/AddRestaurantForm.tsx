@@ -397,17 +397,19 @@ const AddRestaurantForm = () => {
       );
     } else {
       return (
-        <div>
-          <li>name: {props.values?.restaurantName}</li>
+        <div className="m-8 flex flex-col items-center p-4">
+          <div className="flex w-64 flex-col gap-2 py-8">
+            <li>name: {props.values?.restaurantName}</li>
 
-          <li>address: {props.values?.address}</li>
-          <li>city: {props.values?.city}</li>
-          <li>state: {props.values?.state}</li>
-          <li>zipCode: {props.values?.zipCode}</li>
-          <li>email: {props.values?.restaurantEmail}</li>
-          <li>phone: {props.values?.restaurantPhone}</li>
-          <li>website: {props.values?.website}</li>
-          <li>hoursInterval: {props.values?.hoursInterval}</li>
+            <li>address: {props.values?.address}</li>
+            <li>city: {props.values?.city}</li>
+            <li>state: {props.values?.state}</li>
+            <li>zipCode: {props.values?.zipCode}</li>
+            <li>email: {props.values?.restaurantEmail}</li>
+            <li>phone: {props.values?.restaurantPhone}</li>
+            <li>website: {props.values?.website}</li>
+            <li>hoursInterval: {props.values?.hoursInterval}</li>
+          </div>
           <motion.button
             type="button"
             className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
@@ -424,8 +426,6 @@ const AddRestaurantForm = () => {
               Back
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-
-            <Button onClick={handleNext}>Next</Button>
           </Box>
         </div>
       );
