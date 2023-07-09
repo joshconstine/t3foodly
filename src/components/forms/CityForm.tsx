@@ -107,7 +107,7 @@ export default function CityForm({
               ref={inputEl}
               type="text"
               placeholder="Type Address"
-              className="w-450 rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+              className=" rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
               onKeyPress={onKeypress}
             />
           </Autocomplete>

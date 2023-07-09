@@ -40,8 +40,8 @@ const ColorlibStepIconRoot = styled("div")<{
     theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
   zIndex: 1,
   color: "#fff",
-  width: 50,
-  height: 50,
+  width: 40,
+  height: 40,
   display: "flex",
   borderRadius: "50%",
   justifyContent: "center",
@@ -319,7 +319,7 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 1) {
       return (
         <div>
-          <div className="my-16 flex max-w-xl flex-col gap-4 p-4 py-16">
+          <div className=" flex max-w-xl flex-col gap-4  md:my-16 md:py-16">
             <CityForm
               setCity={(newVal) => props.setFieldValue("city", newVal)}
               setState={(newVal) => props.setFieldValue("state", newVal)}
@@ -329,11 +329,31 @@ const AddRestaurantForm = () => {
               setLng={(newVal) => props.setFieldValue("lng", newVal)}
             />
             {props.values?.city && (
-              <div>
-                <li>address: {props.values?.address}</li>
-                <li>city: {props.values?.city}</li>
-                <li>state: {props.values?.state}</li>
-                <li>zipCode: {props.values?.zipCode}</li>
+              <div className="flex flex-col gap-2">
+                <div>
+                  Address:{" "}
+                  <span className="text-bold text-md">
+                    {props.values?.address}
+                  </span>
+                </div>
+                <div>
+                  City:{" "}
+                  <span className="text-bold text-md mx-2">
+                    {props.values?.city}
+                  </span>
+                </div>
+                <div>
+                  State:{" "}
+                  <span className="text-bold text-md mx-2">
+                    {props.values?.state}
+                  </span>
+                </div>
+                <div>
+                  Zip Code:{" "}
+                  <span className="text-bold text-md mx-2">
+                    {props.values?.zipCode}
+                  </span>
+                </div>
               </div>
             )}
           </div>
@@ -352,12 +372,12 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 2) {
       return (
         <div>
-          <div className="my-16 flex max-w-xl flex-col gap-4 p-4 py-16">
-            <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+          <div className="my-2 flex max-w-xl flex-col gap-4 p-4 py-2 md:my-16 md:py-16">
+            <label className="flex h-16 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
               <span className="flex items-center space-x-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-600"
+                  className="h-6 w-6 text-primary"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -369,7 +389,7 @@ const AddRestaurantForm = () => {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   />
                 </svg>
-                <span className="font-medium text-gray-600">
+                <span className="font-medium text-primary">
                   Drop files to Attach, or
                   <span className="text-blue-600 underline">browse</span>
                 </span>
@@ -405,18 +425,56 @@ const AddRestaurantForm = () => {
       );
     } else {
       return (
-        <div className="m-8 flex flex-col items-center p-4">
-          <div className="flex w-64 flex-col gap-2 py-8">
-            <li>name: {props.values?.restaurantName}</li>
+        <div className="flex flex-col items-center md:m-8">
+          <div className="my-4 flex flex-col md:gap-2 md:py-8">
+            <li>
+              name:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.restaurantName}
+              </span>
+            </li>
 
-            <li>address: {props.values?.address}</li>
-            <li>city: {props.values?.city}</li>
-            <li>state: {props.values?.state}</li>
-            <li>zipCode: {props.values?.zipCode}</li>
-            <li>email: {props.values?.restaurantEmail}</li>
-            <li>phone: {props.values?.restaurantPhone}</li>
-            <li>website: {props.values?.website}</li>
-            <li>hoursInterval: {props.values?.hoursInterval}</li>
+            <li>
+              address:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.address}
+              </span>
+            </li>
+            <li>
+              city:{" "}
+              <span className="text-md text-primary">{props.values?.city}</span>
+            </li>
+            <li>
+              state:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.state}
+              </span>
+            </li>
+            <li>
+              zipCode:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.zipCode}
+              </span>
+            </li>
+            <li>
+              email:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.restaurantEmail}
+              </span>
+            </li>
+            <li>
+              phone:{" "}
+              <span className="text-md text-bold ml-2 text-primary">
+                {props.values?.restaurantPhone}
+              </span>
+            </li>
+            <li>
+              website:
+              <span className="text-md text-bold ml-2 text-primary">
+                {" "}
+                {props.values?.website}
+              </span>
+            </li>
           </div>
           <motion.button
             type="button"

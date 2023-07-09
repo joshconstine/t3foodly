@@ -6,6 +6,7 @@ import AddRestaurantForm from "../../restaurantApplications/AddRestaurantForm";
 import Image from "next/image";
 
 const createRestaurant: NextPage = () => {
+  let open = true;
   return (
     <>
       <Head>
@@ -15,24 +16,37 @@ const createRestaurant: NextPage = () => {
       </Head>
       <Layout>
         <section className=" py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col">
-              <h2 className="mb-8 text-3xl font-bold">
-                Add restaurant to Foodley
-              </h2>
-              <p className="mt-4 w-1/2 text-lg text-primary">
-                We are excited to add Your restaurant to Foodley. Please fill
-                out the form below, If you are the manager of the restaurant and
-                would like to have admin permissions check the box on step 4.
-              </p>
-              <p className="mt-4 w-1/2 text-lg text-primary">
-                We review all applications internally. Thank you for helping the
-                Fooldey community!
-              </p>
-              <div className="flex">
-                <div className="mx-auto my-8 max-w-4xl px-4">
-                  <AddRestaurantForm />
-                </div>
+          <div className="mx-auto  px-4 sm:px-6 lg:px-8">
+            <dialog
+              className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
+              open
+            >
+              <div className="flex w-full flex-col gap-4 p-2">
+                <h2 className="font-bold">Add restaurant to Foodley</h2>
+                <p className=" text-sm text-primary">
+                  We are excited to add Your restaurant to Foodley. Please fill
+                  out the form below, If you are the manager of the restaurant
+                  and would like to have admin permissions check the box on step
+                  4.
+                </p>
+
+                <p className="  text-sm text-primary">
+                  We review all applications internally. Thank you for helping
+                  the Fooldey community!
+                </p>
+                <form
+                  method="dialog"
+                  className="flex w-full  flex-col items-center "
+                >
+                  <button className="rounded-lg bg-primary px-4 py-2 text-white">
+                    OK
+                  </button>
+                </form>
+              </div>
+            </dialog>
+            <div className="flex">
+              <div className="mx-auto my-8 max-w-4xl px-4">
+                <AddRestaurantForm />
               </div>
             </div>
           </div>
