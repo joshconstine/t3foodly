@@ -54,7 +54,6 @@ const SingleRestaurant = () => {
     setSelectedPhotoIndex(index);
   };
   const handleReportPhoto = (photo: any) => {
-    window.alert("photo reported" + JSON.stringify(photo, null, 2));
     createReportedPhoto.mutate({
       photoId: photo.id,
       restaurantId: String(restaurantId),

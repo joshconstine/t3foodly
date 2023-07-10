@@ -24,9 +24,7 @@ const ReportedPhotoCard = (props: IReportedPhotoCardProps) => {
               id: reportedPhoto?.photo_id,
             },
             {
-              onSuccess() {
-                window.alert("Photo removed and ");
-              },
+              onSuccess() {},
             }
           );
         },
