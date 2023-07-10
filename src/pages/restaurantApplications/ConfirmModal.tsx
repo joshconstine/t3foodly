@@ -60,7 +60,7 @@ const ConfirmModal = (props: IConfirmModalProps) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="flex flex-col items-center gap-8">
           The folowing information was submitted and will be reviewed by an
           Foodley admin:
           <ul>
@@ -80,7 +80,12 @@ const ConfirmModal = (props: IConfirmModalProps) => {
             <li>hoursInterval: {props.restaurant?.hoursInterval}</li>
           </ul>
           <div>
-            <button onClick={handleClose}>Close</button>
+            <button
+              onClick={handleClose}
+              className="rounded-lg bg-primary px-4 py-2 text-white"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

@@ -319,7 +319,7 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 1) {
       return (
         <div>
-          <div className=" flex max-w-xl flex-col gap-4  md:my-16 md:py-16">
+          <div className=" my-4 flex max-w-xl flex-col gap-4 py-4  md:my-16 md:py-16">
             <CityForm
               setCity={(newVal) => props.setFieldValue("city", newVal)}
               setState={(newVal) => props.setFieldValue("state", newVal)}
@@ -426,55 +426,59 @@ const AddRestaurantForm = () => {
     } else {
       return (
         <div className="flex flex-col items-center md:m-8">
-          <div className="my-4 flex flex-col md:gap-2 md:py-8">
-            <li>
-              name:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.restaurantName}
-              </span>
-            </li>
+          <div className=" flex flex-col md:gap-2 md:py-8">
+            <div className="my-2 flex  flex-col gap-2 py-2">
+              <li>
+                name:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.restaurantName}
+                </span>
+              </li>
 
-            <li>
-              address:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.address}
-              </span>
-            </li>
-            <li>
-              city:{" "}
-              <span className="text-md text-primary">{props.values?.city}</span>
-            </li>
-            <li>
-              state:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.state}
-              </span>
-            </li>
-            <li>
-              zipCode:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.zipCode}
-              </span>
-            </li>
-            <li>
-              email:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.restaurantEmail}
-              </span>
-            </li>
-            <li>
-              phone:{" "}
-              <span className="text-md text-bold ml-2 text-primary">
-                {props.values?.restaurantPhone}
-              </span>
-            </li>
-            <li>
-              website:
-              <span className="text-md text-bold ml-2 text-primary">
-                {" "}
-                {props.values?.website}
-              </span>
-            </li>
+              <li>
+                address:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.address}
+                </span>
+              </li>
+              <li>
+                city:{" "}
+                <span className="text-md text-primary">
+                  {props.values?.city}
+                </span>
+              </li>
+              <li>
+                state:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.state}
+                </span>
+              </li>
+              <li>
+                zipCode:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.zipCode}
+                </span>
+              </li>
+              <li>
+                email:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.restaurantEmail}
+                </span>
+              </li>
+              <li>
+                phone:{" "}
+                <span className="text-md text-bold ml-2 text-primary">
+                  {props.values?.restaurantPhone}
+                </span>
+              </li>
+              <li>
+                website:
+                <span className="text-md text-bold ml-2 text-primary">
+                  {" "}
+                  {props.values?.website}
+                </span>
+              </li>
+            </div>
           </div>
           <motion.button
             type="button"

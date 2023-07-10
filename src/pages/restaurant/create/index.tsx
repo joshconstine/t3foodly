@@ -15,8 +15,8 @@ const createRestaurant: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <section className=" py-12">
-          <div className="mx-auto  px-4 sm:px-6 lg:px-8">
+        <section className=" md:py-12">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <dialog
               className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
               open
