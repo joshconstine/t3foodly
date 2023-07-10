@@ -20,7 +20,7 @@ const UsersRestaurantApplicationCard = (props: {
     id: application.id,
   });
   const restaurant = api.restaurant.getById.useQuery({
-    id: application.restaurant_id,
+    id: application?.restaurant_id || "0",
   });
   return (
     <div className=" overflow-hidden rounded-lg bg-white p-4 shadow-lg">
