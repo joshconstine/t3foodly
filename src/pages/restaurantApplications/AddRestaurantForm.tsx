@@ -102,6 +102,8 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
 const AddRestaurantForm = () => {
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
+  const createUserRestaurantApplication =
+    api.usersRestaurantApplication.createUsersRestaurantApplicationWithApplicationId.useMutation();
   const restaurantApplications = api.restaurantApplication.getAll.useQuery();
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -180,6 +182,7 @@ const AddRestaurantForm = () => {
     website: string;
     restaurantPhone: string;
     hoursInterval: string;
+    isManager: boolean;
   }
   const initialValues: FormValues = {
     restaurantName: "",
@@ -193,6 +196,7 @@ const AddRestaurantForm = () => {
     website: "",
     restaurantPhone: "",
     hoursInterval: "",
+    isManager: false,
   };
   const createPhoto = api.photo.createPhoto.useMutation();
   const handleSubmit = (values: FormValues) => {
@@ -212,6 +216,11 @@ const AddRestaurantForm = () => {
       },
       {
         async onSuccess(applicationData) {
+          if (values.isManager) {
+            createUserRestaurantApplication.mutate({
+              applicationId: applicationData.id,
+            });
+          }
           const uploadPhoto = async () => {
             try {
               let { data } = await axios.post("/api/s3/upload-url", {
@@ -479,19 +488,29 @@ const AddRestaurantForm = () => {
                 </span>
               </li>
             </div>
+            <div className="my-2 flex items-center gap-2 py-2">
+              <input
+                type="checkbox"
+                name="isManager"
+                className="h-6 w-6 text-primary"
+                onChange={(e) => props.handleChange(e)}
+                checked={props.values?.isManager}
+              />
+              <div>I would like to be the manager of this restaurant</div>
+            </div>
           </div>
-          <motion.button
-            type="button"
-            className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
-            onClick={() => {
-              props.handleSubmit();
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {props.isSubmitting ? "Submitting" : "Submit"}
-          </motion.button>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <motion.button
+              type="button"
+              className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
+              onClick={() => {
+                props.handleSubmit();
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {props.isSubmitting ? "Submitting" : "Submit"}
+            </motion.button>
             <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
               Back
             </Button>

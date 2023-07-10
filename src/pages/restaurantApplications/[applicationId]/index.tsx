@@ -14,6 +14,10 @@ const SingleRestaurantApplication = () => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
   const { applicationId } = router.query;
+  const managerApplication =
+    api.usersRestaurantApplication.getByApplicationId.useQuery({
+      id: String(applicationId),
+    });
 
   const restaurantApplication = api.restaurantApplication.getById.useQuery({
     id: String(applicationId),
@@ -28,6 +32,8 @@ const SingleRestaurantApplication = () => {
   const photos = api.photo.getByApplicationId.useQuery({
     id: String(applicationId),
   });
+  const createUsersRestaurant =
+    api.usersRestaurant.addUsersRestaurant.useMutation();
   const userName = api.user.getUsername.useQuery({
     id: restaurantApplication?.data?.created_by_user_id || "",
   });
@@ -157,7 +163,15 @@ const SingleRestaurantApplication = () => {
                   applicationId: restaurantApplication.data.id,
                   restaurantId: restaurantData.id,
                 });
-
+              if (
+                managerApplication?.data?.length ||
+                (0 > 0 && managerApplication?.data)
+              ) {
+                createUsersRestaurant.mutate({
+                  restaurantId: restaurantData.id,
+                  userId: managerApplication?.data[0]?.created_by_user_id || "",
+                });
+              }
               applications.refetch();
               restaurantApplication.refetch();
 
@@ -203,6 +217,14 @@ const SingleRestaurantApplication = () => {
                 >
                   <div>{`created by : ${userName?.data}`}</div>
                 </Link>
+                {managerApplication.data?.map((manager) => {
+                  return (
+                    <>
+                      <div>requeste to manage restaurant restaurant</div>
+                      <div>{manager.created_by_user_id}</div>
+                    </>
+                  );
+                })}
                 <div className="flex w-20 flex-col gap-1">
                   <button
                     className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"

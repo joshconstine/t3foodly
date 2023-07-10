@@ -39,6 +39,15 @@ export const usersRestaurantApplicationRouter = createTRPCRouter({
         },
       });
     }),
+  getByApplicationId: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.usersRestaurantApplication.findMany({
+        where: {
+          application_id: input.id,
+        },
+      });
+    }),
 
   createUsersRestaurantApplication: protectedProcedure
     .input(UsersRestaurantRequest)
@@ -46,6 +55,17 @@ export const usersRestaurantApplicationRouter = createTRPCRouter({
       return ctx.prisma.usersRestaurantApplication.create({
         data: {
           restaurant_id: input.restaurantId,
+          status: "new",
+          created_by_user_id: ctx.session.user.id,
+        },
+      });
+    }),
+  createUsersRestaurantApplicationWithApplicationId: protectedProcedure
+    .input(z.object({ applicationId: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.usersRestaurantApplication.create({
+        data: {
+          application_id: input.applicationId,
           status: "new",
           created_by_user_id: ctx.session.user.id,
         },
