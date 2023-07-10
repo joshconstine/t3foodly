@@ -287,7 +287,7 @@ const AddRestaurantForm = () => {
     };
     if (activeStep === 0) {
       return (
-        <Box className="m-4 flex w-2/3 flex-col gap-4 p-4">
+        <Box className="m-4 flex  flex-col gap-4 p-4">
           <Field
             className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
             id={"restaurantName"}
@@ -320,7 +320,13 @@ const AddRestaurantForm = () => {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={handleNext}>Next</Button>
+              <button
+                onClick={handleNext}
+                type="button"
+                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+              >
+                Next
+              </button>
             </Box>
           </React.Fragment>
         </Box>
@@ -373,7 +379,13 @@ const AddRestaurantForm = () => {
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={handleNext}>Next</Button>
+              <button
+                type="button"
+                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                onClick={handleNext}
+              >
+                Next
+              </button>
             </Box>
           </React.Fragment>
         </div>
@@ -427,7 +439,13 @@ const AddRestaurantForm = () => {
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={handleNext}>Next</Button>
+              <button
+                type="button"
+                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                onClick={handleNext}
+              >
+                Next
+              </button>
             </Box>
           </React.Fragment>
         </div>
