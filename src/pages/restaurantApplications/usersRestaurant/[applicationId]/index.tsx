@@ -90,7 +90,7 @@ const SingleUsersRestaurantApplication = () => {
     if (usersRestaurantApplication.data) {
       createUsersRestaurant.mutate(
         {
-          restaurantId: usersRestaurantApplication.data.restaurant_id,
+          restaurantId: usersRestaurantApplication.data?.restaurant_id || "0",
           userId: usersRestaurantApplication.data.created_by_user_id,
         },
         {
