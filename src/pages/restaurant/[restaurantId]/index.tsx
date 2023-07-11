@@ -98,8 +98,11 @@ const SingleRestaurant = () => {
               )}
             </div>
             <div className="flex gap-4 px-4">
-              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
+              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
               {/* <UpVoteDownVote restaurantId={String(restaurantId) || ""} /> */}
+            </div>
+            <div>
+              <MenuComponent restaurantId={String(restaurantId)} />
             </div>
             <div className="relative h-96 w-full">
               <Image
@@ -130,17 +133,15 @@ const SingleRestaurant = () => {
                 </div>
               </div>
             </div>
-            <div>
-              <MenuComponent restaurantId={String(restaurantId)} />
-            </div>
+
             {showEditCard && (
               <EditRestaurantCard
                 setEditMode={setShowEditCard}
                 restaurantId={String(restaurantId)}
               />
             )}
-            <div className="flex flex-col-reverse gap-8 md:flex-row">
-              <div className="space-y-4">
+            <div className="flex flex-col gap-8 md:flex-row">
+              <div className=" flex flex-col gap-2 px-2">
                 <h3 className="text-lg font-bold">Reviews</h3>
                 {comments.data?.map((comment) => (
                   <MinimalCommentCard comment={comment} />

@@ -5,7 +5,8 @@ import { api } from "../utils/api";
 import Image from "next/image";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-const MinimalCommentCard = (props: { comment: any }) => {
+import { Comment } from "@prisma/client";
+const MinimalCommentCard = (props: { comment: Comment }) => {
   const router = useRouter();
   const comment = props.comment;
   const user = api.user.getUser.useQuery();
@@ -41,9 +42,12 @@ const MinimalCommentCard = (props: { comment: any }) => {
     });
   };
   return (
-    <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg">
+    <div
+      className=" bg-z in w-full overflow-hidden rounded-lg border-2
+        border-zinc-400 "
+    >
       {photos.data && photos.data.length > 0 && (
-        <>
+        <div className="flex px-2 pt-2">
           <Image
             width={40}
             height={40}
@@ -54,17 +58,33 @@ const MinimalCommentCard = (props: { comment: any }) => {
           <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
             report
           </button>
-        </>
+        </div>
       )}
-      <div className="p-4">
-        <h3
-          className="mb-2 cursor-pointer text-xl font-bold"
-          onClick={() => router.push(`/user/${comment.user_id}`)}
-        >
-          {username.data || ""}
-        </h3>
-
-        <p className="text-gray-700">{comment.text}</p>
+      <div className="flex gap-2 p-4">
+        <Image
+          width={60}
+          height={60}
+          className="rounded-full"
+          src={user.data?.image || ""}
+          alt="Profile Image"
+        />
+        <div>
+          <h3
+            className=" cursor-pointer text-xl font-bold"
+            onClick={() => router.push(`/user/${comment.user_id}`)}
+          >
+            {username.data || ""}
+          </h3>
+          <div
+            className="cursor-pointer text-sm "
+            onClick={() => router.push(`/user/${comment.user_id}`)}
+          >
+            {new Date(comment?.created_at).toLocaleDateString() || ""}
+          </div>
+        </div>
+      </div>
+      <div className="p-2">
+        <p className="text-sm text-gray-700">{comment.text}</p>
       </div>
       {isUsersComment && (
         <Tooltip title="delete">

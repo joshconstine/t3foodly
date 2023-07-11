@@ -87,9 +87,9 @@ const CreateCommentContainer = (props: IProps) => {
   };
 
   return (
-    <div>
+    <div className="px-2">
       <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-        <h3 className="mb-4 text-lg font-bold">Leave a comment</h3>
+        <h3 className="mb-4 text-lg font-bold">Leave a review</h3>
         <div className="mb-4">
           <label
             htmlFor="comment"
