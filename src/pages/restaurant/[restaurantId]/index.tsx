@@ -66,8 +66,8 @@ const SingleRestaurant = () => {
       </Head>
       <Layout>
         <div className="mx-auto ">
-          <div className="flex flex-col space-y-8">
-            <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col p-2">
               <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
               <div className="text-primary md:text-3xl">
                 Favorties: {numberOfFavorites.data && numberOfFavorites.data}
@@ -75,6 +75,11 @@ const SingleRestaurant = () => {
               <div className=" text-xs text-primary md:text-3xl">
                 Address:{" "}
                 {`${restaurant.data?.address}, ${restaurant.data?.cityName}, ${restaurant.data?.stateName}`}
+              </div>
+              <div className=" text-xs text-primary md:text-3xl">
+                <a href={`${restaurant.data?.website}` || ""} target="_blank">
+                  {restaurant.data?.website}
+                </a>
               </div>
               <div className=" flex gap-1 text-xs text-primary md:text-3xl">
                 {restaurant.data?.cuisines.map((elem) => {
@@ -92,9 +97,9 @@ const SingleRestaurant = () => {
                 </button>
               )}
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 px-4">
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
-              <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
+              {/* <UpVoteDownVote restaurantId={String(restaurantId) || ""} /> */}
             </div>
             <div className="relative h-96 w-full">
               <Image

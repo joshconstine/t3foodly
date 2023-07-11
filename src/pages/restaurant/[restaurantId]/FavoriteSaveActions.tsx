@@ -103,40 +103,46 @@ const FavoriteSaveActions = (props: IProps) => {
   };
   return (
     <div className="flex items-center gap-4">
-      {isFavorited.data && isFavorited.data ? (
-        <Tooltip title="Unfavorite">
-          <IconButton disabled={false} onClick={handleUnfavorite}>
-            <StarIcon className="text-4xl text-secondary" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Tooltip title="Favorite">
-            <IconButton disabled={false} onClick={handleFavorite}>
-              <StarBorderOutlinedIcon className="text-4xl text-secondary" />
+      <div className="flex flex-col items-center gap-2">
+        <div> Favorite</div>
+        {isFavorited.data && isFavorited.data ? (
+          <Tooltip title="Unfavorite">
+            <IconButton disabled={false} onClick={handleUnfavorite}>
+              <StarIcon className="text-4xl text-secondary" />
             </IconButton>
           </Tooltip>
-        </motion.div>
-      )}
-      {isSaved.data && isSaved.data ? (
-        <div>
-          <button
-            disabled={false}
-            onClick={handleUnSave}
-            className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-          >
-            Un-Save
-          </button>
-        </div>
-      ) : (
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Tooltip title="save">
-            <IconButton disabled={false} onClick={handleSave}>
-              <SaveAltIcon className="text-4xl text-secondary" />
-            </IconButton>
-          </Tooltip>
-        </motion.div>
-      )}
+        ) : (
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Tooltip title="Favorite">
+              <IconButton disabled={false} onClick={handleFavorite}>
+                <StarBorderOutlinedIcon className="text-4xl text-secondary" />
+              </IconButton>
+            </Tooltip>
+          </motion.div>
+        )}
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <div> Save</div>
+        {isSaved.data && isSaved.data ? (
+          <div>
+            <button
+              disabled={false}
+              onClick={handleUnSave}
+              className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+            >
+              Un-Save
+            </button>
+          </div>
+        ) : (
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Tooltip title="save">
+              <IconButton disabled={false} onClick={handleSave}>
+                <SaveAltIcon className="text-4xl text-secondary" />
+              </IconButton>
+            </Tooltip>
+          </motion.div>
+        )}
+      </div>
       <div>
         <button
           disabled={false}
