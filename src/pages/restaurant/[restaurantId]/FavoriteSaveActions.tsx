@@ -130,7 +130,12 @@ const FavoriteSaveActions = (props: IProps) => {
 
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Tooltip title="save">
-            <IconButton disabled={false} onClick={handleSave}>
+            <IconButton
+              disabled={false}
+              onClick={() => {
+                window.scrollTo(0, document.body.scrollHeight);
+              }}
+            >
               <ReviewsIcon className="text-secondary md:text-4xl" />
             </IconButton>
           </Tooltip>
