@@ -202,7 +202,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
     { value: 50, label: "50 miles" },
   ];
   return (
-    <div className="relative z-10 bg-transparent ">
+    <div className="relative bg-transparent ">
       {loadError && (
         <div>Google Map script can't be loaded, please reload the page</div>
       )}
@@ -226,7 +226,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
         </div>
       )}
       {showRadiusModal && (
-        <div className="bg z-100 absolute right-0 flex flex-col gap-1 rounded-lg border-2 border-zinc-700 bg-gray-400 p-2">
+        <div className="bg  absolute right-0 flex flex-col gap-1 rounded-lg border-2 border-zinc-700 bg-gray-400 p-2">
           {searchRadiusOptions.map((option) => (
             <div
               onClick={() => {

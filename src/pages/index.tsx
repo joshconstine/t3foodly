@@ -66,8 +66,8 @@ const Home: NextPage = () => {
                     z-index={0}
                   />
                 </motion.div>
-                <div className="relative z-10 flex flex-col items-center justify-center gap-2 py-16 md:justify-start md:py-0">
-                  <h1 className="relative z-10 text-5xl font-bold text-primary">
+                <div className="relative  flex flex-col items-center justify-center gap-2 py-16 md:justify-start md:py-0">
+                  <h1 className="relative text-5xl font-bold text-primary">
                     Welcome
                   </h1>
                   <p className="mt-4 text-lg text-primary">

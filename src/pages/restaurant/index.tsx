@@ -122,7 +122,7 @@ const Restaurant: NextPage = () => {
                 <div className=" flex w-full flex-col  md:h-special md:flex-row ">
                   <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                     <div className="min-w-96 flex  gap-4">
-                      <h1 className="md:text-l  relative font-bold text-primary">
+                      <h1 className="md:text-l   font-bold text-primary">
                         {`${filterd?.length} ${
                           filterd &&
                           (filterd?.length === 0 || filterd.length > 1)
@@ -131,7 +131,7 @@ const Restaurant: NextPage = () => {
                         }`}
                       </h1>
                       <button
-                        className="text-l  relative rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
+                        className="text-l   rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
                         onClick={() => {
                           setShowFilters(!showFilters);
                         }}
