@@ -69,6 +69,31 @@ export const restaurantRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        select: {
+          id: true,
+          name: true,
+          address: true,
+          cityName: true,
+          zipCode: true,
+
+          phone: true,
+          email: true,
+          hoursInterval: true,
+          lat: true,
+          lng: true,
+          website: true,
+          stateName: true,
+          cuisines: {
+            include: {
+              cuisine: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
       });
     }),
   getByZipcode: publicProcedure
