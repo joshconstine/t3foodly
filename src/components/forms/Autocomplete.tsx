@@ -101,7 +101,7 @@ export const Autocomplete = (props: IAutocomplete) => {
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <div className="fixed z-10 flex flex-col gap-2 rounded-md border-2 border-black bg-primary p-2">
+        <div className="fixed z-10 mt-2 flex flex-col gap-2 rounded-md border-2 border-black bg-primary p-2">
           <ul>{renderSuggestions()}</ul>
         </div>
       )}
