@@ -18,11 +18,11 @@ import FavoriteSaveActions from "./FavoriteSaveActions";
 import CreateCommentContainer from "./CreateCommentContainer";
 import EditRestaurantCard from "./EditRestaurantCard";
 import MenuComponent from "./MenuComponent";
+import { useState } from "react";
 const SingleRestaurant = () => {
   const router = useRouter();
-  // const [showEditCard, setShowEditCard] = useState(false);
-  // const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  let selectedPhotoIndex = 0;
+  const [showEditCard, setShowEditCard] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const { restaurantId } = router.query;
 
   const restaurant = api.restaurant.getById.useQuery({
@@ -46,7 +46,7 @@ const SingleRestaurant = () => {
     api.reportedPhoto.createReportedPhoto.useMutation();
 
   const handlePhotoClick = (index: number) => {
-    selectedPhotoIndex = index;
+    setSelectedPhotoIndex(index);
   };
   const handleReportPhoto = (photo: any) => {
     createReportedPhoto.mutate({
@@ -65,8 +65,37 @@ const SingleRestaurant = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="mx-auto my-8 max-w-4xl px-4">
+        <div className="mx-auto ">
           <div className="flex flex-col space-y-8">
+            <div className="flex flex-col">
+              <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
+              <div className="text-primary md:text-3xl">
+                Favorties: {numberOfFavorites.data && numberOfFavorites.data}
+              </div>{" "}
+              <div className=" text-xs text-primary md:text-3xl">
+                Address:{" "}
+                {`${restaurant.data?.address}, ${restaurant.data?.cityName}, ${restaurant.data?.stateName}`}
+              </div>
+              <div className=" flex gap-1 text-xs text-primary md:text-3xl">
+                {restaurant.data?.cuisines.map((elem) => {
+                  return <div>{elem.cuisine.name}</div>;
+                })}
+              </div>
+              {isMyRestaurant.data && (
+                <button
+                  className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                  onClick={() => {
+                    setShowEditCard(true);
+                  }}
+                >
+                  edit
+                </button>
+              )}
+            </div>
+            <div className="flex gap-4">
+              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
+              <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
+            </div>
             <div className="relative h-96 w-full">
               <Image
                 width={1920}
@@ -99,32 +128,12 @@ const SingleRestaurant = () => {
             <div>
               <MenuComponent restaurantId={String(restaurantId)} />
             </div>
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
-              <div className="text-bold text-3xl text-primary">
-                Favorties: {numberOfFavorites.data && numberOfFavorites.data}
-              </div>
-              {/* {isMyRestaurant.data && (
-                <button
-                  className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
-                  onClick={() => {
-                    setShowEditCard(true);
-                  }}
-                >
-                  edit
-                </button>
-              )} */}
-            </div>
-            <div className="flex gap-4">
-              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />
-              <UpVoteDownVote restaurantId={String(restaurantId) || ""} />
-            </div>
-            {/* {showEditCard && (
+            {showEditCard && (
               <EditRestaurantCard
                 setEditMode={setShowEditCard}
                 restaurantId={String(restaurantId)}
               />
-            )} */}
+            )}
             <div className="flex flex-col-reverse gap-8 md:flex-row">
               <div className="space-y-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
