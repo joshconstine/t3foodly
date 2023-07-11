@@ -16,7 +16,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
       className=" cursor-pointer"
       onClick={() => router.push(`restaurant/${restaurant.id}`)}
     >
-      <div className="flex">
+      <div className="flex gap-1">
         <Image
           width={100}
           height={100}
@@ -38,7 +38,14 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
               <UpVoteDownVote restaurantId={restaurant.id} />
             </div>
           </div>
-          <span>{`${restaurant.cityName}, ${restaurant.stateName}`}</span>
+          {restaurant?.address && (
+            <div>
+              <span className="text-xs">{`${restaurant?.address} ${restaurant.cityName}`}</span>
+            </div>
+          )}
+          <div>
+            <span className="text-xs">{restaurant.phone}</span>
+          </div>
           <div className="flex gap-2">
             {restaurant?.cuisines?.map((cuisine) => {
               return <div>{cuisine.cuisine.name}</div>;

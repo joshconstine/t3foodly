@@ -40,6 +40,8 @@ export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
       name: true,
       cityName: true,
       stateName: true,
+      address: true,
+      phone: true,
       cuisines: {
         include: {
           cuisine: {
