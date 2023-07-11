@@ -4,6 +4,7 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { IconButton, Tooltip } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { motion } from "framer-motion";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 export interface IPriceData {
   price: number;
   order: {
@@ -105,7 +106,7 @@ const FavoriteSaveActions = (props: IProps) => {
     );
   };
   return (
-    <div className="flex w-full justify-between gap-4 border-t-2 border-zinc-500">
+    <div className="flex w-full justify-center gap-8 border-t-2 border-zinc-500">
       <div className="flex flex-col items-center gap-2">
         <div> Favorite</div>
         {isFavorited.data && isFavorited.data ? (
@@ -123,6 +124,17 @@ const FavoriteSaveActions = (props: IProps) => {
             </Tooltip>
           </motion.div>
         )}
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <div>Review</div>
+
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Tooltip title="save">
+            <IconButton disabled={false} onClick={handleSave}>
+              <ReviewsIcon className="text-secondary md:text-4xl" />
+            </IconButton>
+          </Tooltip>
+        </motion.div>
       </div>
       <div className="flex flex-col items-center gap-2">
         <div> Save</div>
