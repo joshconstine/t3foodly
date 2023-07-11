@@ -104,24 +104,10 @@ const Restaurant: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
-          <section className="py-12">
+          <section className="md:py-12">
             <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
-              <div className="flex w-full flex-col  items-center gap-2 ">
-                <div className=" rounded-lgpx-8 reverse mx-2 flex w-full items-center justify-between gap-4 py-4 md:flex-row">
-                  <div>
-                    <div>
-                      <span>Add a Restaurant</span>
-                      <Link href="/restaurant/create">
-                        <motion.button
-                          className="rounded-full bg-secondary py-2 px-2 font-bold text-white"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          +
-                        </motion.button>
-                      </Link>
-                    </div>
-                  </div>
+              <div className="flex  flex-col  items-center gap-2 ">
+                <div className=" rounded-lgpx-8 reverse  flex  items-center justify-between gap-4 py-4 md:flex-row">
                   <RestaurantSearchForm
                     setCity={setCity}
                     setState={setState}
@@ -136,11 +122,11 @@ const Restaurant: NextPage = () => {
                 <div className=" flex w-full flex-col  md:h-special md:flex-row ">
                   <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                     <div className="min-w-96 flex  gap-4">
-                      <h1 className="text-l  relative font-bold text-primary">
+                      <h1 className="md:text-l  relative font-bold text-primary">
                         {`${filterd?.length} ${
                           filterd &&
                           (filterd?.length === 0 || filterd.length > 1)
-                            ? "Restaurants"
+                            ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
                             : "Restaurant"
                         }`}
                       </h1>

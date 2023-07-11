@@ -89,21 +89,19 @@ export const Autocomplete = (props: IAutocomplete) => {
 
   return (
     <div>
-      <div>
-        <input
-          value={value}
-          onChange={handleInput}
-          disabled={!ready}
-          placeholder="Where are you going?"
-          className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
-        />
-        {/* We can use the "status" to decide whether we should display the dropdown or not */}
-        {status === "OK" && (
-          <div className="absolute rounded-lg bg-white p-4 shadow-lg">
-            <ul>{renderSuggestions()}</ul>
-          </div>
-        )}
-      </div>
+      <input
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder="Where are you going?"
+        className="rounded-small w-full border-2 border-primary py-2 px-4"
+      />
+      {/* We can use the "status" to decide whether we should display the dropdown or not */}
+      {status === "OK" && (
+        <div className="absolute rounded-lg bg-white p-4 shadow-lg">
+          <ul>{renderSuggestions()}</ul>
+        </div>
+      )}
     </div>
   );
 };

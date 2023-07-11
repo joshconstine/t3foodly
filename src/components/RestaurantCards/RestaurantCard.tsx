@@ -13,21 +13,23 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
 
   return (
     <div
-      className="h-64 w-64 cursor-pointer"
+      className=" cursor-pointer"
       onClick={() => router.push(`restaurant/${restaurant.id}`)}
     >
-      <div>
+      <div className="flex">
         <Image
-          width={400}
-          height={400}
+          width={100}
+          height={100}
           src={photos.data?.at(0)?.photoUrl || "/static/photos/yum.png"}
           alt="Yum"
           className="relative rounded-lg"
           z-index={0}
         />
         <div>
-          <div className="flex justify-between gap-2 ">
-            <h3 className="text-xl font-bold">{restaurant.name}</h3>
+          <div className="md:ap-2 flex flex-col justify-between ">
+            <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
+              {restaurant.name}
+            </h3>
             <div
               onClick={(e) => {
                 e.stopPropagation();

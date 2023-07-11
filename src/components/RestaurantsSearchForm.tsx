@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useLoadScript } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 import React from "react";
+import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { motion } from "framer-motion";
 import AppsIcon from "@mui/icons-material/Apps";
 import { IconButton } from "@mui/material";
@@ -135,7 +136,7 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
   // @ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
-  const [showDestinationModal, setShowDestinationModal] = useState(false);
+  const [showRadiusModal, setShowRadiusModal] = useState(false);
   const inputEl = useRef(null);
 
   // Handle the keypress for input
@@ -182,7 +183,6 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
       }
     );
 
-    setShowDestinationModal(false);
     if (inputEl && inputEl.current) {
       // @ts-ignore
       inputEl.current.value = `${destination.city}, ${destination.state}`;
@@ -202,39 +202,41 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
     { value: 50, label: "50 miles" },
   ];
   return (
-    <div className="relative z-10 w-64 max-w-full bg-transparent md:w-1/3">
+    <div className="relative z-10 bg-transparent ">
       {loadError && (
         <div>Google Map script can't be loaded, please reload the page</div>
       )}
 
       {isLoaded && (
-        <div className="flex w-64 flex-col  items-center gap-2">
-          <div className="flex w-full flex-col content-start items-center gap-2">
-            <Autocomplete
-              setCity={setCity}
-              setState={setState}
-              city={city}
-              state={state}
-              setMapCenter={setMapCenter}
-            />
-            <select
-              onChange={(e) =>
-                props.setSearchRadiusInMiles(Number(e.target.value))
-              }
-              defaultValue={props.searchRadiusInMiles}
-              className="w-full rounded-full bg-gray-100 py-2 px-8"
+        <div className="flex w-full  gap-2">
+          <Autocomplete
+            setCity={setCity}
+            setState={setState}
+            city={city}
+            state={state}
+            setMapCenter={setMapCenter}
+          />
+          <IconButton
+            onClick={() => {
+              setShowRadiusModal(!showRadiusModal);
+            }}
+          >
+            <LocationSearchingIcon />
+          </IconButton>
+        </div>
+      )}
+      {showRadiusModal && (
+        <div className="bg z-100 absolute right-0 flex flex-col gap-1 rounded-lg border-2 border-zinc-700 bg-gray-400 p-2">
+          {searchRadiusOptions.map((option) => (
+            <div
+              onClick={() => {
+                props.setSearchRadiusInMiles(option.value);
+                setShowRadiusModal(false);
+              }}
             >
-              {searchRadiusOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className="py-2 px-4 hover:bg-gray-100"
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+              {option.label}
+            </div>
+          ))}
         </div>
       )}
     </div>
