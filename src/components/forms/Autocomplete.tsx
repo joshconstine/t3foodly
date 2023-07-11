@@ -97,7 +97,7 @@ export const Autocomplete = (props: IAutocomplete) => {
           setValue("");
         }}
         placeholder="Where are you going?"
-        className="rounded-small w-full border-2 border-primary py-2 px-4"
+        className="w-full rounded-md border-2 border-primary py-2 px-4 "
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (

@@ -13,7 +13,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
 
   return (
     <div
-      className=" cursor-pointer"
+      className=" h-32 cursor-pointer "
       onClick={() => router.push(`restaurant/${restaurant.id}`)}
     >
       <div className="flex gap-1">
@@ -26,7 +26,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
           z-index={0}
         />
         <div>
-          <div className="md:ap-2 flex flex-col justify-between ">
+          <div className="md:ap-2 flex flex-col  ">
             <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
               {restaurant.name}
             </h3>
@@ -39,13 +39,9 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
             </div>
           </div>
           {restaurant?.address && (
-            <div>
-              <span className="text-xs">{`${restaurant?.address} ${restaurant.cityName}`}</span>
-            </div>
+            <div className="text-xs">{`${restaurant?.address} ${restaurant.cityName}`}</div>
           )}
-          <div>
-            <span className="text-xs">{restaurant.phone}</span>
-          </div>
+          <div className="text-xs">{restaurant.phone}</div>
           <div className="flex gap-2">
             {restaurant?.cuisines?.map((cuisine) => {
               return <div>{cuisine.cuisine.name}</div>;
