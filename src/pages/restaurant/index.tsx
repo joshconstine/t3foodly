@@ -130,14 +130,14 @@ const Restaurant: NextPage = () => {
                             : "Restaurant"
                         }`}
                       </h1>
-                      <button
+                      {/* <button
                         className="text-l   rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
                         onClick={() => {
                           setShowFilters(!showFilters);
                         }}
                       >
                         filters
-                      </button>
+                      </button> */}
                     </div>
                     {showFilters && (
                       <div>
