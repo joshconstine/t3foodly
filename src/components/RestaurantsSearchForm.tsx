@@ -226,9 +226,10 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
         </div>
       )}
       {showRadiusModal && (
-        <div className="bg  absolute right-0 flex flex-col gap-1 rounded-lg border-2 border-zinc-700 bg-gray-400 p-2">
+        <div className="z-100 bg-priamry absolute right-0 mt-2 flex flex-col  gap-1 rounded-lg border-2 border-black bg-primary p-2 text-white">
           {searchRadiusOptions.map((option) => (
             <div
+              className="cursor-pointer hover:bg-gray-500"
               onClick={() => {
                 props.setSearchRadiusInMiles(option.value);
                 setShowRadiusModal(false);

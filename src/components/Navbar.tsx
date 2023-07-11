@@ -33,19 +33,19 @@ const Navbar = () => {
                 <div className="flex flex-col gap-4 p-4">
                   <Link
                     href="/restaurant"
-                    className="rounded-md px-3  text-sm font-medium"
+                    className="rounded-md   text-sm font-medium"
                   >
                     Restaurants
                   </Link>
                   <Link
                     href="/restaurant/create"
-                    className="rounded-md px-3 text-sm font-medium"
+                    className="rounded-md  text-sm font-medium"
                   >
                     Add Restaurant
                   </Link>
                   <Link
                     href="/discover"
-                    className="rounded-md px-3  text-sm font-medium"
+                    className="rounded-md   text-sm font-medium"
                   >
                     Discover
                   </Link>
@@ -53,19 +53,19 @@ const Navbar = () => {
                     <>
                       <Link
                         href="/restaurantApplications"
-                        className="rounded-md px-3  text-sm font-medium"
+                        className="rounded-md text-sm font-medium"
                       >
                         Restaurant Applications
                       </Link>
                       <Link
                         href="/admin"
-                        className="rounded-md px-3  text-sm font-medium"
+                        className="rounded-md   text-sm font-medium"
                       >
                         Admin Dashboard
                       </Link>
                       <Link
                         href="/reportedItems"
-                        className="rounded-md px-3  text-sm font-medium"
+                        className="rounded-md  text-sm font-medium"
                       >
                         Reported Items
                       </Link>
