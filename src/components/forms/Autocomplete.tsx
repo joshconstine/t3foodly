@@ -80,7 +80,7 @@ export const Autocomplete = (props: IAutocomplete) => {
           key={place_id}
           onClick={handleSelect(suggestion)}
           style={{ cursor: "pointer" }}
-          className="py-2 px-4 hover:bg-gray-100"
+          className="py-2 px-4 text-white hover:bg-gray-100"
         >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
@@ -93,12 +93,15 @@ export const Autocomplete = (props: IAutocomplete) => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
+        onFocus={() => {
+          setValue("");
+        }}
         placeholder="Where are you going?"
         className="rounded-small w-full border-2 border-primary py-2 px-4"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <div className="absolute rounded-lg bg-white p-4 shadow-lg">
+        <div className="fixed z-10 flex flex-col gap-2 rounded-md border-2 border-black bg-primary p-2">
           <ul>{renderSuggestions()}</ul>
         </div>
       )}
