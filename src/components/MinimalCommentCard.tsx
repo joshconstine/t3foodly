@@ -6,9 +6,11 @@ import Image from "next/image";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Comment } from "@prisma/client";
-const MinimalCommentCard = (props: { comment: Comment }) => {
+const MinimalCommentCard = (props: { comment: Comment | undefined }) => {
   const router = useRouter();
+  if (!props.comment || props.comment === undefined) return null;
   const comment = props.comment;
+
   const user = api.user.getUser.useQuery();
   const photos = api.photo.getByCommentId.useQuery({
     id: comment.id,
