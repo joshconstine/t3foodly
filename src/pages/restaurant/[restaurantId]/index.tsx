@@ -97,7 +97,7 @@ const SingleRestaurant = () => {
                 </button>
               )}
             </div>
-            <div className="flex gap-4 px-4">
+            <div className=" flex gap-4">
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
               {/* <UpVoteDownVote restaurantId={String(restaurantId) || ""} /> */}
             </div>

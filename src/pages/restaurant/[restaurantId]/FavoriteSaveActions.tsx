@@ -13,6 +13,7 @@ export interface IPriceData {
 }
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 interface IProps {
   restaurantId: string;
 }
@@ -20,6 +21,7 @@ interface IProps {
 const FavoriteSaveActions = (props: IProps) => {
   const { restaurantId } = props;
   const session = useSession();
+  const [showDialog, setShowDialog] = useState(false);
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
     restaurantId: String(restaurantId),
   });
@@ -97,25 +99,26 @@ const FavoriteSaveActions = (props: IProps) => {
       {
         async onSuccess() {
           await isMyRestaurant.refetch();
+          setShowDialog(true);
         },
       }
     );
   };
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex w-full justify-between gap-4 border-t-2 border-zinc-500">
       <div className="flex flex-col items-center gap-2">
         <div> Favorite</div>
         {isFavorited.data && isFavorited.data ? (
           <Tooltip title="Unfavorite">
             <IconButton disabled={false} onClick={handleUnfavorite}>
-              <StarIcon className="text-4xl text-secondary" />
+              <StarIcon className="text-secondary md:text-4xl" />
             </IconButton>
           </Tooltip>
         ) : (
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Tooltip title="Favorite">
               <IconButton disabled={false} onClick={handleFavorite}>
-                <StarBorderOutlinedIcon className="text-4xl text-secondary" />
+                <StarBorderOutlinedIcon className="text-secondary md:text-4xl" />
               </IconButton>
             </Tooltip>
           </motion.div>
@@ -137,21 +140,40 @@ const FavoriteSaveActions = (props: IProps) => {
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Tooltip title="save">
               <IconButton disabled={false} onClick={handleSave}>
-                <SaveAltIcon className="text-4xl text-secondary" />
+                <SaveAltIcon className="text-secondary md:text-4xl" />
               </IconButton>
             </Tooltip>
           </motion.div>
         )}
       </div>
-      <div>
+      <div className="flex items-center gap-2 text-xs">
         <button
           disabled={false}
           onClick={handleAddRestaurantToUser}
-          className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+          className="rounded-md bg-red-500  p-1 text-white hover:bg-red-700"
         >
-          My restaurant
+          Apply
         </button>
+        <div className="w-32">Apply to be restaurant admin</div>
       </div>
+      <dialog
+        open={showDialog}
+        className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
+      >
+        <div className="flex flex-col items-center gap-2">
+          <div>
+            Your Request will be reviewed by an admin and you will be notified
+            of the decision
+          </div>
+          <button
+            onClick={() => setShowDialog(false)}
+            formMethod="dialog"
+            className="rounded-md bg-red-500  p-1 text-white hover:bg-red-700"
+          >
+            Close
+          </button>
+        </div>
+      </dialog>
     </div>
   );
 };
