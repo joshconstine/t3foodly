@@ -25,6 +25,7 @@ const CuisineFilter = (props: IProps) => {
                   ? "bg-secondary text-white"
                   : "border-2 border-secondary "
               } p-2`}
+              type="button"
             >
               {cuisine.name}
             </button>

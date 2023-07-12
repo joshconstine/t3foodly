@@ -20,6 +20,7 @@ import Check from "@mui/icons-material/Check";
 import InfoIcon from "@mui/icons-material/Info";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import VideoLabelIcon from "@mui/icons-material/VideoLabel";
+import LinkIcon from "@mui/icons-material/Link";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
@@ -28,11 +29,13 @@ import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 const steps = [
   "Restaurant Information",
   "Restaurant Location",
+  "Restaurant Cuisine",
   "Restaurant Photos",
   "Review",
 ];
 import PreviewIcon from "@mui/icons-material/Preview";
 import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
+import CuisineFilter from "../restaurant/CuisineFilter";
 const ColorlibStepIconRoot = styled("div")<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
@@ -62,8 +65,9 @@ function ColorlibStepIcon(props: StepIconProps) {
   const icons: { [index: string]: React.ReactElement } = {
     1: <InfoIcon />,
     2: <LocationOnIcon />,
-    3: <ImageSearchIcon />,
-    4: <PreviewIcon />,
+    3: <LinkIcon />,
+    4: <ImageSearchIcon />,
+    5: <PreviewIcon />,
   };
 
   return (
@@ -100,6 +104,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }));
 const AddRestaurantForm = () => {
+  const cuisines = api.cuisine.getAll.useQuery();
   const createRestaurant =
     api.restaurantApplication.createRestaurantApplication.useMutation();
   const createUserRestaurantApplication =
@@ -112,7 +117,9 @@ const AddRestaurantForm = () => {
   const [file, setFile] = useState<any>();
   const [preview, setPreview] = useState<undefined | string>();
   const [ref, bounds] = useMeasure();
-
+  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
+  const createCuisine =
+    api.restaurantCuisine.createRestaurantCuisine.useMutation();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
@@ -221,6 +228,10 @@ const AddRestaurantForm = () => {
               applicationId: applicationData.id,
             });
           }
+          createCuisine.mutate({
+            restaurantId: applicationData.id,
+            cuisines: selectedCuisines,
+          });
           const uploadPhoto = async () => {
             try {
               let { data } = await axios.post("/api/s3/upload-url", {
@@ -393,6 +404,34 @@ const AddRestaurantForm = () => {
     } else if (activeStep === 2) {
       return (
         <div>
+          {cuisines && (
+            <CuisineFilter
+              cuisines={cuisines?.data || []}
+              selectedCuisines={selectedCuisines}
+              setCuisines={setSelectedCuisines}
+            />
+          )}
+          <React.Fragment>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: "1 1 auto" }} />
+
+              <button
+                type="button"
+                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                onClick={handleNext}
+              >
+                Next
+              </button>
+            </Box>
+          </React.Fragment>
+        </div>
+      );
+    } else if (activeStep === 3) {
+      return (
+        <div>
           <div className="my-2 flex max-w-xl flex-col gap-4 p-4 py-2 md:my-16 md:py-16">
             <label className="flex h-16 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
               <span className="flex items-center space-x-2">
@@ -556,7 +595,6 @@ const AddRestaurantForm = () => {
             <Form className="mb-4 h-full w-full">
               <Box
                 sx={{
-                  width: "100%",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
