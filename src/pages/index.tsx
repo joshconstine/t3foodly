@@ -70,7 +70,7 @@ const Home: NextPage = () => {
                   <h1 className="relative text-5xl font-bold text-primary">
                     Welcome
                   </h1>
-                  <p className="mt-4 text-lg text-primary">
+                  {/* <p className="mt-4 text-lg text-primary">
                     Search the city you would like to eat in below
                   </p>
                   {isLoaded && (
@@ -84,7 +84,15 @@ const Home: NextPage = () => {
                         <PlayArrowIcon />
                       </motion.div>
                     </form>
-                  )}
+                  )} */}
+                  <button
+                    onClick={() => {
+                      router.push("/restaurant");
+                    }}
+                    className="hover:bg-primary-dark rounded-lg bg-primary px-4 py-2 text-lg font-bold text-white shadow-lg"
+                  >
+                    chech out the Food
+                  </button>
                 </div>
               </div>
               <Image
