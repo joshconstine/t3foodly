@@ -1,4 +1,4 @@
-import { Restaurant, RestaurantApplication } from "@prisma/client";
+import { Cuisine, Restaurant, RestaurantApplication } from "@prisma/client";
 import axios from "axios";
 import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import { motion, MotionConfig } from "framer-motion";
