@@ -588,29 +588,21 @@ const AddRestaurantForm = () => {
           }}
         >
           {(props) => (
-            <Form className="mb-4 h-full w-full">
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+            <Form className="mb-4 flex h-full w-full flex-col items-center">
+              <Stepper
+                alternativeLabel
+                activeStep={activeStep}
+                connector={<ColorlibConnector />}
               >
-                <Stepper
-                  alternativeLabel
-                  activeStep={activeStep}
-                  connector={<ColorlibConnector />}
-                >
-                  {steps.map((label) => (
-                    <Step key={label}>
-                      <StepLabel StepIconComponent={ColorlibStepIcon}>
-                        {label}
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
-                {renderStep(props)}
-              </Box>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={ColorlibStepIcon}>
+                      {label}
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              {renderStep(props)}
             </Form>
           )}
         </Formik>
