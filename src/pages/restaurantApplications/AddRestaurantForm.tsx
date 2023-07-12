@@ -26,16 +26,11 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-const steps = [
-  "Restaurant Information",
-  "Restaurant Location",
-  "Restaurant Cuisine",
-  "Restaurant Photos",
-  "Review",
-];
 import PreviewIcon from "@mui/icons-material/Preview";
 import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
+
 import CuisineFilter from "../restaurant/CuisineFilter";
+const steps = ["Info", "Location", "Cuisine", "Photos", "Review"];
 const ColorlibStepIconRoot = styled("div")<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
@@ -98,6 +93,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
+
     backgroundColor:
       theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
     borderRadius: 1,
