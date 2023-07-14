@@ -532,6 +532,9 @@ const AddRestaurantForm = () => {
             </div>
           </div>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              Back
+            </Button>
             <motion.button
               type="button"
               className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
@@ -543,9 +546,6 @@ const AddRestaurantForm = () => {
             >
               {props.isSubmitting ? "Submitting" : "Submit"}
             </motion.button>
-            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
             <Box sx={{ flex: "1 1 auto" }} />
           </Box>
         </div>
