@@ -3,6 +3,7 @@ import { api } from "../../../utils/api";
 import Image from "next/image";
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 interface IProps {
   restaurantId: string;
 }
@@ -87,16 +88,10 @@ const CreateCommentContainer = (props: IProps) => {
   };
 
   return (
-    <div className="px-2">
+    <div className="my-2 px-2">
       <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
         <h3 className="mb-4 text-lg font-bold">Leave a review</h3>
         <div className="mb-4">
-          <label
-            htmlFor="comment"
-            className="mb-2 block font-bold text-gray-700"
-          >
-            Comment
-          </label>
           <textarea
             id="comment"
             name="comment"
@@ -107,16 +102,29 @@ const CreateCommentContainer = (props: IProps) => {
         {file && (
           <Image src={preview || ""} alt={"photo"} width={400} height={200} />
         )}
-        <div>
-          <input type="file" onChange={(e) => storeFile(e)} />
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="rounded-full bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-          >
-            Submit
-          </button>
+        <div className="flex items-center justify-between">
+          <div>
+            Add Photo
+            <label className="flex h-16 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
+              <span className="flex items-center space-x-2">
+                <AddPhotoAlternateIcon />
+              </span>
+              <input
+                type="file"
+                name="file_upload"
+                className="hidden"
+                onChange={(e) => storeFile(e)}
+              />
+            </label>
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="rounded-sm border-2 border-secondary px-4 py-2 text-secondary transition hover:bg-secondary hover:text-white "
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </form>
     </div>
