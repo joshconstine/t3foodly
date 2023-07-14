@@ -44,10 +44,8 @@ const createRestaurant: NextPage = () => {
                 </form>
               </div>
             </dialog>
-            <div className="flex">
-              <div className=" my-8 max-w-4xl ">
-                <AddRestaurantForm />
-              </div>
+            <div className=" my-8 max-w-4xl ">
+              <AddRestaurantForm />
             </div>
           </div>
         </section>
