@@ -14,12 +14,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Check from "@mui/icons-material/Check";
 import InfoIcon from "@mui/icons-material/Info";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import VideoLabelIcon from "@mui/icons-material/VideoLabel";
 import LinkIcon from "@mui/icons-material/Link";
 import StepConnector, {
   stepConnectorClasses,
@@ -27,8 +23,7 @@ import StepConnector, {
 import { StepIconProps } from "@mui/material/StepIcon";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import PreviewIcon from "@mui/icons-material/Preview";
-import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
-
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CuisineFilter from "../restaurant/CuisineFilter";
 const steps = ["Info", "Location", "Cuisine", "Photos", "Review"];
 const ColorlibStepIconRoot = styled("div")<{
@@ -429,26 +424,10 @@ const AddRestaurantForm = () => {
       return (
         <div>
           <div className="my-2 flex max-w-xl flex-col gap-4 p-4 py-2 md:my-16 md:py-16">
+            <span className="text-l font-bold text-primary">Add A Photo:</span>
             <label className="flex h-16 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
               <span className="flex items-center space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-primary"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  />
-                </svg>
-                <span className="font-medium text-primary">
-                  Drop files to Attach, or
-                  <span className="text-blue-600 underline">browse</span>
-                </span>
+                <AddPhotoAlternateIcon />
               </span>
               <input
                 type="file"
