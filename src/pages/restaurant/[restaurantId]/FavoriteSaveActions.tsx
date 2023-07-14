@@ -167,7 +167,7 @@ const FavoriteSaveActions = (props: IProps) => {
         <button
           disabled={false}
           onClick={handleAddRestaurantToUser}
-          className="rounded-md bg-red-500  p-1 text-white hover:bg-red-700"
+          className=" rounded-md border-2 border-secondary px-2 py-2 text-secondary"
         >
           Apply
         </button>

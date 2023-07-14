@@ -54,6 +54,9 @@ const SingleRestaurant = () => {
       restaurantId: String(restaurantId),
     });
   };
+  if (restaurant.isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <Head>
@@ -74,11 +77,11 @@ const SingleRestaurant = () => {
               </div>{" "}
               <div className=" text-xs text-primary md:text-3xl">
                 Address:{" "}
-                {`${restaurant.data?.address}, ${restaurant.data?.cityName}, ${restaurant.data?.stateName}`}
+                {`${restaurant?.data?.address}, ${restaurant?.data?.cityName}, ${restaurant?.data?.stateName}`}
               </div>
               <div className=" text-xs text-primary md:text-3xl">
                 <a href={`${restaurant.data?.website}` || ""} target="_blank">
-                  {restaurant.data?.website}
+                  {restaurant?.data?.website}
                 </a>
               </div>
               <div className=" flex gap-1 text-xs text-primary md:text-3xl">
@@ -145,6 +148,16 @@ const SingleRestaurant = () => {
             <div className="flex flex-col gap-8 md:flex-row">
               <div className=" flex flex-col gap-2 px-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
+                {comments.isLoading && <div>Loading...</div>}
+                {comments.data?.length === 0 && (
+                  <div
+                    className="
+                  text-primary md:text-3xl
+                  "
+                  >
+                    No comments yet. Be the first to comment!
+                  </div>
+                )}
                 {comments.data?.map((comment) => (
                   <MinimalCommentCard comment={comment} />
                 ))}

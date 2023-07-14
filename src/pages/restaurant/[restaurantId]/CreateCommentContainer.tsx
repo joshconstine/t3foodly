@@ -102,11 +102,11 @@ const CreateCommentContainer = (props: IProps) => {
         {file && (
           <Image src={preview || ""} alt={"photo"} width={400} height={200} />
         )}
-        <div className="flex items-center justify-between">
+        <div className="flex items-end justify-between">
           <div>
             Add Photo
-            <label className="flex h-16 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
-              <span className="flex items-center space-x-2">
+            <label className="flex w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white py-2 px-2 transition hover:border-gray-400 focus:outline-none md:h-32">
+              <span className="flex items-center">
                 <AddPhotoAlternateIcon />
               </span>
               <input
@@ -120,7 +120,7 @@ const CreateCommentContainer = (props: IProps) => {
           <div>
             <button
               type="submit"
-              className="rounded-sm border-2 border-secondary px-4 py-2 text-secondary transition hover:bg-secondary hover:text-white "
+              className=" rounded-md border-2 border-secondary px-2 py-2 text-secondary"
             >
               Submit
             </button>
