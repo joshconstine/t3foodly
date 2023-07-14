@@ -46,33 +46,21 @@ const MinimalCommentCard = (props: { comment: Comment | undefined }) => {
   return (
     <div
       className=" bg-z in w-full overflow-hidden rounded-lg border-2
-        border-zinc-400 "
+        border-zinc-400 p-2"
     >
-      {photos.data && photos.data.length > 0 && (
-        <div className="flex px-2 pt-2">
-          <Image
-            width={40}
-            height={40}
-            className="w-48"
-            src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
-            alt="Restaurant Image"
-          />
-          <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
-            report
-          </button>
-        </div>
-      )}
-      <div className="flex gap-2 p-4">
-        <Image
-          width={60}
-          height={60}
-          className="rounded-full"
-          src={user.data?.image || ""}
-          alt="Profile Image"
-        />
+      <div className="flex gap-2 p-2">
         <div>
+          <Image
+            width={30}
+            height={30}
+            className="rounded-full"
+            src={user.data?.image || ""}
+            alt="Profile Image"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
           <h3
-            className=" cursor-pointer text-xl font-bold"
+            className=" cursor-pointer font-bold"
             onClick={() => router.push(`/user/${comment.user_id}`)}
           >
             {username.data || ""}
@@ -88,13 +76,29 @@ const MinimalCommentCard = (props: { comment: Comment | undefined }) => {
       <div className="p-2">
         <p className="text-sm text-gray-700">{comment.text}</p>
       </div>
-      {isUsersComment && (
-        <Tooltip title="delete">
-          <IconButton disabled={false} onClick={handleDeleteComment}>
-            <DeleteOutlineOutlinedIcon className="text-4xl text-secondary" />
-          </IconButton>
-        </Tooltip>
-      )}
+      <div className="flex content-end items-end justify-between">
+        {photos.data && photos.data.length > 0 && (
+          <div className="flex px-2 pt-2">
+            <Image
+              width={40}
+              height={40}
+              className="w-48"
+              src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
+              alt="Restaurant Image"
+            />
+            <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
+              report
+            </button>
+          </div>
+        )}
+        {isUsersComment && (
+          <Tooltip title="delete">
+            <IconButton disabled={false} onClick={handleDeleteComment}>
+              <DeleteOutlineOutlinedIcon className="text-4xl text-secondary" />
+            </IconButton>
+          </Tooltip>
+        )}
+      </div>
     </div>
   );
 };

@@ -86,22 +86,24 @@ const SingleRestaurant = () => {
                   return <div>{elem.cuisine.name}</div>;
                 })}
               </div>
-              {isMyRestaurant.data && (
-                <button
-                  className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
-                  onClick={() => {
-                    setShowEditCard(true);
-                  }}
-                >
-                  edit
-                </button>
-              )}
+              <div>
+                {isMyRestaurant.data && (
+                  <button
+                    className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                    onClick={() => {
+                      setShowEditCard(true);
+                    }}
+                  >
+                    edit
+                  </button>
+                )}
+              </div>
             </div>
             <div className=" flex gap-4">
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
               {/* <UpVoteDownVote restaurantId={String(restaurantId) || ""} /> */}
             </div>
-            <div>
+            <div className="px-4">
               <MenuComponent restaurantId={String(restaurantId)} />
             </div>
             <div className="relative h-96 w-full">
@@ -112,7 +114,7 @@ const SingleRestaurant = () => {
                 alt={restaurant.data?.name || ""}
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-50 p-4 text-sm text-white">
+              <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-80 p-4 text-sm text-white">
                 <div className="flex space-x-2">
                   {photos.data?.map((photo, index) => (
                     <>
@@ -141,7 +143,7 @@ const SingleRestaurant = () => {
               />
             )}
             <div className="flex flex-col gap-8 md:flex-row">
-              <div className=" flex flex-col gap-2 px-2">
+              <div className=" flex flex-col gap-2 px-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
                 {comments.data?.map((comment) => (
                   <MinimalCommentCard comment={comment} />
