@@ -26,7 +26,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
           className="relative rounded-lg"
           z-index={0}
         />
-        <div className="w-full">
+        <div className="flex w-full flex-col gap-1">
           <div className="md:ap-2 flex w-full items-center justify-between ">
             <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
               {restaurant.name}
