@@ -6,12 +6,10 @@ interface IResultsProps {
 }
 const RestaurantResults = ({ restaurants }: IResultsProps) => {
   return (
-    <div>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
-        {restaurants?.map((elem) => {
-          return <RestaurantCard restaurant={elem} key={elem.id} />;
-        })}
-      </div>
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
+      {restaurants?.map((elem) => {
+        return <RestaurantCard restaurant={elem} key={elem.id} />;
+      })}
     </div>
   );
 };

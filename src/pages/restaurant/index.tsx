@@ -15,14 +15,35 @@ import { useLoadScript } from "@react-google-maps/api";
 import CuisineFilter from "./CuisineFilter";
 import { Cuisine } from "@prisma/client";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
+import Skeleton from "@mui/material/Skeleton";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
     ? process.env.NEXT_PUBLIC_PLACES_KEY
     : "",
   libraries: ["places"],
 };
-
 const Restaurant: NextPage = () => {
+  const RestaurantCardSkeleton = () => {
+    return (
+      <div className=" h-32 ">
+        <div className="flex gap-1">
+          <Skeleton variant="circular" width={100} height={100} />
+
+          <div className="md:ap-2 flex w-32 flex-col  ">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            <div className="w-8">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+            <div className="w-16">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+        </div>
+      </div>
+    );
+  };
   const router = useRouter();
   const params = router.query;
   const center = {
@@ -118,19 +139,27 @@ const Restaurant: NextPage = () => {
                     searchRadiusInMiles={searchRadiusInMiles}
                   />
                 </div>
-
                 <div className=" flex w-full flex-col  md:h-special md:flex-row ">
-                  <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                    <div className="min-w-96 flex  gap-4">
-                      <h1 className="md:text-l   font-bold text-primary">
-                        {`${filterd?.length} ${
-                          filterd &&
-                          (filterd?.length === 0 || filterd.length > 1)
-                            ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
-                            : "Restaurant"
-                        }`}
-                      </h1>
-                      {/* <button
+                  {dbRestaurantsMinimal.isLoading ? (
+                    <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
+                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
+                        {new Array(10).fill(true).map((elem, index) => (
+                          <RestaurantCardSkeleton key={index} />
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
+                      <div className="min-w-96 flex  gap-4">
+                        <h1 className="md:text-l   font-bold text-primary">
+                          {`${filterd?.length} ${
+                            filterd &&
+                            (filterd?.length === 0 || filterd.length > 1)
+                              ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
+                              : "Restaurant"
+                          }`}
+                        </h1>
+                        {/* <button
                         className="text-l   rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
                         onClick={() => {
                           setShowFilters(!showFilters);
@@ -138,23 +167,26 @@ const Restaurant: NextPage = () => {
                       >
                         filters
                       </button> */}
-                    </div>
-                    {showFilters && (
-                      <div>
-                        {cuisines && (
-                          <CuisineFilter
-                            cuisines={cuisines?.data || []}
-                            selectedCuisines={selectedCuisines}
-                            setCuisines={setSelectedCuisines}
-                          />
-                        )}
                       </div>
-                    )}
-                    {focusedRestaurant && (
-                      <FocusedRestaurantCard restaurantId={focusedRestaurant} />
-                    )}
-                    <RestaurantResults restaurants={filterd} />
-                  </div>
+                      {showFilters && (
+                        <div>
+                          {cuisines && (
+                            <CuisineFilter
+                              cuisines={cuisines?.data || []}
+                              selectedCuisines={selectedCuisines}
+                              setCuisines={setSelectedCuisines}
+                            />
+                          )}
+                        </div>
+                      )}
+                      {focusedRestaurant && (
+                        <FocusedRestaurantCard
+                          restaurantId={focusedRestaurant}
+                        />
+                      )}
+                      <RestaurantResults restaurants={filterd} />
+                    </div>
+                  )}
                   <div className="min-w-96 relative left-0 top-0 h-full w-full">
                     <Map
                       radius={searchRadiusInMiles}

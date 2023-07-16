@@ -91,7 +91,7 @@ const Home: NextPage = () => {
                     }}
                     className="hover:bg-primary-dark rounded-lg bg-primary px-4 py-2 text-lg font-bold text-white shadow-lg"
                   >
-                    chech out the Food
+                    check out the Food
                   </button>
                 </div>
               </div>
