@@ -7,6 +7,7 @@ import Menu from "./Menu";
 import Photos from "./Photos";
 import CuisineFilter from "../CuisineFilter";
 import { Cuisine } from "@prisma/client";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 interface IProps {
   restaurantId: string;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -160,50 +161,8 @@ const EditRestaurantCard = (props: IProps) => {
     const uploadedFile = input.files[0];
     setFile(uploadedFile);
   };
-
-  return (
-    <div>
-      <h1>Edit Restaurant Card</h1>
-      <div className=" m-4 p-4">
-        <h1 className="text-2xl text-primary">Current Restaurant Data</h1>
-        <p>Restaurant ID: {restaurantId}</p>
-        <p>Restaurant Name: {restaurant.data?.name}</p>
-        <p>Restaurant Address: {restaurant.data?.address}</p>
-        <p>Restaurant City: {restaurant.data?.cityName}</p>
-        <p>Restaurant State: {restaurant.data?.stateName}</p>
-        <p>Restaurant Zip: {restaurant.data?.zipCode}</p>
-        <p>Restaurant Phone: {restaurant.data?.phone}</p>
-        <p>Restaurant Website: {restaurant.data?.website}</p>
-        <p>Restaurant Hours: {restaurant.data?.hoursInterval}</p>
-        <p>Restaurant Lat: {restaurant.data?.lat}</p>
-        <p>Restaurant Lng: {restaurant.data?.lng}</p>
-        <p>
-          Cuisines:{" "}
-          {restaurantCuisines?.data?.map((el) => (
-            <div>
-              {
-                cuisines?.data?.find((cuisine) => cuisine.id === el.cuisine_id)
-                  ?.name
-              }
-            </div>
-          ))}
-        </p>
-      </div>
-      <div>
-        {cuisines && (
-          <CuisineFilter
-            cuisines={cuisines?.data || []}
-            selectedCuisines={selectedCuisines}
-            setCuisines={setSelectedCuisines}
-          />
-        )}
-        <button
-          className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-          onClick={handleSetCuisines}
-        >
-          save
-        </button>
-      </div>
+  const RestaurantInfoForm = () => {
+    return (
       <form
         onSubmit={handleUpdate}
         className="m-4 flex w-64 flex-col  whitespace-nowrap p-4"
@@ -303,52 +262,94 @@ const EditRestaurantCard = (props: IProps) => {
           close
         </button>
       </form>
+    );
+  };
+  return (
+    <div>
+      <button
+        className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+        onClick={() => {
+          setEditMode(false);
+        }}
+      >
+        Return to public view
+      </button>
+      <h1>Edit Restaurant Card</h1>
       <div className=" m-4 p-4">
-        <h1 className="text-2xl text-primary">Add A photo</h1>
+        <h1 className="text-2xl text-primary">Current Restaurant Data</h1>
+
+        <p>Restaurant Hours: {restaurant.data?.hoursInterval}</p>
+
+        <p>
+          Cuisines:{" "}
+          {restaurantCuisines?.data?.map((el) => (
+            <div>
+              {
+                cuisines?.data?.find((cuisine) => cuisine.id === el.cuisine_id)
+                  ?.name
+              }
+            </div>
+          ))}
+        </p>
+      </div>
+      <RestaurantInfoForm />
+      <div className=" m-4 p-4">
+        <h1 className="text-2xl text-primary">Current Photos</h1>
         <Photos restaurantId={restaurantId} />
-        <label className="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
-          <span className="flex items-center space-x-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-              />
-            </svg>
-            <span className="font-medium text-gray-600">
-              Drop files to Attach, or
-              <span className="text-blue-600 underline">browse</span>
+        <h1 className="text-2xl text-primary">Add A photo</h1>
+        <div>
+          <label className="flex h-16 w-16 cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white px-4 transition hover:border-gray-400 focus:outline-none md:h-32">
+            <span className="flex items-center space-x-2">
+              <AddPhotoAlternateIcon />
             </span>
-          </span>
-          <input
-            type="file"
-            name="file_upload"
-            className="hidden"
-            onChange={(e) => storeFile(e)}
-          />
-        </label>
+            <input
+              type="file"
+              name="file_upload"
+              className="hidden"
+              onChange={(e) => storeFile(e)}
+            />
+          </label>
+        </div>
         {file && (
-          <div>
+          <div className="flex items-center gap-4">
             <Image src={preview || ""} alt={"photo"} width={400} height={200} />
-            <button
-              className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              save
-            </button>
+            <div>
+              <button
+                className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                save
+              </button>
+            </div>
           </div>
         )}
       </div>{" "}
-      <Menu restaurantId={restaurantId} />
-      <AddMenu restaurantId={restaurantId} />
+      <div>
+        <h1 className="text-2xl text-primary">Update Cuisines</h1>
+        <div className="flex items-center">
+          {cuisines && (
+            <CuisineFilter
+              cuisines={cuisines?.data || []}
+              selectedCuisines={selectedCuisines}
+              setCuisines={setSelectedCuisines}
+            />
+          )}
+          <button
+            className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+            onClick={handleSetCuisines}
+          >
+            save
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div>
+          <h1 className="text-2xl text-primary">Current Menu</h1>
+        </div>
+        <Menu restaurantId={restaurantId} />
+        <AddMenu restaurantId={restaurantId} />
+      </div>
     </div>
   );
 };

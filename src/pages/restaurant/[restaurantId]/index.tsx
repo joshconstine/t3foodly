@@ -57,6 +57,16 @@ const SingleRestaurant = () => {
   if (restaurant.isLoading) {
     return <div>Loading...</div>;
   }
+  if (showEditCard) {
+    return (
+      <div>
+        <EditRestaurantCard
+          setEditMode={setShowEditCard}
+          restaurantId={String(restaurantId)}
+        />
+      </div>
+    );
+  }
   return (
     <>
       <Head>
@@ -144,12 +154,6 @@ const SingleRestaurant = () => {
               </div>
             </div>
 
-            {showEditCard && (
-              <EditRestaurantCard
-                setEditMode={setShowEditCard}
-                restaurantId={String(restaurantId)}
-              />
-            )}
             <div className="flex flex-col gap-8 md:flex-row">
               <div className=" flex flex-col gap-2 px-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
