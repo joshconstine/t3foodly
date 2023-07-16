@@ -142,25 +142,27 @@ const FavoriteSaveActions = (props: IProps) => {
         </motion.div>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <div> Save</div>
         {isSaved.data && isSaved.data ? (
-          <div>
+          <div className="flex h-full items-center justify-center">
             <button
               disabled={false}
               onClick={handleUnSave}
-              className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+              className="whitespace-nowrap rounded-md border-2 border-secondary py-1 px-2 text-xs text-secondary "
             >
               Un-Save
             </button>
           </div>
         ) : (
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-            <Tooltip title="save">
-              <IconButton disabled={false} onClick={handleSave}>
-                <SaveAltIcon className="text-secondary md:text-4xl" />
-              </IconButton>
-            </Tooltip>
-          </motion.div>
+          <>
+            <div> Save</div>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Tooltip title="save">
+                <IconButton disabled={false} onClick={handleSave}>
+                  <SaveAltIcon className="text-secondary md:text-4xl" />
+                </IconButton>
+              </Tooltip>
+            </motion.div>
+          </>
         )}
       </div>
       <div className="flex items-center gap-2 text-xs">

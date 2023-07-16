@@ -70,37 +70,42 @@ const SingleRestaurant = () => {
       <Layout>
         <div className="mx-auto ">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col p-2">
-              <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
-              <div className="text-primary md:text-3xl">
-                Favorties: {numberOfFavorites.data && numberOfFavorites.data}
-              </div>{" "}
-              <div className=" text-xs text-primary md:text-3xl">
-                Address:{" "}
-                {`${restaurant?.data?.address}, ${restaurant?.data?.cityName}, ${restaurant?.data?.stateName}`}
+            <div className="flex justify-between">
+              <div className="flex flex-col p-2">
+                <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
+                <div className="text-primary md:text-3xl">
+                  Favorties: {numberOfFavorites.data && numberOfFavorites.data}
+                </div>{" "}
+                <div className=" text-xs text-primary md:text-3xl">
+                  Address:{" "}
+                  {`${restaurant?.data?.address}, ${restaurant?.data?.cityName}, ${restaurant?.data?.stateName}`}
+                </div>
+                <div className=" text-xs text-primary md:text-3xl">
+                  <a href={`${restaurant.data?.website}` || ""} target="_blank">
+                    {restaurant?.data?.website}
+                  </a>
+                </div>
+                <div className=" flex gap-1 text-xs text-primary md:text-3xl">
+                  {restaurant.data?.cuisines.map((elem) => {
+                    return <div>{elem.cuisine.name}</div>;
+                  })}
+                </div>
               </div>
-              <div className=" text-xs text-primary md:text-3xl">
-                <a href={`${restaurant.data?.website}` || ""} target="_blank">
-                  {restaurant?.data?.website}
-                </a>
-              </div>
-              <div className=" flex gap-1 text-xs text-primary md:text-3xl">
-                {restaurant.data?.cuisines.map((elem) => {
-                  return <div>{elem.cuisine.name}</div>;
-                })}
-              </div>
-              <div>
-                {isMyRestaurant.data && (
+              {isMyRestaurant.data && (
+                <div className="mt-2 flex w-16 flex-col gap-2">
+                  <span className="text-xs">
+                    You are the manager of this restaurant
+                  </span>
                   <button
-                    className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                    className="rounded-md  border-2 border-secondary py-1 px-2  text-secondary "
                     onClick={() => {
                       setShowEditCard(true);
                     }}
                   >
                     edit
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
             <div className=" flex gap-4">
               <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
