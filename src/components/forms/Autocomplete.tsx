@@ -80,7 +80,7 @@ export const Autocomplete = (props: IAutocomplete) => {
           key={place_id}
           onClick={handleSelect(suggestion)}
           style={{ cursor: "pointer" }}
-          className="py-2 px-4 text-white hover:bg-gray-100"
+          className="py-2 px-4 text-white hover:bg-gray-500"
         >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>

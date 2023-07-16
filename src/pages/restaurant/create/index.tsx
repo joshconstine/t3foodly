@@ -16,12 +16,12 @@ const createRestaurant: NextPage = () => {
       </Head>
       <Layout>
         <section className=" md:py-12">
-          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-4xl flex-col items-center  px-4 sm:px-6 lg:px-8">
             <dialog
-              className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
+              className="bg fixed inset-0 z-10 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
               open
             >
-              <div className="flex w-full flex-col gap-4 p-2">
+              <div className="flex w-64 flex-col gap-4 p-2">
                 <h2 className="font-bold">Add restaurant to Foodley</h2>
                 <p className=" text-sm text-primary">
                   We are excited to add Your restaurant to Foodley. Please fill

@@ -113,7 +113,9 @@ const Restaurant: NextPage = () => {
       }
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
-
+  //@ts-ignore
+  const isNoData = dbRestaurantsMinimal?.data?.length === 0;
+  // console.log(isNoData);
   if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
   if (!isLoaded) return <div>Loading...</div>;
   if (isLoaded)
@@ -148,6 +150,19 @@ const Restaurant: NextPage = () => {
                         ))}
                       </div>
                     </div>
+                  ) : isNoData ? (
+                    <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860 md:overflow-auto ">
+                      <h1 className="text-2xl font-bold text-primary">
+                        No Restaurants Found
+                      </h1>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-l whitespace-nowrap rounded-lg border-2 border-secondary px-2 py-2 text-secondary"
+                      >
+                        <Link href="/restaurant/create">Add Restaurant</Link>
+                      </motion.div>
+                    </div>
                   ) : (
                     <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                       <div className="min-w-96 flex  gap-4">
@@ -159,32 +174,15 @@ const Restaurant: NextPage = () => {
                               : "Restaurant"
                           }`}
                         </h1>
-                        {/* <button
-                        className="text-l   rounded-full border-2 py-2  px-2 font-bold font-bold text-primary text-white"
-                        onClick={() => {
-                          setShowFilters(!showFilters);
-                        }}
-                      >
-                        filters
-                      </button> */}
                       </div>
-                      {showFilters && (
-                        <div>
-                          {cuisines && (
-                            <CuisineFilter
-                              cuisines={cuisines?.data || []}
-                              selectedCuisines={selectedCuisines}
-                              setCuisines={setSelectedCuisines}
-                            />
-                          )}
-                        </div>
-                      )}
-                      {focusedRestaurant && (
-                        <FocusedRestaurantCard
-                          restaurantId={focusedRestaurant}
-                        />
-                      )}
-                      <RestaurantResults restaurants={filterd} />
+                      <div>
+                        {focusedRestaurant && (
+                          <FocusedRestaurantCard
+                            restaurantId={focusedRestaurant}
+                          />
+                        )}
+                        <RestaurantResults restaurants={filterd} />
+                      </div>
                     </div>
                   )}
                   <div className="min-w-96 relative left-0 top-0 h-full w-full">
