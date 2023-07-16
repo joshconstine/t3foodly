@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import UpVoteDownVote from "./UpVoteDownVote";
 import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
+import FavoriteSaveSmall from "./FavoriteSaveSmall";
 const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
   const router = useRouter();
   const { restaurant } = props;
@@ -25,8 +26,8 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
           className="relative rounded-lg"
           z-index={0}
         />
-        <div>
-          <div className="md:ap-2 flex flex-col  ">
+        <div className="w-full">
+          <div className="md:ap-2 flex w-full items-center justify-between ">
             <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
               {restaurant.name}
             </h3>
@@ -35,9 +36,9 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
                 e.stopPropagation();
               }}
             >
-              <UpVoteDownVote restaurantId={restaurant.id} />
+              <FavoriteSaveSmall restaurantId={restaurant.id} />
             </div>
-          </div>
+          </div>{" "}
           {restaurant?.address && (
             <div className="text-xs">{`${restaurant?.address} ${restaurant.cityName}`}</div>
           )}
