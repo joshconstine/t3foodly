@@ -10,18 +10,18 @@ const Favorite = ({ restaurantId }: { restaurantId: string }) => {
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurantId });
   return (
     <div
-      className="flex cursor-pointer  bg-gray-100 px-2 py-4"
+      className="flex cursor-pointer gap-2 bg-gray-100 px-2 py-2"
       onClick={() => router.push(`/restaurant/${restaurantId}`)}
     >
       <Image
-        width={140}
-        height={140}
+        width={80}
+        height={80}
         src={photos.data?.at(0)?.photoUrl || "/static/photos/yum.png"}
         alt="Yum"
         className="relative rounded-lg"
         z-index={0}
       />
-      <div className="m-4">
+      <div className="">
         <div className=" text-lg font-bold">{restaurant.data?.name}</div>
         <div className="text-sm">{restaurant.data?.cityName}</div>
       </div>

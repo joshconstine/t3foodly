@@ -68,10 +68,10 @@ const Profile: NextPage = () => {
       </Head>
       <Layout>
         {" "}
-        <section className="bg-gray-100 py-12">
-          <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="container mx-auto px-4 py-10">
-              <div className="-mx-4 flex flex-col flex-wrap">
+        <section className="py-2 md:py-12">
+          <div className="mx-auto  max-w-7xl px-4  lg:px-8">
+            <div className="container ">
+              <div className=" flex flex-col">
                 <Dialog
                   open={showUserNameModal}
                   onClose={() => setShowUserNameModal(false)}
@@ -98,76 +98,66 @@ const Profile: NextPage = () => {
                     )}
                   </div>
                 </Dialog>
-                <div className="mb-4 flex w-full flex-col rounded-md bg-white p-4 px-4 md:w-1/3 ">
-                  <div className="flex items-center justify-between">
-                    <Image
-                      width={60}
-                      height={60}
-                      className="rounded-full"
-                      src={user.data?.image || ""}
-                      alt="Profile Image"
-                    />
-                    <div className="flex content-center items-center">
-                      <IconButton onClick={() => setIsEditMode(true)}>
-                        <EditOutlinedIcon></EditOutlinedIcon>
-                      </IconButton>
-                      <h3 className="mb-2 text-xl ">{user.data?.username}</h3>
-                    </div>
+                <div className="flex flex-col gap-2 ">
+                  <Image
+                    width={60}
+                    height={60}
+                    className="rounded-full"
+                    src={user.data?.image || ""}
+                    alt="Profile Image"
+                  />
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-primary ">
+                      {user.data?.username}
+                    </h3>
+                    <IconButton onClick={() => setIsEditMode(true)}>
+                      <EditOutlinedIcon />
+                    </IconButton>
                   </div>
-                  <div className="p-4">
-                    {isEditMode && (
-                      <form
-                        onSubmit={handleSubmit}
-                        className="flex w-48 flex-col"
-                      >
-                        <input
-                          name="newUsername"
-                          className="border-2 bg-gray-200"
-                        ></input>
-                        <button className="border-2 bg-gray-200" type="submit">
-                          save
-                        </button>{" "}
-                        <button
-                          className="border-2 bg-gray-200"
-                          onClick={() => setIsEditMode(false)}
-                        >
-                          cancel
-                        </button>
-                      </form>
-                    )}
-                    <div>
+                  {isEditMode && (
+                    <form
+                      onSubmit={handleSubmit}
+                      className="flex w-48 flex-col"
+                    >
+                      <input
+                        name="newUsername"
+                        className="border-2 bg-gray-200"
+                      ></input>
+                      <button className="border-2 bg-gray-200" type="submit">
+                        save
+                      </button>{" "}
                       <button
-                        onClick={
-                          sessionData
-                            ? () => void signOut()
-                            : () => void signIn()
-                        }
-                        className={
-                          sessionData
-                            ? "rounded-full border-2  border-secondary bg-transparent  py-2 px-2 text-sm "
-                            : "rounded-full bg-secondary  text-sm"
-                        }
+                        className="border-2 bg-gray-200"
+                        onClick={() => setIsEditMode(false)}
                       >
-                        {sessionData ? "Sign out" : "Sign in"}
+                        cancel
                       </button>
-                    </div>
-                    {user.data?.role === "ADMIN" && (
-                      <p className="mb-2 text-gray-700">
-                        Role: {user.data?.role}
-                      </p>
-                    )}
-                  </div>
+                    </form>
+                  )}
+                  <h3 className="text-md mb-2 "> 5 reviews </h3>
                 </div>
-                <FavoriteContainer
-                  favoriteList={favoriteList}
-                  setFavoriteList={setFavoriteList}
-                />{" "}
-                {/* <RestaurantCardContainer list={savedList} title="saved" /> */}
-                {/* <RestaurantCardContainer
+              </div>
+              <FavoriteContainer
+                favoriteList={favoriteList}
+                setFavoriteList={setFavoriteList}
+              />{" "}
+              {/* <RestaurantCardContainer list={savedList} title="saved" /> */}
+              {/* <RestaurantCardContainer
                   list={myRestaurants.data}
                   title="My restaurants"
                 /> */}
-              </div>
+              <button
+                onClick={
+                  sessionData ? () => void signOut() : () => void signIn()
+                }
+                className={
+                  sessionData
+                    ? "rounded-full border-2  border-secondary bg-transparent  py-2 px-2 text-sm "
+                    : "rounded-full bg-secondary  text-sm"
+                }
+              >
+                {sessionData ? "Sign out" : "Sign in"}
+              </button>
             </div>
           </div>
         </section>
