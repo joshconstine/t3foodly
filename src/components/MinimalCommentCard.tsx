@@ -6,7 +6,10 @@ import Image from "next/image";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Comment } from "@prisma/client";
-const MinimalCommentCard = (props: { comment: Comment | undefined }) => {
+const MinimalCommentCard = (props: {
+  comment: Comment | undefined;
+  viewOnly?: boolean;
+}) => {
   const router = useRouter();
   if (!props.comment || props.comment === undefined) return null;
   const comment = props.comment;
@@ -91,7 +94,7 @@ const MinimalCommentCard = (props: { comment: Comment | undefined }) => {
             </button>
           </div>
         )}
-        {isUsersComment && (
+        {isUsersComment && !props.viewOnly && (
           <Tooltip title="delete">
             <IconButton disabled={false} onClick={handleDeleteComment}>
               <DeleteOutlineOutlinedIcon className="text-4xl text-secondary" />

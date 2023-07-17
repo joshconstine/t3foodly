@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import Favorite from "../../../components/Favorites/Favorite";
 import Layout from "../../../components/Layout";
 
+import Image from "next/image";
+import MinimalCommentCard from "../../../components/MinimalCommentCard";
 const User: NextPage = () => {
   const router = useRouter();
   const { userId } = router.query;
@@ -13,7 +15,7 @@ const User: NextPage = () => {
   const user = api.user.getUserPageData.useQuery({ id: String(userId) });
 
   const favorites = api.favorite.getByUserId.useQuery({ id: String(userId) });
-
+  const comments = api.comment.getByUserId.useQuery({ id: String(userId) });
   return (
     <>
       <Head>
@@ -23,21 +25,46 @@ const User: NextPage = () => {
       </Head>
       <Layout>
         <div className="flex flex-col">
-          <div>user page</div>
-          <div>
-            <div>
-              <span className="font-bold">username:</span>
-
-              {user.data?.username}
+          <div className="flex flex-col gap-2 ">
+            <Image
+              width={60}
+              height={60}
+              className="rounded-full"
+              src={user.data?.image || ""}
+              alt="Profile Image"
+            />
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl font-bold text-primary ">
+                {user.data?.username}
+              </h3>
             </div>
           </div>
-          <div className="flex flex-col">
-            <div className="text-lg font-bold">Favorites</div>
-            {favorites.data?.map((elem) => {
+          <div className="flex flex-col gap-2">
+            <div className="text-lg font-bold">Top 5</div>
+            {favorites.data?.slice(0, 5).map((elem) => {
               return (
                 <Favorite key={elem.id} restaurantId={elem.restaurant_id} />
               );
-            })}
+            })}{" "}
+            <div className=" flex flex-col gap-2 px-4">
+              <h3 className="text-lg font-bold">
+                {comments.data?.length} Reviews
+              </h3>
+              {comments.isLoading && <div>Loading...</div>}
+              {comments.data?.length === 0 && (
+                <div
+                  className="
+                  text-primary md:text-3xl
+                  "
+                >
+                  No comments yet. Be the first to comment!
+                </div>
+              )}
+
+              {comments.data?.map((comment) => (
+                <MinimalCommentCard comment={comment} viewOnly />
+              ))}
+            </div>
           </div>
         </div>
       </Layout>

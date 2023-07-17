@@ -32,6 +32,15 @@ export const commentRouter = createTRPCRouter({
         },
       });
     }),
+  getByUserId: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.comment.findMany({
+        where: {
+          user_id: input.id,
+        },
+      });
+    }),
   createComment: protectedProcedure
     .input(z.object({ text: z.string(), restaurantId: z.string() }))
     .mutation(({ input, ctx }) => {
