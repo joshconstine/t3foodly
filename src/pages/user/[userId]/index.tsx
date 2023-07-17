@@ -24,7 +24,7 @@ const User: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="flex flex-col">
+        <div className="mt-4 flex flex-col px-2">
           <div className="flex flex-col gap-2 ">
             <Image
               width={60}
