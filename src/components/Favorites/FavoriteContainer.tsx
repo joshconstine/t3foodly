@@ -30,7 +30,7 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
       <div className="w-full overflow-hidden ">
         <div className=" flex flex-col gap-4 py-6">
           <div className="content-beteween flex items-center gap-2">
-            <h3 className=" text-l font-bold">Favorites</h3>
+            <h3 className=" text-l font-bold">Your top 5</h3>
             <button
               onClick={() => setIsEditMode(!isEditMode)}
               className="text-md"
@@ -57,7 +57,7 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
               onReorder={setFavoriteList}
             >
               <div className="flex flex-col gap-2">
-                {favoriteList?.map((elem: any) => {
+                {favoriteList?.map((elem: any, i) => {
                   return (
                     <Reorder.Item value={elem} key={elem.id}>
                       <Favorite restaurantId={elem.restaurant_id} />
@@ -69,7 +69,7 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
           )}{" "}
           {!isEditMode && (
             <div className="flex flex-col gap-2">
-              {favoriteList?.map((elem: any) => {
+              {favoriteList?.slice(0, 5).map((elem: any) => {
                 return <Favorite restaurantId={elem.restaurant_id} />;
               })}
             </div>
