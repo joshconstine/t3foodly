@@ -57,7 +57,7 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
               onReorder={setFavoriteList}
             >
               <div className="flex flex-col gap-2">
-                {favoriteList?.map((elem: any, i) => {
+                {favoriteList?.map((elem: any, i: number) => {
                   return (
                     <Reorder.Item value={elem} key={elem.id}>
                       <Favorite restaurantId={elem.restaurant_id} />
