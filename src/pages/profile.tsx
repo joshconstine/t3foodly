@@ -5,7 +5,6 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import FavoriteContainer from "../components/Favorites/FavoriteContainer";
-import RestaurantCardContainer from "../components/RestaurantCards/RestaurantCardContainer";
 import Dialog from "@mui/material/Dialog";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { signIn, signOut, useSession } from "next-auth/react";

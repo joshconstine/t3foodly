@@ -8,6 +8,7 @@ import Layout from "../../../components/Layout";
 
 import Image from "next/image";
 import MinimalCommentCard from "../../../components/MinimalCommentCard";
+import { RestaurantCardSkeleton } from "../../restaurant";
 const User: NextPage = () => {
   const router = useRouter();
   const { userId } = router.query;
@@ -40,6 +41,13 @@ const User: NextPage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2">
+            {favorites.isLoading && (
+              <div>
+                {new Array(5).fill(true).map((elem, index) => (
+                  <RestaurantCardSkeleton key={index} />
+                ))}
+              </div>
+            )}
             <div className="text-lg font-bold">Top 5</div>
             {favorites.data?.slice(0, 5).map((elem) => {
               return (

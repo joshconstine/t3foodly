@@ -22,28 +22,28 @@ const scriptOptions = {
     : "",
   libraries: ["places"],
 };
-const Restaurant: NextPage = () => {
-  const RestaurantCardSkeleton = () => {
-    return (
-      <div className=" h-32 ">
-        <div className="flex gap-1">
-          <Skeleton variant="circular" width={100} height={100} />
+export const RestaurantCardSkeleton = () => {
+  return (
+    <div className=" h-32 ">
+      <div className="flex gap-1">
+        <Skeleton variant="circular" width={100} height={100} />
 
-          <div className="md:ap-2 flex w-32 flex-col  ">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-            <div className="w-8">
-              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-            </div>
-            <div className="w-16">
-              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-            </div>
-
+        <div className="md:ap-2 flex w-32 flex-col  ">
+          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          <div className="w-8">
             <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
           </div>
+          <div className="w-16">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+
+          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
+const Restaurant: NextPage = () => {
   const router = useRouter();
   const params = router.query;
   const center = {
