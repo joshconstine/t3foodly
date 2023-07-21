@@ -14,7 +14,7 @@ const RestaurantCard = (props: { restaurant: RestaurantWithCuisines }) => {
 
   return (
     <div
-      className="h-32 w-72 cursor-pointer "
+      className=" max-w-96 h-32 cursor-pointer "
       onClick={() => router.push(`restaurant/${restaurant.id}`)}
     >
       <div className="flex gap-1">
