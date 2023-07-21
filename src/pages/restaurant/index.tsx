@@ -2,19 +2,17 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "../../utils/api";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Link from "next/link";
 import RestaurantResults from "./RestaurantResults";
 import { motion } from "framer-motion";
-import Map, { IMarker, Point } from "../../components/forms/Map";
+import Map, { IRestaurantMarker } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 import { useLoadScript } from "@react-google-maps/api";
-import CuisineFilter from "./CuisineFilter";
 import { Cuisine } from "@prisma/client";
-import { getGeocode, getLatLng } from "use-places-autocomplete";
 import Skeleton from "@mui/material/Skeleton";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
@@ -64,7 +62,7 @@ const Restaurant: NextPage = () => {
     String(params.state || "CA") || ""
   );
   const [mapCenter, setMapCenter] = useState(center);
-  const [markers, setMarkers] = useState<IMarker[]>([]);
+  const [markers, setMarkers] = useState<IRestaurantMarker[]>([]);
   // const newRestaurants = api.restaurant.getByCityAndState.useQuery({
   //   city: city,
   //   state: state,
@@ -88,13 +86,9 @@ const Restaurant: NextPage = () => {
     longitude: mapCenter.lng,
     searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
-  const dbRestaurantsMinimal = api.restaurant.getByLatLong.useQuery({
-    latitude: mapCenter.lat,
-    longitude: mapCenter.lng,
-    searchRadiusInMeters: searchRadiusInMiles * 1609.34,
-  });
+
   //@ts-ignore
-  const filterd = dbRestaurantsMinimal?.data?.filter((elem) => {
+  const filterd = dbRestaurants?.data?.filter((elem) => {
     if (selectedCuisines.length === 0) {
       return true;
     } else if (elem.cuisines) {
@@ -103,7 +97,7 @@ const Restaurant: NextPage = () => {
     }
   });
   useMemo(() => {
-    let markersToAdd: IMarker[] = [];
+    let markersToAdd: IRestaurantMarker[] = [];
     if (dbRestaurants.status === "success")
       if (dbRestaurants.status === "success") {
         //@ts-ignore
@@ -153,7 +147,7 @@ const Restaurant: NextPage = () => {
                 </div>
                 <div className=" flex w-full flex-col  gap-8 md:h-special  md:flex-row">
                   <div>
-                    {dbRestaurantsMinimal.isLoading ? (
+                    {dbRestaurants.isLoading ? (
                       <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
                           {new Array(10).fill(true).map((elem, index) => (
