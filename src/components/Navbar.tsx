@@ -37,12 +37,6 @@ const Navbar = () => {
                   Restaurants
                 </Link>
                 <Link
-                  href="/restaurant/create"
-                  className="rounded-md  text-sm font-medium"
-                >
-                  Add Restaurant
-                </Link>
-                <Link
                   href="/discover"
                   className="rounded-md   text-sm font-medium"
                 >
@@ -71,24 +65,32 @@ const Navbar = () => {
                   </>
                 )}
                 {sessionData && (
-                  <Link href="/profile">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                  <>
+                    <Link
+                      href="/restaurant/create"
+                      className="rounded-md  text-sm font-medium"
                     >
-                      <Image
-                        width={30}
-                        height={30}
-                        className="rounded-full"
-                        src={
-                          user.data?.image && user.data?.image !== null
-                            ? user.data?.image
-                            : "/static/photos/profile.png"
-                        }
-                        alt="Profile Image"
-                      />
-                    </motion.div>
-                  </Link>
+                      Add Restaurant
+                    </Link>
+                    <Link href="/profile">
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Image
+                          width={30}
+                          height={30}
+                          className="rounded-full"
+                          src={
+                            user.data?.image && user.data?.image !== null
+                              ? user.data?.image
+                              : "/static/photos/profile.png"
+                          }
+                          alt="Profile Image"
+                        />
+                      </motion.div>
+                    </Link>
+                  </>
                 )}
                 {!sessionData && (
                   <div>
