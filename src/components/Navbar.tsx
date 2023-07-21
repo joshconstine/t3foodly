@@ -48,7 +48,7 @@ const Navbar = () => {
                 >
                   Discover
                 </Link>
-                {user.data?.role === "ADMIN" && (
+                {user.data?.role === "ADMIN" && sessionData && (
                   <>
                     <Link
                       href="/restaurantApplications"
