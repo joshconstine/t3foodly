@@ -78,8 +78,8 @@ const SingleRestaurant = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="mx-auto ">
-          <div className="flex flex-col gap-4">
+        <section className=" mx-auto md:py-12">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:px-6  lg:px-8">
             <div className="flex justify-between">
               <div className="flex flex-col p-2">
                 <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
@@ -117,22 +117,18 @@ const SingleRestaurant = () => {
                 </div>
               )}
             </div>
-            <div className=" flex gap-4">
-              <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
-              {/* <UpVoteDownVote restaurantId={String(restaurantId) || ""} /> */}
-            </div>
+            <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
             <div className="px-4">
               <MenuComponent restaurantId={String(restaurantId)} />
             </div>
-            <div className="relative h-96 w-full">
+            <div c>
               <Image
                 width={1920}
                 height={1280}
                 src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
                 alt={restaurant.data?.name || ""}
-                className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-80 p-4 text-sm text-white">
+              <div className=" bg-gray-900  p-2 text-sm text-white">
                 <div className="flex space-x-2">
                   {photos.data?.map((photo, index) => (
                     <>
@@ -153,8 +149,7 @@ const SingleRestaurant = () => {
                 </div>
               </div>
             </div>
-
-            <div className="flex flex-col gap-8 md:flex-row">
+            <div className="flex flex-col gap-8 ">
               <div className=" flex flex-col gap-2 px-4">
                 <h3 className="text-lg font-bold">Reviews</h3>
                 {comments.isLoading && <div>Loading...</div>}
@@ -176,7 +171,7 @@ const SingleRestaurant = () => {
               />
             </div>
           </div>
-        </div>
+        </section>
       </Layout>
     </>
   );

@@ -106,7 +106,7 @@ const FavoriteSaveActions = (props: IProps) => {
     );
   };
   return (
-    <div className="flex w-full justify-center gap-8 border-t-2 border-zinc-500">
+    <div className="flex w-full justify-center gap-8 border-zinc-500">
       <div className="flex flex-col items-center gap-2">
         <div> Favorite</div>
         {isFavorited.data && isFavorited.data ? (
@@ -134,6 +134,8 @@ const FavoriteSaveActions = (props: IProps) => {
               disabled={false}
               onClick={() => {
                 window.scrollTo(0, document.body.scrollHeight);
+                const commentInput = document.getElementById("addComment");
+                commentInput?.focus();
               }}
             >
               <ReviewsIcon className="text-secondary md:text-4xl" />
@@ -165,7 +167,8 @@ const FavoriteSaveActions = (props: IProps) => {
           </>
         )}
       </div>
-      <div className="flex items-center gap-2 text-xs">
+      <div className="flex flex-col items-center gap-2 text-xs">
+        <div className="w-32">Apply to be restaurant admin</div>
         <button
           disabled={false}
           onClick={handleAddRestaurantToUser}
@@ -173,7 +176,6 @@ const FavoriteSaveActions = (props: IProps) => {
         >
           Apply
         </button>
-        <div className="w-32">Apply to be restaurant admin</div>
       </div>
       <dialog
         open={showDialog}

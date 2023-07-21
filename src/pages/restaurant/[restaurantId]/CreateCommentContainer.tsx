@@ -88,14 +88,14 @@ const CreateCommentContainer = (props: IProps) => {
   };
 
   return (
-    <div className="my-2 px-2">
+    <div className="my-2  px-2">
       <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
         <h3 className="mb-4 text-lg font-bold">Leave a review</h3>
         <div className="mb-4">
           <textarea
-            id="comment"
+            id="addComment"
             name="comment"
-            className="form-textarea  h-32 w-full rounded-md border-2 border-secondary shadow-sm "
+            className="form-textarea h-32 w-full rounded-md border-2 border-secondary p-2 shadow-sm "
             required
           />
         </div>
@@ -105,7 +105,7 @@ const CreateCommentContainer = (props: IProps) => {
         <div className="flex items-end justify-between">
           <div>
             Add Photo
-            <label className="flex w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white py-2 px-2 transition hover:border-gray-400 focus:outline-none md:h-32">
+            <label className="flex w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-primary bg-white py-2 px-2 transition hover:border-gray-400 focus:outline-none ">
               <span className="flex items-center">
                 <AddPhotoAlternateIcon />
               </span>
