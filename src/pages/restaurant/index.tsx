@@ -114,7 +114,7 @@ const Restaurant: NextPage = () => {
                 lat: Number(restaurant.lat),
                 lng: Number(restaurant.lng),
               },
-              name: restaurant.name,
+              restaurant: restaurant,
               id: restaurant.id,
             };
           }

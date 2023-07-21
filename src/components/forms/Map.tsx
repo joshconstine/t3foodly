@@ -1,13 +1,10 @@
-import {
-  Circle,
-  GoogleMap,
-  InfoWindow,
-  Marker,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import React from "react";
+import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
 import mapStyles from "../../styles/mapStyles";
 import CustumCircle from "./CustomCircle";
+import Image from "next/image";
+import { api } from "../../utils/api";
 
 const mapContainerStyle = {
   display: "block",
@@ -31,44 +28,60 @@ export interface Point {
   lat: number;
   lng: number;
 }
-export interface IMarker {
+export interface IRestaurantMarker {
   location: Point;
-  name: string;
+  restaurant: RestaurantWithCuisines;
   id: string;
 }
 interface IMap {
   mapCenter: Point;
-  markers: IMarker[];
+  markers: IRestaurantMarker[];
   radius: number;
   setFocusedRestaurant: React.Dispatch<React.SetStateAction<string | null>>;
 }
+const RestaurantMarker = (props: {
+  marker: IRestaurantMarker;
+  setFocusedRestaurant: (id: string) => void;
+}) => {
+  const { marker, setFocusedRestaurant } = props;
 
+  const photos = api.photo.getByRestaurantId.useQuery({ id: marker.id });
+  return (
+    <OverlayView
+      position={{ lat: marker.location.lat, lng: marker.location.lng }}
+      key={`${marker.location.lat}-${marker.location.lng}`}
+      mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+    >
+      <div className="border-1  rounded-md border-black bg-primary p-2  font-bold  text-white shadow-md">
+        <div className="flex gap-1">
+          <h1 onClick={() => setFocusedRestaurant(String(marker.id))}>
+            {marker.restaurant.name}
+          </h1>
+          {false && (
+            <div className="h-8 w-8">
+              <Image
+                width={20}
+                height={20}
+                src={photos.data?.at(0)?.photoUrl || "/static/photos/yum.png"}
+                alt="Yum"
+                z-index={0}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </OverlayView>
+  );
+};
 const Map = (props: IMap) => {
   const { mapCenter, markers, setFocusedRestaurant } = props;
-  const [current, setCurrnet] = React.useState<number | null>(null);
   // @ts-ignore
   const { isLoaded, loadError } = useJsApiLoader(scriptOptions);
-
-  const onMapClick = React.useCallback((e: any) => {
-    // setMarkers((current: any) => [
-    //   ...current,
-    //   {
-    //     lat: e.latLng.lat(),
-    //     lng: e.latLng.lng(),
-    //     time: new Date(),
-    //   },
-    // ]);
-  }, []);
 
   const mapRef: any = React.useRef();
 
   const onMapLoad = React.useCallback((map: any) => {
     mapRef.current = map;
-  }, []);
-
-  const panTo = React.useCallback(({ lat, lng }: any) => {
-    mapRef?.current?.panTo({ lat, lng });
-    mapRef?.current?.setZoom(10);
   }, []);
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -80,17 +93,13 @@ const Map = (props: IMap) => {
       zoom={10}
       center={mapCenter}
       options={options}
-      onClick={onMapClick}
       onLoad={onMapLoad}
     >
       <CustumCircle center={mapCenter} radius={props.radius} />
       {markers?.map((marker: any, i: number) => (
-        <Marker
-          key={`${marker.location.lat}-${marker.location.lng}`}
-          position={{ lat: marker.location.lat, lng: marker.location.lng }}
-          onClick={() => {
-            setFocusedRestaurant(String(marker.id));
-          }}
+        <RestaurantMarker
+          marker={marker}
+          setFocusedRestaurant={setFocusedRestaurant}
         />
       ))}
     </GoogleMap>

@@ -20,10 +20,10 @@ const CustumCircle = (props: {
       center={props.center}
       radius={1609 * props.radius}
       options={{
-        strokeColor: "#FF0000",
+        strokeColor: "#EE2650",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#FF0000",
+        fillColor: "#EE2650",
         fillOpacity: 0.1,
       }}
     ></Circle>
