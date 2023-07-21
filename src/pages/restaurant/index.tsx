@@ -51,6 +51,12 @@ const Restaurant: NextPage = () => {
     lng: Number(params.lng) || -117.16,
   };
 
+  // var config = {
+  //   method: "get",
+  //   headers: {},
+  // };
+
+  // useEffect(() => {}, []);
   const [city, setCity] = useState<string>(
     String(params.city || "San Diego") || ""
   );
@@ -59,6 +65,10 @@ const Restaurant: NextPage = () => {
   );
   const [mapCenter, setMapCenter] = useState(center);
   const [markers, setMarkers] = useState<IMarker[]>([]);
+  // const newRestaurants = api.restaurant.getByCityAndState.useQuery({
+  //   city: city,
+  //   state: state,
+  // });
 
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
@@ -127,8 +137,8 @@ const Restaurant: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
-          <section className="md:py-12">
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
+          <section className=" md:py-12">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6  lg:px-8">
               <div className="flex  flex-col  items-center gap-2 ">
                 <div className=" rounded-lgpx-8 reverse  flex  items-center justify-between gap-4 py-4 md:flex-row">
                   <RestaurantSearchForm
@@ -143,7 +153,7 @@ const Restaurant: NextPage = () => {
                 </div>
                 <div className=" flex w-full flex-col  md:h-special md:flex-row ">
                   {dbRestaurantsMinimal.isLoading ? (
-                    <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
+                    <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
                         {new Array(10).fill(true).map((elem, index) => (
                           <RestaurantCardSkeleton key={index} />
@@ -164,8 +174,8 @@ const Restaurant: NextPage = () => {
                       </motion.div>
                     </div>
                   ) : (
-                    <div className="lg flex w-full flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                      <div className="min-w-96 flex  gap-4">
+                    <div className="lg flex flex-col gap-4 md:w-96 md:w-860  md:min-w-860 md:overflow-auto ">
+                      <div className=" flex  gap-4">
                         <h1 className="md:text-l   font-bold text-primary">
                           {`${filterd?.length} ${
                             filterd &&
