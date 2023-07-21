@@ -28,7 +28,11 @@ const Navbar = () => {
             <FormatListBulletedIcon sx={{ color: "white" }} />
           </IconButton>
           {expanded && (
-            <div className="  absolute top-16 -ml-40  rounded-md border-2 border-black  bg-primary ">
+            <div
+              className={`absolute top-16 ${
+                sessionData ? "-ml-40" : "-ml-20"
+              }  rounded-md border-2 border-black  bg-primary`}
+            >
               <div className="flex flex-col gap-4 p-4">
                 <Link
                   href="/restaurant"
