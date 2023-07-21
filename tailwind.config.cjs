@@ -10,10 +10,12 @@ module.exports = {
 
       width: {
         860: "860px",
+        650: "650px",
         450: "450px",
       },
       minWidth: {
         860: "860px",
+        650: "650px",
       },
       height: {
         special: "calc(100vh - 300px)",

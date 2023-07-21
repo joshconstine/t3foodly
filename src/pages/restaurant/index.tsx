@@ -151,50 +151,52 @@ const Restaurant: NextPage = () => {
                     searchRadiusInMiles={searchRadiusInMiles}
                   />
                 </div>
-                <div className=" flex w-full flex-col  md:h-special md:flex-row ">
-                  {dbRestaurantsMinimal.isLoading ? (
-                    <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
-                        {new Array(10).fill(true).map((elem, index) => (
-                          <RestaurantCardSkeleton key={index} />
-                        ))}
+                <div className=" flex w-full flex-col  gap-8 md:h-special  md:flex-row">
+                  <div>
+                    {dbRestaurantsMinimal.isLoading ? (
+                      <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
+                        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
+                          {new Array(10).fill(true).map((elem, index) => (
+                            <RestaurantCardSkeleton key={index} />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ) : isNoData ? (
-                    <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860 md:overflow-auto ">
-                      <h1 className="text-2xl font-bold text-primary">
-                        No Restaurants Found
-                      </h1>
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="text-l whitespace-nowrap rounded-lg border-2 border-secondary px-2 py-2 text-secondary"
-                      >
-                        <Link href="/restaurant/create">Add Restaurant</Link>
-                      </motion.div>
-                    </div>
-                  ) : (
-                    <div className="lg flex flex-col gap-4 md:w-96 md:w-860  md:min-w-860 md:overflow-auto ">
-                      <div className=" flex  gap-4">
-                        <h1 className="md:text-l   font-bold text-primary">
-                          {`${filterd?.length} ${
-                            filterd &&
-                            (filterd?.length === 0 || filterd.length > 1)
-                              ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
-                              : "Restaurant"
-                          }`}
+                    ) : isNoData ? (
+                      <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860 md:overflow-auto ">
+                        <h1 className="text-2xl font-bold text-primary">
+                          No Restaurants Found
                         </h1>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="text-l whitespace-nowrap rounded-lg border-2 border-secondary px-2 py-2 text-secondary"
+                        >
+                          <Link href="/restaurant/create">Add Restaurant</Link>
+                        </motion.div>
                       </div>
-                      <div>
-                        {focusedRestaurant && (
-                          <FocusedRestaurantCard
-                            restaurantId={focusedRestaurant}
-                          />
-                        )}
-                        <RestaurantResults restaurants={filterd} />
+                    ) : (
+                      <div className="flex flex-col gap-4    md:overflow-auto ">
+                        <div className=" flex  gap-4">
+                          <h1 className="md:text-l   font-bold text-primary">
+                            {`${filterd?.length} ${
+                              filterd &&
+                              (filterd?.length === 0 || filterd.length > 1)
+                                ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
+                                : "Restaurant"
+                            }`}
+                          </h1>
+                        </div>
+                        <div>
+                          {focusedRestaurant && (
+                            <FocusedRestaurantCard
+                              restaurantId={focusedRestaurant}
+                            />
+                          )}
+                          <RestaurantResults restaurants={filterd} />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                   <div className="min-w-96 relative left-0 top-0 h-full w-full">
                     <Map
                       radius={searchRadiusInMiles}
