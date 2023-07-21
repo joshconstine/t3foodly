@@ -90,6 +90,16 @@ const Navbar = () => {
                     </motion.div>
                   </Link>
                 )}
+                {!sessionData && (
+                  <div>
+                    <button
+                      onClick={() => signIn()}
+                      className="rounded-md  text-sm font-medium"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
