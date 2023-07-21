@@ -121,7 +121,7 @@ const SingleRestaurant = () => {
             <div className="px-4">
               <MenuComponent restaurantId={String(restaurantId)} />
             </div>
-            <div c>
+            <div>
               <Image
                 width={1920}
                 height={1280}
