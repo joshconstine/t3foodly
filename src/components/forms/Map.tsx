@@ -6,11 +6,6 @@ import CustumCircle from "./CustomCircle";
 import Image from "next/image";
 import { api } from "../../utils/api";
 
-const mapContainerStyle = {
-  display: "block",
-  height: "600px",
-  width: "100%",
-};
 const options = {
   styles: mapStyles,
   disableDefaultUI: true,
@@ -74,6 +69,16 @@ const RestaurantMarker = (props: {
   );
 };
 const Map = (props: IMap) => {
+  const mapContainerStyle = {
+    display: "block",
+    height: "calc(100vh - 164px)",
+    width:
+      window?.screen?.width > 600
+        ? window?.screen?.width > 1200
+          ? "750px"
+          : "600px"
+        : "calc(100vw - 24px)",
+  };
   const { mapCenter, markers, setFocusedRestaurant } = props;
   // @ts-ignore
   const { isLoaded, loadError } = useJsApiLoader(scriptOptions);

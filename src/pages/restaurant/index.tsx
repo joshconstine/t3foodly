@@ -131,10 +131,10 @@ const Restaurant: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
-          <section className=" md:py-12">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6  lg:px-8">
+          <section className="">
+            <div className="mx-auto max-w-screen-2xl	px-4 sm:px-6  lg:px-8">
               <div className="flex  flex-col  items-center gap-2 ">
-                <div className=" rounded-lgpx-8 reverse  flex  items-center justify-between gap-4 py-4 md:flex-row">
+                <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
                   <RestaurantSearchForm
                     setCity={setCity}
                     setState={setState}
@@ -145,7 +145,7 @@ const Restaurant: NextPage = () => {
                     searchRadiusInMiles={searchRadiusInMiles}
                   />
                 </div>
-                <div className=" flex w-full flex-col  gap-8 md:h-special  md:flex-row">
+                <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
                   <div>
                     {dbRestaurants.isLoading ? (
                       <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
