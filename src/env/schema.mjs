@@ -23,6 +23,8 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  EMAIL_SERVER: z.string(),
+  EMAIL_FROM: z.string(),
 });
 
 /**
@@ -39,6 +41,8 @@ export const serverEnv = {
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  EMAIL_SERVER: process.env.EMAIL_SERVER,
+  EMAIL_FROM: process.env.EMAIL_FROM,
 };
 
 /**
@@ -49,6 +53,7 @@ export const serverEnv = {
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
   NEXT_PUBLIC_PLACES_KEY: z.string(),
+  NEXT_PUBLIC_WEBSOCKET_SERVER: z.string(),
 });
 
 /**
@@ -60,4 +65,5 @@ export const clientSchema = z.object({
 export const clientEnv = {
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   NEXT_PUBLIC_PLACES_KEY: process.env.NEXT_PUBLIC_PLACES_KEY,
+  NEXT_PUBLIC_WEBSOCKET_SERVER: process.env.NEXT_PUBLIC_WEBSOCKET_SERVER,
 };

@@ -13,12 +13,12 @@ export interface IPriceData {
     quantity: number;
   }[];
 }
-import UpVoteDownVote from "../../../components/RestaurantCards/UpVoteDownVote";
 import FavoriteSaveActions from "./FavoriteSaveActions";
 import CreateCommentContainer from "./CreateCommentContainer";
 import EditRestaurantCard from "./EditRestaurantCard";
 import MenuComponent from "./MenuComponent";
 import { useState } from "react";
+import ChatRoom from "./Chatroom";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [showEditCard, setShowEditCard] = useState(false);
@@ -170,6 +170,7 @@ const SingleRestaurant = () => {
                 restaurantId={String(restaurantId) || ""}
               />
             </div>
+            <ChatRoom restaurantId={String(restaurantId)} />
           </div>
         </section>
       </Layout>
