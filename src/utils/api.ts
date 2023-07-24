@@ -9,7 +9,7 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
-import { devtoolsLink } from "trpc-client-devtools-link"
+// import { devtoolsLink } from "trpc-client-devtools-link";
 
 import { type AppRouter } from "../server/api/root";
 
@@ -43,11 +43,6 @@ export const api = createTRPCNext<AppRouter>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
-        }),
-        devtoolsLink({
-          // `enabled` is true by default
-          // If you want to use the devtools extension just for development, do the following
-          enabled: true
         }),
       ],
     };
