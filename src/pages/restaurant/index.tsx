@@ -63,15 +63,16 @@ const Restaurant: NextPage = () => {
   );
   const [mapCenter, setMapCenter] = useState(center);
   const [markers, setMarkers] = useState<IRestaurantMarker[]>([]);
-  // const newRestaurants = api.restaurant.getByCityAndState.useQuery({
-  //   city: city,
-  //   state: state,
-  // });
+
+  const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
+  const dbRestaurants = api.restaurant.getByCityAndState.useQuery({
+    lat: String(mapCenter.lat),
+    lng: String(mapCenter.lng),
+    radius: searchRadiusInMiles * 1609.34,
+  });
 
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
-
-  const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
 
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
@@ -81,11 +82,11 @@ const Restaurant: NextPage = () => {
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
 
-  const dbRestaurants = api.restaurant.getByLatLong.useQuery({
-    latitude: mapCenter.lat,
-    longitude: mapCenter.lng,
-    searchRadiusInMeters: searchRadiusInMiles * 1609.34,
-  });
+  // const dbRestaurants = api.restaurant.getByLatLong.useQuery({
+  //   latitude: mapCenter.lat,
+  //   longitude: mapCenter.lng,
+  //   searchRadiusInMeters: searchRadiusInMiles * 1609.34,
+  // });
 
   //@ts-ignore
   const filterd = dbRestaurants?.data?.filter((elem) => {
