@@ -18,9 +18,13 @@ const User: NextPage = () => {
         <section className="py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="mb-8 text-3xl font-bold">Latest Reviews</h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="flex flex-wrap gap-4">
               {comments.data?.map((elem) => {
-                return <CommentCard comment={elem} key={elem.id} />;
+                return (
+                  <div>
+                    <CommentCard comment={elem} key={elem.id} />
+                  </div>
+                );
               })}
             </div>
           </div>

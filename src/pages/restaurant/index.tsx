@@ -65,12 +65,16 @@ const Restaurant: NextPage = () => {
   const [markers, setMarkers] = useState<IRestaurantMarker[]>([]);
 
   const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
-  const dbRestaurants = api.restaurant.getByCityAndState.useQuery({
+  const dbRestaurants = api.restaurant.getByLatLong.useQuery({
+    latitude: mapCenter.lat,
+    longitude: mapCenter.lng,
+    searchRadiusInMeters: searchRadiusInMiles * 1609.34,
+  });
+  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
     lat: String(mapCenter.lat),
     lng: String(mapCenter.lng),
     radius: searchRadiusInMiles * 1609.34,
   });
-
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
@@ -81,15 +85,14 @@ const Restaurant: NextPage = () => {
   const cuisines = api.cuisine.getAll.useQuery();
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
-
-  // const dbRestaurants = api.restaurant.getByLatLong.useQuery({
-  //   latitude: mapCenter.lat,
-  //   longitude: mapCenter.lng,
-  //   searchRadiusInMeters: searchRadiusInMiles * 1609.34,
-  // });
+  //@ts-ignore
+  const allRestaurants =
+    dbRestaurants?.data && apiRestaurants?.data
+      ? [...dbRestaurants?.data, ...apiRestaurants?.data]
+      : [];
 
   //@ts-ignore
-  const filterd = dbRestaurants?.data?.filter((elem) => {
+  const filterd = allRestaurants.filter((elem) => {
     if (selectedCuisines.length === 0) {
       return true;
     } else if (elem.cuisines) {
@@ -99,23 +102,22 @@ const Restaurant: NextPage = () => {
   });
   useMemo(() => {
     let markersToAdd: IRestaurantMarker[] = [];
-    if (dbRestaurants.status === "success")
-      if (dbRestaurants.status === "success") {
-        //@ts-ignore
-        const markers = dbRestaurants.data?.map(
-          (restaurant: { lat: any; lng: any; name: any; id: any }) => {
-            return {
-              location: {
-                lat: Number(restaurant.lat),
-                lng: Number(restaurant.lng),
-              },
-              restaurant: restaurant,
-              id: restaurant.id,
-            };
-          }
-        );
-        markersToAdd = [...markersToAdd, ...markers];
-      }
+    if (dbRestaurants.status === "success") {
+      //@ts-ignore
+      const markers = dbRestaurants.data?.map(
+        (restaurant: { lat: any; lng: any; name: any; id: any }) => {
+          return {
+            location: {
+              lat: Number(restaurant.lat),
+              lng: Number(restaurant.lng),
+            },
+            restaurant: restaurant,
+            id: restaurant.id,
+          };
+        }
+      );
+      markersToAdd = [...markersToAdd, ...markers];
+    }
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
   //@ts-ignore
@@ -192,7 +194,7 @@ const Restaurant: NextPage = () => {
                       </div>
                     )}
                   </div>
-                  <div className="min-w-96 relative left-0 top-0 h-full w-full">
+                  <div className="min-w-96  left-0 top-0 h-full w-full">
                     <Map
                       radius={searchRadiusInMiles}
                       mapCenter={mapCenter}
