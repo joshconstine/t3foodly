@@ -111,18 +111,14 @@ const FavoriteSaveActions = (props: IProps) => {
       <div className="flex flex-col items-center gap-2">
         <div> Favorite</div>
         {isFavorited.data && isFavorited.data ? (
-          <Tooltip title="Unfavorite">
-            <IconButton disabled={false} onClick={handleUnfavorite}>
-              <StarIcon className="text-secondary " />
-            </IconButton>
-          </Tooltip>
+          <IconButton disabled={false} onClick={handleUnfavorite}>
+            <StarIcon className="text-secondary " />
+          </IconButton>
         ) : (
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-            <Tooltip title="Favorite">
-              <IconButton disabled={false} onClick={handleFavorite}>
-                <StarBorderOutlinedIcon className="text-secondary" />
-              </IconButton>
-            </Tooltip>
+            <IconButton disabled={false} onClick={handleFavorite}>
+              <StarBorderOutlinedIcon className="text-secondary" />
+            </IconButton>
           </motion.div>
         )}
       </div>
@@ -130,18 +126,16 @@ const FavoriteSaveActions = (props: IProps) => {
         <div>Review</div>
 
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Tooltip title="save">
-            <IconButton
-              disabled={false}
-              onClick={() => {
-                window.scrollTo(0, document.body.scrollHeight);
-                const commentInput = document.getElementById("addComment");
-                commentInput?.focus();
-              }}
-            >
-              <ReviewsIcon className="text-secondary " />
-            </IconButton>
-          </Tooltip>
+          <IconButton
+            disabled={false}
+            onClick={() => {
+              window.scrollTo(0, document.body.scrollHeight);
+              const commentInput = document.getElementById("addComment");
+              commentInput?.focus();
+            }}
+          >
+            <ReviewsIcon className="text-secondary " />
+          </IconButton>
         </motion.div>
       </div>
       <div className="flex flex-col items-center gap-2">
@@ -159,11 +153,9 @@ const FavoriteSaveActions = (props: IProps) => {
           <>
             <div> Save</div>
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Tooltip title="save">
-                <IconButton disabled={false} onClick={handleSave}>
-                  <SaveAltIcon className="text-secondary " />
-                </IconButton>
-              </Tooltip>
+              <IconButton disabled={false} onClick={handleSave}>
+                <SaveAltIcon className="text-secondary " />
+              </IconButton>
             </motion.div>
           </>
         )}
