@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Comment } from "@prisma/client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import User from ".";
+import Tooltip from "@mui/material/Tooltip";
 const CommentCard = (props: { comment: Comment }) => {
   const router = useRouter();
   const comment = props.comment;
@@ -25,24 +25,20 @@ const CommentCard = (props: { comment: Comment }) => {
   };
   return (
     <motion.div
-      className="w-full overflow-hidden rounded-lg bg-white px-2 shadow-lg"
+      className=" flex w-64 flex-col gap-2 overflow-hidden rounded-lg border-2  bg-white px-2 pt-2"
       whileHover={{ scale: 1.05 }}
     >
-      <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-          <Image
-            width={30}
-            height={30}
-            className="rounded-full"
-            src={user.data?.image || ""}
-            alt="img"
-          />
-          <div
-            className="cursor-pointer font-bold text-gray-700 hover:text-gray-500"
-            onClick={() => router.push(`/user/${comment?.user_id}`)}
-          >
-            {user.data?.username || ""}
-          </div>
+      <div className="flex justify-around">
+        <div className="rounded-lg border-2 p-2">
+          <Tooltip title={user.data?.username || ""}>
+            <Image
+              width={30}
+              height={30}
+              className="rounded-full"
+              src={user.data?.image || ""}
+              alt="img"
+            />
+          </Tooltip>
         </div>
 
         <div>
@@ -51,27 +47,29 @@ const CommentCard = (props: { comment: Comment }) => {
               {restaurant.data?.name}
             </h3>
           </Link>
+          <div className="flex flex-col gap-2 px-2">
+            <p className="text-xs text-gray-700 ">
+              {`${restaurant.data?.cityName}, ${restaurant.data?.stateName}`},
+            </p>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-gray-700">
-          {`${restaurant.data?.cityName}, ${restaurant.data?.stateName}`},
-        </p>
-        <p className="text-gray-700">{comment?.text}</p>
-        {photos.data && photos.data.length > 0 && (
-          <div className="flex p-2 pt-2">
-            <Image
-              width={140}
-              height={140}
-              src={photos.data ? String(photos.data?.at(0)?.photoUrl) : ""}
-              alt="Restaurant Image"
-            />
-            <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
-              report
-            </button>
-          </div>
-        )}
+      <div>
+        <p className="text-xs text-gray-700">{comment?.text}</p>
       </div>
+      {photos.data && photos.data.length > 0 && (
+        <div className="flex p-2 pt-2">
+          <Image
+            width={140}
+            height={140}
+            src={photos.data ? String(photos.data?.at(0)?.photoUrl) : ""}
+            alt="Restaurant Image"
+          />
+          <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
+            report
+          </button>
+        </div>
+      )}
     </motion.div>
   );
 };

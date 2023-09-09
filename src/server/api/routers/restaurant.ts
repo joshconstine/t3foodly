@@ -142,37 +142,37 @@ export const restaurantRouter = createTRPCRouter({
     }),
   getByCityAndState: publicProcedure
     .input(
-      z.object({ city: z.string().nullable(), state: z.string().nullable() })
+      z.object({
+        lat: z.string().nullable(),
+        lng: z.string().nullable(),
+        radius: z.number(),
+      })
     )
     .query(({ input, ctx }) => {
       const options = {
         method: "GET",
-        url: `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/state/${
-          input.state
-        }/city/${encodeURI(input.city ? input.city : "")}/0`,
-        headers: {
-          "X-RapidAPI-Key": process.env.XRAPID_KEY,
-          "X-RapidAPI-Host": process.env.XRAPID_HOST,
-        },
+        url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restautant=${input.lat}%2C${input.lng}&radius=${input.radius}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw`,
       };
 
       return axios
         .request(options)
         .then(function (response) {
-          return response.data.restaurants
-            ? response.data.restaurants.map((elem: any) => {
+          console.log(response.data.results);
+          // return [];
+          return response.data.results
+            ? response.data.results.map((elem: any) => {
                 return {
-                  id: elem.id,
-                  name: elem.restaurantName,
-                  address: elem.address,
-                  cityName: elem.cityName,
-                  stateName: elem.stateName,
-                  zipCode: elem.zipCode,
-                  phone: elem.phone,
-                  email: elem.email,
-                  hoursInterval: elem.hoursInterval,
-                  lat: elem.latitude,
-                  lng: elem.longitude,
+                  id: elem.place_id,
+                  name: elem.name,
+                  address: elem.formatted_address,
+                  cityName: " elem.cityName",
+                  stateName: "elem.stateName",
+                  zipCode: " elem.zipCode",
+                  phone: "elem.phone",
+                  email: " elem.email",
+                  hoursInterval: "elem.hoursInterval",
+                  lat: " elem.latitude",
+                  lng: "elem.longitude",
                 };
               })
             : [];

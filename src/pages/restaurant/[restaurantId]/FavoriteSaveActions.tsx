@@ -14,13 +14,14 @@ export interface IPriceData {
 }
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 interface IProps {
   restaurantId: string;
+  setShowEditCard: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FavoriteSaveActions = (props: IProps) => {
-  const { restaurantId } = props;
+  const { restaurantId, setShowEditCard } = props;
   const session = useSession();
   const [showDialog, setShowDialog] = useState(false);
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
@@ -112,14 +113,14 @@ const FavoriteSaveActions = (props: IProps) => {
         {isFavorited.data && isFavorited.data ? (
           <Tooltip title="Unfavorite">
             <IconButton disabled={false} onClick={handleUnfavorite}>
-              <StarIcon className="text-secondary md:text-4xl" />
+              <StarIcon className="text-secondary " />
             </IconButton>
           </Tooltip>
         ) : (
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Tooltip title="Favorite">
               <IconButton disabled={false} onClick={handleFavorite}>
-                <StarBorderOutlinedIcon className="text-secondary md:text-4xl" />
+                <StarBorderOutlinedIcon className="text-secondary" />
               </IconButton>
             </Tooltip>
           </motion.div>
@@ -138,7 +139,7 @@ const FavoriteSaveActions = (props: IProps) => {
                 commentInput?.focus();
               }}
             >
-              <ReviewsIcon className="text-secondary md:text-4xl" />
+              <ReviewsIcon className="text-secondary " />
             </IconButton>
           </Tooltip>
         </motion.div>
@@ -160,41 +161,59 @@ const FavoriteSaveActions = (props: IProps) => {
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Tooltip title="save">
                 <IconButton disabled={false} onClick={handleSave}>
-                  <SaveAltIcon className="text-secondary md:text-4xl" />
+                  <SaveAltIcon className="text-secondary " />
                 </IconButton>
               </Tooltip>
             </motion.div>
           </>
         )}
       </div>
-      <div className="flex flex-col items-center gap-2 text-xs">
-        <div className="w-32">Apply to be restaurant admin</div>
-        <button
-          disabled={false}
-          onClick={handleAddRestaurantToUser}
-          className=" rounded-md border-2 border-secondary px-2 py-2 text-secondary"
-        >
-          Apply
-        </button>
-      </div>
-      <dialog
-        open={showDialog}
-        className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
-      >
-        <div className="flex flex-col items-center gap-2">
-          <div>
-            Your Request will be reviewed by an admin and you will be notified
-            of the decision
+      {!isMyRestaurant.data ? (
+        <div>
+          <div className="flex flex-col items-center gap-2 text-xs">
+            <div className="w-32">Apply to be restaurant admin</div>
+            <button
+              disabled={false}
+              onClick={handleAddRestaurantToUser}
+              className=" rounded-md border-2 border-secondary px-2 py-1 text-secondary"
+            >
+              Apply
+            </button>
           </div>
-          <button
-            onClick={() => setShowDialog(false)}
-            formMethod="dialog"
-            className="rounded-md bg-red-500  p-1 text-white hover:bg-red-700"
+          <dialog
+            open={showDialog}
+            className="bg fixed inset-0 z-10 w-2/3 overflow-y-auto rounded-lg border-2 border-zinc-700 bg-gray-400"
           >
-            Close
+            <div className="flex flex-col items-center gap-2">
+              <div>
+                Your Request will be reviewed by an admin and you will be
+                notified of the decision
+              </div>
+              <button
+                onClick={() => setShowDialog(false)}
+                formMethod="dialog"
+                className="rounded-md bg-red-500  p-1 text-white hover:bg-red-700"
+              >
+                Close
+              </button>
+            </div>
+          </dialog>
+        </div>
+      ) : (
+        <div className="mt-2 flex w-16 flex-col gap-2">
+          <span className="text-xs">
+            You are the manager of this restaurant
+          </span>
+          <button
+            className="rounded-md  border-2 border-secondary py-1 px-2  text-secondary "
+            onClick={() => {
+              setShowEditCard(true);
+            }}
+          >
+            edit
           </button>
         </div>
-      </dialog>
+      )}
     </div>
   );
 };
