@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Comment } from "@prisma/client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import User from ".";
 import Tooltip from "@mui/material/Tooltip";
 const CommentCard = (props: { comment: Comment }) => {
   const router = useRouter();
