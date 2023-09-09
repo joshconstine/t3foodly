@@ -39,9 +39,7 @@ const SingleRestaurant = () => {
   const numberOfFavorites = api.favorite.getNumberOfFavorites.useQuery({
     restaurantId: String(restaurantId),
   });
-  const isMyRestaurant = api.usersRestaurant.isRestaurantAUsers.useQuery({
-    restaurantId: String(restaurantId),
-  });
+
   const createReportedPhoto =
     api.reportedPhoto.createReportedPhoto.useMutation();
 
@@ -80,7 +78,7 @@ const SingleRestaurant = () => {
       <Layout>
         <section className=" mx-auto md:py-2">
           <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 sm:px-6  lg:px-8">
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row md:justify-between">
               <div className="flex flex-col p-2">
                 <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
                 <span className="text-primary ">
@@ -105,23 +103,13 @@ const SingleRestaurant = () => {
                   })}
                 </div>
               </div>
-              {isMyRestaurant.data && (
-                <div className="mt-2 flex w-16 flex-col gap-2">
-                  <span className="text-xs">
-                    You are the manager of this restaurant
-                  </span>
-                  <button
-                    className="rounded-md  border-2 border-secondary py-1 px-2  text-secondary "
-                    onClick={() => {
-                      setShowEditCard(true);
-                    }}
-                  >
-                    edit
-                  </button>
-                </div>
-              )}
+              <div>
+                <FavoriteSaveActions
+                  setShowEditCard={setShowEditCard}
+                  restaurantId={String(restaurantId) || ""}
+                />{" "}
+              </div>
             </div>
-            <FavoriteSaveActions restaurantId={String(restaurantId) || ""} />{" "}
             <div className="px-4">
               <MenuComponent restaurantId={String(restaurantId)} />
             </div>
