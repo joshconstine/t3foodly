@@ -95,7 +95,7 @@ const CreateCommentContainer = (props: IProps) => {
           <textarea
             id="addComment"
             name="comment"
-            className="form-textarea h-32 w-full rounded-md border-2 border-secondary p-2 shadow-sm "
+            className="textarea-bordered textarea-primary textarea h-24 w-full"
             required
           />
         </div>
@@ -118,10 +118,7 @@ const CreateCommentContainer = (props: IProps) => {
             </label>
           </div>
           <div>
-            <button
-              type="submit"
-              className=" rounded-md border-2 border-secondary px-2 py-2 text-secondary"
-            >
+            <button type="submit" className=" btn-secondary btn ">
               Submit
             </button>
           </div>

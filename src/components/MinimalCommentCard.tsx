@@ -41,11 +41,26 @@ const MinimalCommentCard = (props: {
   const createReportedPhoto =
     api.reportedPhoto.createReportedPhoto.useMutation();
   const handleReport = (id: string) => {
-    createReportedPhoto.mutate({
-      photoId: id,
-      commentId: comment.id,
-    });
+    createReportedPhoto.mutate(
+      {
+        photoId: id,
+        commentId: comment.id,
+      },
+      {
+        onSuccess() {
+          showToastFor3Seconds();
+        },
+      }
+    );
   };
+  const [showToast, setShowToast] = React.useState(false);
+  const showToastFor3Seconds = () => {
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   return (
     <div
       className=" bg-z in w-full overflow-hidden rounded-lg border-2
@@ -81,7 +96,13 @@ const MinimalCommentCard = (props: {
       </div>
       <div className="flex content-end items-end justify-between">
         {photos.data && photos.data.length > 0 && (
-          <div className="flex px-2 pt-2">
+          <div className="indicator">
+            <button
+              onClick={() => handleReport(photos?.data?.at(0)?.id || "")}
+              className="badge badge-secondary  indicator-item"
+            >
+              report photo
+            </button>
             <Image
               width={40}
               height={40}
@@ -89,9 +110,6 @@ const MinimalCommentCard = (props: {
               src={photos.data ? String(photos.data.at(0)?.photoUrl) : ""}
               alt="Restaurant Image"
             />
-            <button onClick={() => handleReport(photos?.data?.at(0)?.id || "")}>
-              report
-            </button>
           </div>
         )}
         {isUsersComment && !props.viewOnly && (
@@ -100,6 +118,13 @@ const MinimalCommentCard = (props: {
               <DeleteOutlineOutlinedIcon className="text-4xl text-secondary" />
             </IconButton>
           </Tooltip>
+        )}
+        {showToast && (
+          <div className="toast">
+            <div className="alert alert-info">
+              <span>Your report will be sent to Foodley Admin</span>
+            </div>
+          </div>
         )}
       </div>
     </div>

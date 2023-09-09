@@ -50,7 +50,7 @@ const FileUplod = ({ restaurantId }: { restaurantId: string }) => {
     <>
       <p>Upload file:</p>
       <input type="file" onChange={(e) => storeFile(e)} />
-      <button onClick={uploadPhoto} className="bg-green-200">
+      <button onClick={uploadPhoto} className="btn-primary btn">
         send
       </button>
     </>

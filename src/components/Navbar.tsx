@@ -100,7 +100,7 @@ const Navbar = () => {
                   <div>
                     <button
                       onClick={() => signIn()}
-                      className="rounded-md  text-sm font-medium"
+                      className="btn-secondary  btn"
                     >
                       Sign In
                     </button>

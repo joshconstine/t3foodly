@@ -13,8 +13,9 @@ export interface IPriceData {
   }[];
 }
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 interface IProps {
   restaurantId: string;
   setShowEditCard: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +23,7 @@ interface IProps {
 
 const FavoriteSaveActions = (props: IProps) => {
   const { restaurantId, setShowEditCard } = props;
+  const Router = useRouter();
   const session = useSession();
   const [showDialog, setShowDialog] = useState(false);
   const isFavorited = api.favorite.isRestaurantFavorited.useQuery({
@@ -45,6 +47,10 @@ const FavoriteSaveActions = (props: IProps) => {
   const deleteSavedRestaurant = api.savedRestaurant.delete.useMutation();
   const handleFavorite = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!session.data) {
+      signIn();
+      return;
+    }
     createFavorite.mutate(
       { restaurantId: String(restaurantId) },
       {
@@ -70,6 +76,10 @@ const FavoriteSaveActions = (props: IProps) => {
 
   const handleSave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!session.data) {
+      signIn();
+      return;
+    }
     createSavedRestaurant.mutate(
       { restaurantId: String(restaurantId) },
       {
@@ -94,6 +104,10 @@ const FavoriteSaveActions = (props: IProps) => {
     e: React.SyntheticEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+    if (!session.data) {
+      signIn();
+      return;
+    }
     createUsersRestaurantApplication.mutate(
       {
         restaurantId: String(restaurantId),
@@ -167,7 +181,7 @@ const FavoriteSaveActions = (props: IProps) => {
             <button
               disabled={false}
               onClick={handleAddRestaurantToUser}
-              className=" rounded-md border-2 border-secondary px-2 py-1 text-secondary"
+              className="btn-secondary btn-outline btn"
             >
               Apply
             </button>
@@ -197,7 +211,7 @@ const FavoriteSaveActions = (props: IProps) => {
             You are the manager of this restaurant
           </span>
           <button
-            className="rounded-md  border-2 border-secondary py-1 px-2  text-secondary "
+            className="btn-secondary btn-outline btn "
             onClick={() => {
               setShowEditCard(true);
             }}
