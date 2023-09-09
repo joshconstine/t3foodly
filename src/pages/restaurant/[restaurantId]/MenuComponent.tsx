@@ -24,7 +24,10 @@ const MenuComponent = (props: IProps) => {
             </button>
           )}
           {showMenu && (
-            <div>
+            <dialog
+              open={showMenu}
+              className="z-100 absolute top-2 rounded-lg border-2 p-4"
+            >
               <div>
                 {menu?.data?.map((menuPhoto) => {
                   return (
@@ -32,8 +35,8 @@ const MenuComponent = (props: IProps) => {
                       key={menuPhoto.id}
                       src={menuPhoto.photoUrl}
                       alt="menu"
-                      width={500}
-                      height={500}
+                      width={800}
+                      height={1000}
                     />
                   );
                 })}
@@ -44,7 +47,7 @@ const MenuComponent = (props: IProps) => {
               >
                 close
               </button>
-            </div>
+            </dialog>
           )}
         </div>
       )}

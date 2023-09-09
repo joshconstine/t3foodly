@@ -19,6 +19,7 @@ import EditRestaurantCard from "./EditRestaurantCard";
 import MenuComponent from "./MenuComponent";
 import { useState } from "react";
 import ChatRoom from "./Chatroom";
+import Skeleton from "@mui/material/Skeleton";
 const SingleRestaurant = () => {
   const router = useRouter();
   const [showEditCard, setShowEditCard] = useState(false);
@@ -53,7 +54,27 @@ const SingleRestaurant = () => {
     });
   };
   if (restaurant.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className=" mx-auto md:py-2">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 sm:px-6  lg:px-8">
+          <div className="flex flex-col md:flex-row md:justify-between">
+            <div>
+              <div className=" w-32">
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+              </div>
+              <div className="w-8">
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </div>
+              <div className="w-16">
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </div>
+
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
   if (showEditCard) {
     return (
@@ -96,11 +117,16 @@ const SingleRestaurant = () => {
                 <div className=" flex gap-1 text-xs text-primary">
                   {restaurant.data?.cuisines.map((elem) => {
                     return (
-                      <div className="rounded-lg border-2 p-2">
-                        {elem.cuisine.name}
+                      <div>
+                        <div className="rounded-lg border-2 p-2">
+                          {elem.cuisine.name}
+                        </div>
                       </div>
                     );
-                  })}
+                  })}{" "}
+                  <div className="px-4">
+                    <MenuComponent restaurantId={String(restaurantId)} />
+                  </div>
                 </div>
               </div>
               <div>
@@ -110,9 +136,7 @@ const SingleRestaurant = () => {
                 />{" "}
               </div>
             </div>
-            <div className="px-4">
-              <MenuComponent restaurantId={String(restaurantId)} />
-            </div>
+
             <div>
               <Image
                 width={1920}
