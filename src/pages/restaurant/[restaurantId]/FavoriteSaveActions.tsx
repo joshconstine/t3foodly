@@ -211,7 +211,7 @@ const FavoriteSaveActions = (props: IProps) => {
             You are the manager of this restaurant
           </span>
           <button
-            className="rounded-md  border-2 border-secondary py-1 px-2  text-secondary "
+            className="btn-secondary btn-outline btn "
             onClick={() => {
               setShowEditCard(true);
             }}
