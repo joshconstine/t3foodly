@@ -113,9 +113,9 @@ const SingleRestaurant = () => {
               <div className="flex flex-col md:flex-row md:justify-between">
                 <div className="flex flex-col p-2">
                   <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
-                  <span className="text-primary ">
+                  <span className="countdown ">
                     Favorties:{" "}
-                    {numberOfFavorites.data && numberOfFavorites.data}
+                    <span style={{ "--value": numberOfFavorites?.data }}></span>
                   </span>
                   <span className=" text-xs text-primary ">
                     Address:
