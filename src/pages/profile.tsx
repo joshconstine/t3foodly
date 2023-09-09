@@ -98,13 +98,16 @@ const Profile: NextPage = () => {
                   </div>
                 </Dialog>
                 <div className="flex flex-col gap-2 ">
-                  <Image
-                    width={60}
-                    height={60}
-                    className="rounded-full"
-                    src={user.data?.image || ""}
-                    alt="Profile Image"
-                  />
+                  <div className="avatar">
+                    <div className="w-24 rounded border-2 border-zinc-600">
+                      <Image
+                        width={60}
+                        height={60}
+                        src={user.data?.image || ""}
+                        alt="Profile Image"
+                      />
+                    </div>
+                  </div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-xl font-bold text-primary ">
                       {user.data?.username}
@@ -151,8 +154,8 @@ const Profile: NextPage = () => {
                 }
                 className={
                   sessionData
-                    ? "rounded-full border-2  border-secondary bg-transparent  py-2 px-2 text-sm "
-                    : "rounded-full bg-secondary  text-sm"
+                    ? "btn-secondary btn-outline btn"
+                    : "btn-secondary btn-outline btn"
                 }
               >
                 {sessionData ? "Sign out" : "Sign in"}
