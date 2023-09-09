@@ -17,7 +17,7 @@ const MenuComponent = (props: IProps) => {
         <div>
           {!showMenu && (
             <button
-              className="rounded-full bg-primary py-2 px-4 font-bold text-white "
+              className="btn-primary btn"
               onClick={() => setShowMenu(true)}
             >
               Menu
@@ -26,7 +26,7 @@ const MenuComponent = (props: IProps) => {
           {showMenu && (
             <dialog
               open={showMenu}
-              className="z-100 absolute top-2 rounded-lg border-2 p-4"
+              className="z-100 absolute top-16 flex flex-col items-center gap-4 rounded-lg border-2 bg-slate-200 p-4"
             >
               <div>
                 {menu?.data?.map((menuPhoto) => {
@@ -42,7 +42,7 @@ const MenuComponent = (props: IProps) => {
                 })}
               </div>
               <button
-                className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-white hover:bg-yellow-700"
+                className="btn-secondary btn-outline btn"
                 onClick={() => setShowMenu(false)}
               >
                 close

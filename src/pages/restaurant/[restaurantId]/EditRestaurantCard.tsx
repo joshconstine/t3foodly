@@ -228,16 +228,6 @@ const EditRestaurantCard = (props: IProps) => {
             restaurant?.data?.website ? restaurant.data.website : ""
           }
         ></input>{" "}
-        <label>Hours:</label>
-        <input
-          type="text"
-          name="hoursInterval"
-          className="bg-gray-200"
-          placeholder="hours of operation"
-          defaultValue={
-            restaurant?.data?.hoursInterval ? restaurant.data.hoursInterval : ""
-          }
-        ></input>{" "}
         <label>Phone:</label>
         <input
           type="text"
@@ -246,26 +236,28 @@ const EditRestaurantCard = (props: IProps) => {
           placeholder="phone number"
           defaultValue={restaurant?.data?.phone ? restaurant.data.phone : ""}
         ></input>
-        <button
-          className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-          type="submit"
-        >
-          save
-        </button>
-        <button
-          type="button"
-          className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            setEditMode(false);
-          }}
-        >
-          close
-        </button>
+        <div className="flex justify-between">
+          <button
+            className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+            type="submit"
+          >
+            save
+          </button>
+          <button
+            type="button"
+            className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+            onClick={() => {
+              setEditMode(false);
+            }}
+          >
+            close
+          </button>
+        </div>
       </form>
     );
   };
   return (
-    <div>
+    <dialog open className="max-w-2xl rounded-lg border-2 p-4">
       <button
         className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
         onClick={() => {
@@ -274,24 +266,6 @@ const EditRestaurantCard = (props: IProps) => {
       >
         Return to public view
       </button>
-      <h1>Edit Restaurant Card</h1>
-      <div className=" m-4 p-4">
-        <h1 className="text-2xl text-primary">Current Restaurant Data</h1>
-
-        <p>Restaurant Hours: {restaurant.data?.hoursInterval}</p>
-
-        <p>
-          Cuisines:{" "}
-          {restaurantCuisines?.data?.map((el) => (
-            <div>
-              {
-                cuisines?.data?.find((cuisine) => cuisine.id === el.cuisine_id)
-                  ?.name
-              }
-            </div>
-          ))}
-        </p>
-      </div>
       <RestaurantInfoForm />
       <div className=" m-4 p-4">
         <h1 className="text-2xl text-primary">Current Photos</h1>
@@ -350,7 +324,7 @@ const EditRestaurantCard = (props: IProps) => {
         <Menu restaurantId={restaurantId} />
         <AddMenu restaurantId={restaurantId} />
       </div>
-    </div>
+    </dialog>
   );
 };
 
