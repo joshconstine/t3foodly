@@ -70,11 +70,11 @@ const Restaurant: NextPage = () => {
     longitude: mapCenter.lng,
     searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
-  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
-    lat: String(mapCenter.lat),
-    lng: String(mapCenter.lng),
-    radius: searchRadiusInMiles * 1609.34,
-  });
+  // const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
+  //   lat: String(mapCenter.lat),
+  //   lng: String(mapCenter.lng),
+  //   radius: searchRadiusInMiles * 1609.34,
+  // });
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
@@ -86,11 +86,11 @@ const Restaurant: NextPage = () => {
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
   //@ts-ignore
-  const allRestaurants =
-    dbRestaurants?.data && apiRestaurants?.data
-      ? [...dbRestaurants?.data, ...apiRestaurants?.data]
-      : [];
-
+  // const allRestaurants =
+  //   dbRestaurants?.data && apiRestaurants?.data
+  //     ? [...dbRestaurants?.data, ...apiRestaurants?.data]
+  //     : [];
+  const allRestaurants = dbRestaurants?.data || [];
   //@ts-ignore
   const filterd = allRestaurants.filter((elem) => {
     if (selectedCuisines.length === 0) {
@@ -159,7 +159,7 @@ const Restaurant: NextPage = () => {
                         </div>
                       </div>
                     ) : isNoData ? (
-                      <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860 md:overflow-auto ">
+                      <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860  ">
                         <h1 className="text-2xl font-bold text-primary">
                           No Restaurants Found
                         </h1>
