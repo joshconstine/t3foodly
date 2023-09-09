@@ -71,6 +71,27 @@ const SingleRestaurant = () => {
 
               <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
             </div>
+            <div className="flex content-center items-center gap-8">
+              <div className=" flex  flex-col items-center gap-2">
+                <Skeleton variant="text" sx={{ fontSize: "1rem", width: 90 }} />
+                <Skeleton variant="circular" width={40} height={40} />
+              </div>
+              <div className=" flex  flex-col items-center gap-2">
+                <Skeleton variant="text" sx={{ fontSize: "1rem", width: 90 }} />
+                <Skeleton variant="circular" width={40} height={40} />
+              </div>
+              <div className=" flex  flex-col items-center gap-2">
+                <Skeleton variant="text" sx={{ fontSize: "1rem", width: 90 }} />
+                <Skeleton variant="circular" width={40} height={40} />
+              </div>
+              <div className=" flex flex-col items-center gap-2">
+                <Skeleton variant="text" sx={{ fontSize: "1rem", width: 90 }} />
+                <Skeleton variant="circular" width={40} height={40} />
+              </div>
+            </div>
+          </div>
+          <div>
+            <Skeleton variant="rectangular" width={1056} height={704} />
           </div>
         </div>
       </section>
