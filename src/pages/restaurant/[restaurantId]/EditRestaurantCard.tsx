@@ -66,7 +66,6 @@ const EditRestaurantCard = (props: IProps) => {
       email: { value: string };
       website: { value: string };
       phone: { value: string };
-      hoursInterval: { value: string };
     };
     if (restaurant?.data)
       updateRestaurant.mutate(
@@ -80,7 +79,7 @@ const EditRestaurantCard = (props: IProps) => {
           email: formElements.email.value,
           phone: formElements.phone.value,
           website: formElements.website.value,
-          hoursInterval: formElements.hoursInterval.value,
+          hoursInterval: "",
           lat: Number(restaurant.data.lat),
           lng: Number(restaurant.data.lng),
         },
@@ -165,14 +164,14 @@ const EditRestaurantCard = (props: IProps) => {
     return (
       <form
         onSubmit={handleUpdate}
-        className="m-4 flex w-64 flex-col  whitespace-nowrap p-4"
+        className="m-4 flex w-64 flex-wrap  whitespace-nowrap p-4"
       >
         <h1 className="text-2xl text-primary">Update Restaurant Data</h1>
         <label>Name:</label>
         <input
           type="text"
           name="name"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="Restaurant name"
           defaultValue={restaurant?.data?.name}
         ></input>{" "}
@@ -180,7 +179,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="address"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="Restaurant address"
           defaultValue={
             restaurant?.data?.address ? restaurant?.data?.address : ""
@@ -190,7 +189,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="city"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="city"
           defaultValue={restaurant?.data?.cityName}
         ></input>
@@ -198,7 +197,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="state"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="state"
           defaultValue={restaurant?.data?.stateName}
         ></input>
@@ -206,7 +205,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="zipCode"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="zipcode"
           defaultValue={restaurant?.data?.zipCode}
         ></input>{" "}
@@ -214,7 +213,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="email"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="email"
           defaultValue={restaurant?.data?.email ? restaurant.data.email : ""}
         ></input>{" "}
@@ -222,7 +221,7 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="website"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="website"
           defaultValue={
             restaurant?.data?.website ? restaurant.data.website : ""
@@ -232,20 +231,17 @@ const EditRestaurantCard = (props: IProps) => {
         <input
           type="text"
           name="phone"
-          className="bg-gray-200"
+          className="input-bordered input-secondary input w-full max-w-xs"
           placeholder="phone number"
           defaultValue={restaurant?.data?.phone ? restaurant.data.phone : ""}
         ></input>
         <div className="flex justify-between">
-          <button
-            className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-            type="submit"
-          >
+          <button className="btn-primary btn" type="submit">
             save
           </button>
           <button
             type="button"
-            className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+            className="btn-secondary btn-outline btn"
             onClick={() => {
               setEditMode(false);
             }}
@@ -257,10 +253,11 @@ const EditRestaurantCard = (props: IProps) => {
     );
   };
   return (
-    <dialog open className="max-w-2xl rounded-lg border-2 p-4">
+    <dialog open className="max-w-2xl rounded-lg border-2 bg-slate-200 p-4">
       <button
-        className="rounded-full bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+        className="btn-primary btn"
         onClick={() => {
+          restaurant.refetch();
           setEditMode(false);
         }}
       >
@@ -289,7 +286,7 @@ const EditRestaurantCard = (props: IProps) => {
             <Image src={preview || ""} alt={"photo"} width={400} height={200} />
             <div>
               <button
-                className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+                className="btn-primary btn"
                 type="submit"
                 onClick={handleSubmit}
               >
@@ -309,10 +306,7 @@ const EditRestaurantCard = (props: IProps) => {
               setCuisines={setSelectedCuisines}
             />
           )}
-          <button
-            className="rounded-full bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-            onClick={handleSetCuisines}
-          >
+          <button className="btn-primary btn" onClick={handleSetCuisines}>
             save
           </button>
         </div>

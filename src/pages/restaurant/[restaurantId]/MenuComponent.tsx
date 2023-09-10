@@ -26,7 +26,7 @@ const MenuComponent = (props: IProps) => {
           {showMenu && (
             <dialog
               open={showMenu}
-              className="z-100 absolute top-16 flex flex-col items-center gap-4 rounded-lg border-2 bg-slate-200 p-4"
+              className="z-1 absolute top-16 flex flex-col items-center gap-4 rounded-lg border-2 bg-slate-200 p-4"
             >
               <div>
                 {menu?.data?.map((menuPhoto) => {
