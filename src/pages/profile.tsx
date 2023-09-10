@@ -8,7 +8,10 @@ import FavoriteContainer from "../components/Favorites/FavoriteContainer";
 import Dialog from "@mui/material/Dialog";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { IconButton } from "@mui/material";
+import { IconButton, Skeleton } from "@mui/material";
+
+import { RestaurantCardSkeleton } from "./restaurant";
+
 const Profile: NextPage = () => {
   const user = api.user.getUser.useQuery();
   const updateUsername = api.user.updateUsername.useMutation();
@@ -100,15 +103,24 @@ const Profile: NextPage = () => {
                 <div className="flex flex-col gap-2 md:flex-row">
                   <div className="avatar">
                     <div className="w-24 rounded border-2 border-zinc-600">
-                      <Image
-                        width={60}
-                        height={60}
-                        src={user.data?.image || ""}
-                        alt="Profile Image"
-                      />
+                      {user.isLoading ? (
+                        <Skeleton
+                          variant="rectangular"
+                          width={140}
+                          height={140}
+                        />
+                      ) : (
+                        <Image
+                          width={60}
+                          height={60}
+                          src={user.data?.image || ""}
+                          alt="Profile Image"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {user.isLoading && <Skeleton variant="text" width={140} />}
                     {isEditMode ? (
                       <>
                         <form
@@ -145,6 +157,26 @@ const Profile: NextPage = () => {
                 </div>
                 <div className="divider-primary divider"></div>
                 <h3 className="text-md mb-2 "> 5 reviews </h3>
+              </div>
+              <div>
+                {favorites.isLoading && (
+                  <div>
+                    <Skeleton
+                      variant="text"
+                      width={140}
+                      sx={{ fontSize: "2rem" }}
+                    />
+                    <div className="flex flex-col gap-2">
+                      {new Array(5).fill(true).map((elem, index) => (
+                        <Skeleton
+                          variant="rectangular"
+                          width={704}
+                          height={99}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <FavoriteContainer
                 favoriteList={favoriteList}
