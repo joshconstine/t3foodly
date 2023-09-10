@@ -25,56 +25,58 @@ const User: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="mt-4 flex flex-col px-2">
-          <div className="flex flex-col gap-2 ">
-            <Image
-              width={60}
-              height={60}
-              className="rounded-full"
-              src={user.data?.image || ""}
-              alt="Profile Image"
-            />
-            <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold text-primary ">
-                {user.data?.username}
-              </h3>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            {favorites.isLoading && (
-              <div>
-                {new Array(5).fill(true).map((elem, index) => (
-                  <RestaurantCardSkeleton key={index} />
-                ))}
+        <section className="py-2 md:py-4">
+          <div className="mx-auto  max-w-3xl px-4  lg:px-8">
+            <div className="flex flex-col gap-2 ">
+              <Image
+                width={60}
+                height={60}
+                className="rounded-full"
+                src={user.data?.image || ""}
+                alt="Profile Image"
+              />
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-primary ">
+                  {user.data?.username}
+                </h3>
               </div>
-            )}
-            <div className="text-lg font-bold">Top 5</div>
-            {favorites.data?.slice(0, 5).map((elem) => {
-              return (
-                <Favorite key={elem.id} restaurantId={elem.restaurant_id} />
-              );
-            })}{" "}
-            <div className=" flex flex-col gap-2 px-4">
-              <h3 className="text-lg font-bold">
-                {comments.data?.length} Reviews
-              </h3>
-              {comments.isLoading && <div>Loading...</div>}
-              {comments.data?.length === 0 && (
-                <div
-                  className="
-                  text-primary md:text-3xl
-                  "
-                >
-                  No comments yet. Be the first to comment!
+            </div>
+            <div className="flex flex-col gap-2">
+              {favorites.isLoading && (
+                <div>
+                  {new Array(5).fill(true).map((elem, index) => (
+                    <RestaurantCardSkeleton key={index} />
+                  ))}
                 </div>
               )}
+              <div className="text-lg font-bold">Top 5</div>
+              {favorites.data?.slice(0, 5).map((elem) => {
+                return (
+                  <Favorite key={elem.id} restaurantId={elem.restaurant_id} />
+                );
+              })}{" "}
+              <div className=" flex flex-col gap-2 px-4">
+                <h3 className="text-lg font-bold">
+                  {comments.data?.length} Reviews
+                </h3>
+                {comments.isLoading && <div>Loading...</div>}
+                {comments.data?.length === 0 && (
+                  <div
+                    className="
+                  text-primary md:text-3xl
+                  "
+                  >
+                    No comments yet. Be the first to comment!
+                  </div>
+                )}
 
-              {comments.data?.map((comment) => (
-                <MinimalCommentCard comment={comment} viewOnly />
-              ))}
+                {comments.data?.map((comment) => (
+                  <MinimalCommentCard comment={comment} viewOnly />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </Layout>
     </>
   );
