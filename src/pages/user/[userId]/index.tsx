@@ -27,20 +27,23 @@ const User: NextPage = () => {
       <Layout>
         <section className="py-2 md:py-4">
           <div className="mx-auto  max-w-3xl px-4  lg:px-8">
-            <div className="flex flex-col gap-2 ">
-              <Image
-                width={60}
-                height={60}
-                className="rounded-full"
-                src={user.data?.image || ""}
-                alt="Profile Image"
-              />
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold text-primary ">
-                  {user.data?.username}
-                </h3>
+            <div className="flex flex-col gap-2 md:flex-row">
+              <div className="avatar">
+                <div className="w-24 rounded border-2 border-zinc-600">
+                  <Image
+                    width={60}
+                    height={60}
+                    src={user.data?.image || ""}
+                    alt="Profile Image"
+                  />
+                </div>
               </div>
+
+              <h3 className="text-xl font-bold text-primary ">
+                {user.data?.username}
+              </h3>
             </div>
+            <div className="divider-primary divider"></div>
             <div className="flex flex-col gap-2">
               {favorites.isLoading && (
                 <div>
