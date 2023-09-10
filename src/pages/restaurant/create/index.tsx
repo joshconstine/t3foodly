@@ -38,9 +38,7 @@ const createRestaurant: NextPage = () => {
                   method="dialog"
                   className="flex w-full  flex-col items-center "
                 >
-                  <button className="rounded-lg bg-primary px-4 py-2 text-white">
-                    OK
-                  </button>
+                  <button className="btn-primary btn">OK</button>
                 </form>
               </div>
             </dialog>

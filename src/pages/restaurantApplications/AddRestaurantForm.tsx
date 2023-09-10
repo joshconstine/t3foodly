@@ -291,28 +291,28 @@ const AddRestaurantForm = () => {
       return (
         <Box className="m-4 flex  flex-col gap-4 p-4">
           <Field
-            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            className="input-primary input"
             id={"restaurantName"}
             name={"restaurantName"}
             type="text"
             placeholder={"restaurant name"}
           />
           <Field
-            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            className="input-primary input"
             id={"restaurantEmail"}
             name={"restaurantEmail"}
             type="text"
             placeholder={"email"}
           />
           <Field
-            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            className="input-primary input"
             id={"restaurantPhone"}
             name={"restaurantPhone"}
             type="text"
             placeholder={"phone"}
           />
           <Field
-            className="w-full rounded-full bg-gray-100 py-2 px-8 focus:outline-none "
+            className="input-primary input"
             id={"website"}
             name={"website"}
             type="text"
@@ -325,7 +325,7 @@ const AddRestaurantForm = () => {
               <button
                 onClick={handleNext}
                 type="button"
-                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                className="btn-secondary btn-outline btn"
               >
                 Next
               </button>
@@ -376,14 +376,18 @@ const AddRestaurantForm = () => {
           </div>
           <React.Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              <Button
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+                className="btn-danger btn"
+              >
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
               <button
                 type="button"
-                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                className=" btn-secondary btn-outline btn"
                 onClick={handleNext}
               >
                 Next
@@ -404,14 +408,18 @@ const AddRestaurantForm = () => {
           )}
           <React.Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              <Button
+                className="btn-danger btn"
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
               <button
                 type="button"
-                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                className=" btn-secondary btn-outline btn"
                 onClick={handleNext}
               >
                 Next
@@ -448,14 +456,18 @@ const AddRestaurantForm = () => {
 
           <React.Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+              <Button
+                className="btn-danger btn"
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
               <button
                 type="button"
-                className="back rounded-full border-2 border-secondary px-8 py-2 text-secondary"
+                className=" btn-secondary btn-outline btn"
                 onClick={handleNext}
               >
                 Next
@@ -532,12 +544,16 @@ const AddRestaurantForm = () => {
             </div>
           </div>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+            <Button
+              className="btn-danger btn"
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
               Back
             </Button>
             <motion.button
               type="button"
-              className="rounded-full bg-secondary py-2 px-4 font-bold text-white "
+              className="btn-primary btn"
               onClick={() => {
                 props.handleSubmit();
               }}
