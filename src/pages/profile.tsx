@@ -67,8 +67,8 @@ const Profile: NextPage = () => {
       </Head>
       <Layout>
         {" "}
-        <section className="py-2 md:py-12">
-          <div className="mx-auto  max-w-7xl px-4  lg:px-8">
+        <section className="py-2 md:py-4">
+          <div className="mx-auto  max-w-3xl px-4  lg:px-8">
             <div className="container ">
               <div className=" flex flex-col">
                 <Dialog
@@ -97,7 +97,7 @@ const Profile: NextPage = () => {
                     )}
                   </div>
                 </Dialog>
-                <div className="flex flex-col gap-2 ">
+                <div className="flex flex-col gap-2 md:flex-row">
                   <div className="avatar">
                     <div className="w-24 rounded border-2 border-zinc-600">
                       <Image
@@ -109,35 +109,42 @@ const Profile: NextPage = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-xl font-bold text-primary ">
-                      {user.data?.username}
-                    </h3>
-                    <IconButton onClick={() => setIsEditMode(true)}>
-                      <EditOutlinedIcon />
-                    </IconButton>
+                    {isEditMode ? (
+                      <>
+                        <form
+                          onSubmit={handleSubmit}
+                          className="flex w-48 flex-col"
+                        >
+                          <input
+                            name="newUsername"
+                            placeholder={user.data?.username || ""}
+                            className="input-bordered input-primary input w-full max-w-xs"
+                          ></input>
+                        </form>
+                        <button className="btn-primary btn" type="submit">
+                          save
+                        </button>{" "}
+                        <button
+                          className="btn-secondary btn-outline btn"
+                          onClick={() => setIsEditMode(false)}
+                        >
+                          cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="text-xl font-bold text-primary ">
+                          {user.data?.username}
+                        </h3>
+                        <IconButton onClick={() => setIsEditMode(true)}>
+                          <EditOutlinedIcon />
+                        </IconButton>
+                      </>
+                    )}
                   </div>
-                  {isEditMode && (
-                    <form
-                      onSubmit={handleSubmit}
-                      className="flex w-48 flex-col"
-                    >
-                      <input
-                        name="newUsername"
-                        className="border-2 bg-gray-200"
-                      ></input>
-                      <button className="border-2 bg-gray-200" type="submit">
-                        save
-                      </button>{" "}
-                      <button
-                        className="border-2 bg-gray-200"
-                        onClick={() => setIsEditMode(false)}
-                      >
-                        cancel
-                      </button>
-                    </form>
-                  )}
-                  <h3 className="text-md mb-2 "> 5 reviews </h3>
                 </div>
+                <div className="divider-primary divider"></div>
+                <h3 className="text-md mb-2 "> 5 reviews </h3>
               </div>
               <FavoriteContainer
                 favoriteList={favoriteList}
