@@ -17,7 +17,12 @@ const RestaurantCardContainer = (props: IContainer) => {
 
           <div className="flex flex-col gap-2">
             {list?.map((elem: any) => {
-              return <Favorite restaurantId={elem.restaurant_id} />;
+              return (
+                <Favorite
+                  restaurantId={elem.restaurant_id}
+                  disableClick={false}
+                />
+              );
             })}
           </div>
         </div>
