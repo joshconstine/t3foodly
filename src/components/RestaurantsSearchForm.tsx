@@ -59,15 +59,15 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
         <select
           value={props.searchRadiusInMiles}
           className="select-bordered select-primary select join-item"
+          onChange={(e) => {
+            props.setSearchRadiusInMiles(Number(e.target.value));
+          }}
         >
           {searchRadiusOptions.map((option) => (
             <option
               key={option.value}
               className="option option-primary "
               value={option.value}
-              onClick={() => {
-                props.setSearchRadiusInMiles(option.value);
-              }}
             >
               {option.label}
             </option>
