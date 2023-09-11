@@ -73,7 +73,12 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
           {!isEditMode && (
             <div className="flex flex-col gap-2">
               {favoriteList?.slice(0, 5).map((elem: any) => {
-                return <Favorite restaurantId={elem.restaurant_id} />;
+                return (
+                  <Favorite
+                    restaurantId={elem.restaurant_id}
+                    disableClick={false}
+                  />
+                );
               })}
             </div>
           )}

@@ -55,7 +55,11 @@ const User: NextPage = () => {
               <div className="text-lg font-bold">Top 5</div>
               {favorites.data?.slice(0, 5).map((elem) => {
                 return (
-                  <Favorite key={elem.id} restaurantId={elem.restaurant_id} />
+                  <Favorite
+                    key={elem.id}
+                    restaurantId={elem.restaurant_id}
+                    disableClick={false}
+                  />
                 );
               })}{" "}
               <div className=" flex flex-col gap-2 px-4">
