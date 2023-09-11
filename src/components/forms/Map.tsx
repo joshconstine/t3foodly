@@ -47,11 +47,15 @@ const RestaurantMarker = (props: {
       key={`${marker.location.lat}-${marker.location.lng}`}
       mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
     >
-      <div className="border-1  rounded-md border-black bg-primary p-2  font-bold  text-white shadow-md">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          setFocusedRestaurant(String(marker.id));
+        }}
+        className="border-1  rounded-md border-black bg-primary p-2  font-bold  text-white shadow-md"
+      >
         <div className="flex gap-1">
-          <h1 onClick={() => setFocusedRestaurant(String(marker.id))}>
-            {marker.restaurant.name}
-          </h1>
+          <button>{marker.restaurant.name}</button>
           {false && (
             <div className="h-8 w-8">
               <Image
