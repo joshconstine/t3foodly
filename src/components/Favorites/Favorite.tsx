@@ -4,14 +4,22 @@ import { api } from "../../utils/api";
 import { motion } from "framer-motion";
 
 import Image from "next/image";
-const Favorite = ({ restaurantId }: { restaurantId: string }) => {
+const Favorite = ({
+  restaurantId,
+  disableClick = false,
+}: {
+  restaurantId: string;
+  disableClick: boolean;
+}) => {
   const router = useRouter();
   const restaurant = api.restaurant.getById.useQuery({ id: restaurantId });
   const photos = api.photo.getByRestaurantId.useQuery({ id: restaurantId });
   return (
     <div
       className="flex cursor-pointer gap-2 bg-gray-100 px-2 py-2"
-      onClick={() => router.push(`/restaurant/${restaurantId}`)}
+      onClick={() => {
+        if (!disableClick) router.push(`/restaurant/${restaurantId}`);
+      }}
     >
       <Image
         width={80}

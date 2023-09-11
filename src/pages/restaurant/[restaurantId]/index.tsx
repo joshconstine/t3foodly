@@ -110,7 +110,7 @@ const SingleRestaurant = () => {
         <Layout>
           <section className=" mx-auto md:py-2">
             <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 sm:px-6  lg:px-8">
-              <div className="flex flex-col md:flex-row md:justify-between">
+              <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
                 <div className="flex flex-col p-2">
                   <h2 className="text-xl font-bold">{restaurant.data?.name}</h2>
                   <div>
@@ -158,12 +158,24 @@ const SingleRestaurant = () => {
               </div>
 
               <div>
-                <Image
-                  width={1920}
-                  height={1280}
-                  src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
-                  alt={restaurant.data?.name || ""}
-                />
+                <div className="indicator">
+                  <button
+                    onClick={() =>
+                      handleReportPhoto(photos?.data?.at(selectedPhotoIndex))
+                    }
+                    className="badge badge-secondary  indicator-item"
+                  >
+                    report photo
+                  </button>
+                  <div className="max-w-3xl">
+                    <Image
+                      width={1920}
+                      height={1280}
+                      src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
+                      alt={restaurant.data?.name || ""}
+                    />
+                  </div>
+                </div>
                 <div className=" bg-gray-900  p-2 text-sm text-white">
                   <div className="flex space-x-2">
                     {photos.data?.map((photo, index) => (
@@ -177,9 +189,6 @@ const SingleRestaurant = () => {
                           }`}
                           onClick={() => handlePhotoClick(index)}
                         />
-                        <button onClick={() => handleReportPhoto(photo)}>
-                          report photo
-                        </button>
                       </>
                     ))}
                   </div>

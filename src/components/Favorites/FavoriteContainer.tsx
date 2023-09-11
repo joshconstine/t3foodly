@@ -57,7 +57,13 @@ const FavoriteContainer = (props: IFavoriteContainer) => {
                 {favoriteList?.map((elem: any, i: number) => {
                   return (
                     <Reorder.Item value={elem} key={elem.id}>
-                      <Favorite restaurantId={elem.restaurant_id} />
+                      <Favorite
+                        restaurantId={elem.restaurant_id}
+                        disableClick
+                      />
+                      {i == 4 && (
+                        <div className="divider-primary divider"></div>
+                      )}
                     </Reorder.Item>
                   );
                 })}

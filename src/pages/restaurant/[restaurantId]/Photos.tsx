@@ -33,7 +33,7 @@ const Photos = (props: IProps) => {
             />
             <div>
               <button
-                className="rounded-md bg-red-500 p-4 hover:bg-red-700"
+                className="btn-danger btn"
                 onClick={(e) => handleDelete(e, photo.id)}
               >
                 delete
