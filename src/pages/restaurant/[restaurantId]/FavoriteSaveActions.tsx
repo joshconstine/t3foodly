@@ -121,9 +121,9 @@ const FavoriteSaveActions = (props: IProps) => {
     );
   };
   return (
-    <div className="flex w-full justify-center gap-8 border-zinc-500">
+    <div className="flex w-full justify-center gap-2 border-zinc-500 p-2 md:gap-8">
       <div className="flex flex-col items-center gap-2">
-        <div> Favorite</div>
+        <div className="text-xs">Favorite</div>
         {isFavorited.data && isFavorited.data ? (
           <IconButton disabled={false} onClick={handleUnfavorite}>
             <StarIcon className="text-secondary " />
@@ -137,7 +137,7 @@ const FavoriteSaveActions = (props: IProps) => {
         )}
       </div>
       <div className="flex flex-col items-center gap-2">
-        <div>Review</div>
+        <div className="text-xs">Review</div>
 
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <IconButton
@@ -165,7 +165,7 @@ const FavoriteSaveActions = (props: IProps) => {
           </div>
         ) : (
           <>
-            <div> Save</div>
+            <div className="text-xs"> Save</div>
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <IconButton disabled={false} onClick={handleSave}>
                 <SaveAltIcon className="text-secondary " />
@@ -207,9 +207,6 @@ const FavoriteSaveActions = (props: IProps) => {
         </div>
       ) : (
         <div className="mt-2 flex w-16 flex-col gap-2">
-          <span className="text-xs">
-            You are the manager of this restaurant
-          </span>
           <button
             className="btn-secondary btn-outline btn "
             onClick={() => {

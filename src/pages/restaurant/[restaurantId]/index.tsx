@@ -134,7 +134,7 @@ const SingleRestaurant = () => {
                       {restaurant?.data?.website}
                     </a>
                   </div>
-                  <div className=" flex gap-1 text-xs text-primary">
+                  <div className=" flex flex-wrap gap-1 text-xs text-primary">
                     {restaurant.data?.cuisines.map((elem) => {
                       return (
                         <div>
@@ -158,21 +158,22 @@ const SingleRestaurant = () => {
               </div>
 
               <div>
-                <div className="indicator">
+                <div>
                   <button
                     onClick={() =>
                       handleReportPhoto(photos?.data?.at(selectedPhotoIndex))
                     }
-                    className="badge badge-secondary  indicator-item"
+                    className="badge badge-secondary"
                   >
                     report photo
                   </button>
                   <div className="max-w-3xl">
                     <Image
-                      width={1920}
-                      height={1280}
                       src={photos.data?.at(selectedPhotoIndex)?.photoUrl || ""}
                       alt={restaurant.data?.name || ""}
+                      width={1920}
+                      height={1280}
+                      layout="responsive"
                     />
                   </div>
                 </div>
