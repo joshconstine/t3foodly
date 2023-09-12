@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { dateTimeRangeList } from "aws-sdk/clients/health";
 import axios from "axios";
 import { z } from "zod";
 
@@ -105,6 +106,101 @@ export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
     },
   }
 );
+type AddressComponentFull = {
+  long_name: string;
+  short_name: string;
+  types: string[];
+};
+
+type GeometryFull = {
+  location: {
+    lat: number;
+    lng: number;
+  };
+  viewport: {
+    northeast: {
+      lat: number;
+      lng: number;
+    };
+    southwest: {
+      lat: number;
+      lng: number;
+    };
+  };
+};
+
+type OpeningHoursPeriod = {
+  open: {
+    day: number;
+    time: string;
+  };
+  close: {
+    day: number;
+    time: string;
+  };
+};
+
+type OpeningHoursFull = {
+  open_now: boolean;
+  periods: OpeningHoursPeriod[];
+  weekday_text: string[];
+};
+
+type PhotoFull = {
+  height: number;
+  html_attributions: string[];
+  photo_reference: string;
+  width: number;
+};
+
+type Review = {
+  author_name: string;
+  author_url: string;
+  language: string;
+  profile_photo_url: string;
+  rating: number;
+  relative_time_description: string;
+  text: string;
+  time: number;
+};
+
+type PlusCodeFull = {
+  compound_code: string;
+  global_code: string;
+};
+
+type PlaceDetailsResult = {
+  address_components: AddressComponentFull[];
+  adr_address: string;
+  business_status: string;
+  formatted_address: string;
+  formatted_phone_number: string;
+  geometry: GeometryFull;
+  icon: string;
+  icon_background_color: string;
+  icon_mask_base_uri: string;
+  international_phone_number: string;
+  name: string;
+  opening_hours: OpeningHoursFull;
+  photos: Photo[];
+  place_id: string;
+  plus_code: PlusCodeFull;
+  rating: number;
+  reference: string;
+  reviews: Review[];
+  types: string[];
+  url: string;
+  user_ratings_total: number;
+  utc_offset: number;
+  vicinity: string;
+  website: string;
+};
+
+type GooglePlacesResponse = {
+  html_attributions: string[];
+  result: PlaceDetailsResult;
+  status: string;
+};
 export type RestaurantWithCuisines = Prisma.RestaurantGetPayload<
   typeof restaurantWithCuisines
 >;
@@ -145,6 +241,30 @@ export const restaurantRouter = createTRPCRouter({
           },
         },
       });
+    }),
+  getByPlaceId: publicProcedure
+    .input(
+      z.object({
+        placeId: z.string(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      const options: any = {
+        method: "GET",
+        url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${input.placeId}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw`,
+      };
+
+      return axios
+        .request(options)
+        .then(function (response: {
+          data: GooglePlacesResponse;
+        }): PlaceDetailsResult {
+          return response.data.result;
+        })
+        .catch(function (error) {
+          console.error(error);
+          return;
+        });
     }),
   getByZipcode: publicProcedure
     .input(z.object({ zipcode: z.string().nullable() }))
