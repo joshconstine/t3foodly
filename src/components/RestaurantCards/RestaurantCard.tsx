@@ -8,6 +8,7 @@ import UpVoteDownVote from "./UpVoteDownVote";
 import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 import FavoriteSaveSmall from "./FavoriteSaveSmall";
 import Stars from "./Stars";
+import FavoriteSaveGoogle from "./FavoriteSaveGoogle";
 
 const RestaurantCard = (props: {
   restaurant: IGoogleRestaurantResult;
@@ -64,9 +65,16 @@ const RestaurantCard = (props: {
                 e.stopPropagation();
               }}
             >
-              <FavoriteSaveSmall restaurantId={restaurant.id} />
+              <FavoriteSaveGoogle placeId={restaurant.id} />
             </div>
           </div>{" "}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <UpVoteDownVote restaurantId={restaurant.id} />
+          </div>
           <div className="flex gap-4">
             <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
               menu

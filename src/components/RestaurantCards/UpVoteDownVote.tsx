@@ -82,7 +82,6 @@ const UpVoteDownVote = (props: IProps) => {
   return (
     <div className="flex items-center gap-2">
       <div className="flex items-center text-green-500">
-        <div>{upVotes.data}</div>
         <div className="-rotate-90">
           {isUpVotedByMe.data && (
             <div onClick={handleUnUpVote}>
@@ -97,6 +96,7 @@ const UpVoteDownVote = (props: IProps) => {
             </div>
           )}
         </div>
+        <div>{upVotes.data} upvotes</div>
       </div>
       <div className="flex items-center text-red-500">
         <div className="rotate-90">
@@ -113,7 +113,7 @@ const UpVoteDownVote = (props: IProps) => {
             </div>
           )}
         </div>
-        <div>{downVotes.data}</div>
+        <div>{downVotes.data} downvotes</div>
       </div>
     </div>
   );
