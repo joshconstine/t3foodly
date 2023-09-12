@@ -64,7 +64,6 @@ export default function CityForm({
       )?.long_name;
       const lat = String(geocodeResp[0]?.geometry?.location?.lat());
       const lng = String(geocodeResp[0]?.geometry?.location?.lng());
-      console.log(geocodeResp[0]?.geometry);
       const address = `${
         addressComponents.find((c) => c.types.includes("street_number"))
           ?.long_name || ""

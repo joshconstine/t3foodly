@@ -1,8 +1,11 @@
 import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
-import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
+import {
+  IGoogleRestaurantResult,
+  RestaurantWithCuisines,
+} from "../../server/api/routers/restaurant";
 
 interface IResultsProps {
-  restaurants: RestaurantWithCuisines[] | undefined;
+  restaurants: IGoogleRestaurantResult[] | undefined;
 }
 const RestaurantResults = ({ restaurants }: IResultsProps) => {
   return (

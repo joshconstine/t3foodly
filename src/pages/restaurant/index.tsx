@@ -14,6 +14,7 @@ import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedResta
 import { useLoadScript } from "@react-google-maps/api";
 import { Cuisine } from "@prisma/client";
 import Skeleton from "@mui/material/Skeleton";
+import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
     ? process.env.NEXT_PUBLIC_PLACES_KEY
@@ -70,11 +71,11 @@ const Restaurant: NextPage = () => {
     longitude: mapCenter.lng,
     searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
-  // const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
-  //   lat: String(mapCenter.lat),
-  //   lng: String(mapCenter.lng),
-  //   radius: searchRadiusInMiles * 1609.34,
-  // });
+  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
+    lat: String(mapCenter.lat),
+    lng: String(mapCenter.lng),
+    radius: searchRadiusInMiles * 1609.34,
+  });
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
@@ -86,13 +87,10 @@ const Restaurant: NextPage = () => {
   const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
   const ids = selectedCuisines.map((elem) => elem.id);
   //@ts-ignore
-  // const allRestaurants =
-  //   dbRestaurants?.data && apiRestaurants?.data
-  //     ? [...dbRestaurants?.data, ...apiRestaurants?.data]
-  //     : [];
-  const allRestaurants = dbRestaurants?.data || [];
+  const allRestaurants: IGoogleRestaurantResult[] = apiRestaurants.data || [];
+  // const allRestaurants = dbRestaurants?.data || [];
   //@ts-ignore
-  const filterd = allRestaurants.filter((elem) => {
+  const filterd = allRestaurants?.filter((elem) => {
     if (selectedCuisines.length === 0) {
       return true;
     } else if (elem.cuisines) {

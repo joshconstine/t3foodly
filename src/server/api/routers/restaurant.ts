@@ -31,6 +31,56 @@ const RestaurantToCreate = z.object({
   lat: z.string(),
   lng: z.string(),
 });
+interface Location {
+  lat: number;
+  lng: number;
+}
+
+interface Viewport {
+  northeast: Location;
+  southwest: Location;
+}
+
+interface Geometry {
+  location: Location;
+  viewport: Viewport;
+}
+
+interface OpeningHours {
+  open_now: boolean;
+}
+
+interface Photo {
+  height: number;
+  html_attributions: string[];
+  photo_reference: string;
+  width: number;
+}
+
+interface PlusCode {
+  compound_code: string;
+  global_code: string;
+}
+
+export interface IGoogleRestaurantResult {
+  id: string;
+  name: string;
+  address: string;
+  business_status: string;
+  formatted_address: string;
+  geometry: Geometry;
+  icon: string;
+  icon_background_color: string;
+  icon_mask_base_uri: string;
+  opening_hours: OpeningHours;
+  photos: Photo[];
+  place_id: string;
+  plus_code: PlusCode;
+  rating: number;
+  reference: string;
+  types: string[];
+  user_ratings_total: number;
+}
 
 export type RestaurantData = z.infer<typeof Restaurant>;
 export const restaurantWithCuisines = Prisma.validator<Prisma.RestaurantArgs>()(
@@ -157,24 +207,17 @@ export const restaurantRouter = createTRPCRouter({
       return axios
         .request(options)
         .then(function (response) {
-          console.log(response.data.results);
-          // return [];
           return response.data.results
-            ? response.data.results.map((elem: any) => {
-                return {
-                  id: elem.place_id,
-                  name: elem.name,
-                  address: elem.formatted_address,
-                  cityName: " elem.cityName",
-                  stateName: "elem.stateName",
-                  zipCode: " elem.zipCode",
-                  phone: "elem.phone",
-                  email: " elem.email",
-                  hoursInterval: "elem.hoursInterval",
-                  lat: " elem.latitude",
-                  lng: "elem.longitude",
-                };
-              })
+            ? response.data.results.map(
+                (elem: any): IGoogleRestaurantResult[] => {
+                  return {
+                    id: elem.place_id,
+                    name: elem.name,
+                    address: elem.formatted_address,
+                    ...elem,
+                  };
+                }
+              )
             : [];
         })
         .catch(function (error) {
