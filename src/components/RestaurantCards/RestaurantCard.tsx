@@ -9,9 +9,12 @@ import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 import FavoriteSaveSmall from "./FavoriteSaveSmall";
 import Stars from "./Stars";
 
-const RestaurantCard = (props: { restaurant: IGoogleRestaurantResult }) => {
+const RestaurantCard = (props: {
+  restaurant: IGoogleRestaurantResult;
+  index: number;
+}) => {
   const router = useRouter();
-  const { restaurant } = props;
+  const { restaurant, index } = props;
 
   const [image, setImage] = React.useState<string | null>(null);
   const fetchImage = async () => {
@@ -35,7 +38,7 @@ const RestaurantCard = (props: { restaurant: IGoogleRestaurantResult }) => {
       className=" cursor-pointer "
       onClick={() => router.push(`restaurant/${restaurant.id}`)}
     >
-      <div className="flex gap-1">
+      <div className="flex gap-8">
         <div className="flex flex-col items-center gap-1" id="photoContainer">
           <Image
             width={200}
@@ -54,7 +57,7 @@ const RestaurantCard = (props: { restaurant: IGoogleRestaurantResult }) => {
         <div className="flex w-full flex-col gap-1">
           <div className="md:ap-2 flex w-full items-center justify-between ">
             <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
-              {restaurant.name}
+              {index}. {restaurant.name}
             </h3>
             <div
               onClick={(e) => {
@@ -64,8 +67,24 @@ const RestaurantCard = (props: { restaurant: IGoogleRestaurantResult }) => {
               <FavoriteSaveSmall restaurantId={restaurant.id} />
             </div>
           </div>{" "}
+          <div className="flex gap-4">
+            <button className="btn-rounded btn-secondary btn  w-32">
+              menu
+            </button>{" "}
+            <button className="btn-rounded btn-secondary btn  w-32">
+              photos
+            </button>
+          </div>
           {restaurant?.address && (
-            <div className="text-xs">{`${restaurant?.address} `}</div>
+            <div className="flex gap-4 text-xs">
+              <strong>Address: </strong>
+              <a className="underline">{`${restaurant?.address} `}</a>
+            </div>
+          )}
+          {restaurant.opening_hours?.open_now && (
+            <div className="flex gap-4 text-xs text-green-500">
+              <strong>Open Now</strong>
+            </div>
           )}
         </div>
       </div>
