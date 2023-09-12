@@ -12,7 +12,6 @@ import Map, { IRestaurantMarker } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 import { useLoadScript } from "@react-google-maps/api";
-import { Cuisine } from "@prisma/client";
 import Skeleton from "@mui/material/Skeleton";
 import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 const scriptOptions = {
@@ -116,7 +115,7 @@ const Restaurant: NextPage = () => {
         </Head>
         <Layout>
           <section className="">
-            <div className="mx-auto max-w-screen-2xl	px-4 sm:px-6  lg:px-8">
+            <div className=" sm:px-6  lg:px-8">
               <div className="flex  flex-col  items-center gap-2 ">
                 <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
                   <RestaurantSearchForm

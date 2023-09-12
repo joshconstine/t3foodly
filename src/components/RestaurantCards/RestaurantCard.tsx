@@ -48,14 +48,14 @@ const RestaurantCard = (props: {
             alt="Yum"
           />
 
-          <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2">
+          <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300">
             <span className="whitespace-nowrap text-xs ">Chat Room</span>
             <div className="h-4 w-4 rounded-full bg-green-500"></div>
           </div>
           <Stars numStars={restaurant.rating} />
         </div>
         <div className="flex w-full flex-col gap-1">
-          <div className="md:ap-2 flex w-full items-center justify-between ">
+          <div className="md:ap-2 flex  items-center gap-4">
             <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
               {index}. {restaurant.name}
             </h3>
@@ -68,10 +68,10 @@ const RestaurantCard = (props: {
             </div>
           </div>{" "}
           <div className="flex gap-4">
-            <button className="btn-rounded btn-secondary btn  w-32">
+            <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
               menu
             </button>{" "}
-            <button className="btn-rounded btn-secondary btn  w-32">
+            <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
               photos
             </button>
           </div>
