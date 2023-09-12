@@ -9,9 +9,14 @@ interface IResultsProps {
 }
 const RestaurantResults = ({ restaurants }: IResultsProps) => {
   return (
-    <div className=" flex flex-wrap gap-4">
+    <div className=" flex flex-col flex-wrap gap-4">
       {restaurants?.map((elem) => {
-        return <RestaurantCard restaurant={elem} key={elem.id} />;
+        return (
+          <>
+            <RestaurantCard restaurant={elem} key={elem.id} />
+            <div className="divider-primary divider my-0"></div>
+          </>
+        );
       })}
     </div>
   );

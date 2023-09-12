@@ -9,8 +9,8 @@ function Stars({ numStars }: Props) {
         {[...Array(Math.floor(numStars))].map((e, i) => {
           return (
             <Image
-              width={20}
-              height={20}
+              width={30}
+              height={30}
               src="/static/photos/star.png"
               alt="star"
             />
