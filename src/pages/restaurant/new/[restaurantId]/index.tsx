@@ -7,6 +7,24 @@ import Stars from "../../../../components/RestaurantCards/Stars";
 import UpVoteDownVote from "../../../../components/RestaurantCards/UpVoteDownVote";
 import { api } from "../../../../utils/api";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+const returnDayofWeek = (day: number) => {
+  switch (day) {
+    case 0:
+      return "Sun";
+    case 1:
+      return "Mon";
+    case 2:
+      return "Tues";
+    case 3:
+      return "Wed";
+    case 4:
+      return "Thurs";
+    case 5:
+      return "Fri";
+    case 6:
+      return "Sat";
+  }
+};
 const SingleRestaurant = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
@@ -76,7 +94,7 @@ const SingleRestaurant = () => {
           <section className=" mx-auto md:py-2">
             <div className=" mx-auto flex w-full max-w-3xl  justify-between px-4  lg:px-8">
               <div>
-                <div className="flex flex-col gap-16">
+                <div className="flex flex-col gap-8">
                   <button
                     className="btn-small btn-primary btn-outline btn w-64 "
                     onClick={() => {
@@ -95,6 +113,98 @@ const SingleRestaurant = () => {
                         <UpVoteDownVote restaurantId={restaurantId} />
                       </div>
                       <Stars numStars={restaurant.data?.rating || 0} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="items-canter flex gap-2">
+                      <strong> Address:</strong>
+                      <a>{restaurant.data?.formatted_address}</a>
+                    </div>{" "}
+                    <div className="items-canter flex gap-2">
+                      <strong> Phone:</strong>
+                      <a>{restaurant.data?.formatted_phone_number}</a>
+                    </div>{" "}
+                    {restaurant.data?.opening_hours?.open_now ? (
+                      <div className="items-canter flex gap-2">
+                        <strong className="text-green-500"> Open:</strong>
+                      </div>
+                    ) : (
+                      <div className="items-canter flex gap-2">
+                        <strong className="text-red-500"> Closed:</strong>
+                      </div>
+                    )}
+                    <div>
+                      <strong>more hours </strong>
+                      {restaurant.data?.opening_hours?.periods && (
+                        <div className="flex flex-col gap-2">
+                          {restaurant.data?.opening_hours?.periods.map(
+                            (period) => {
+                              const openHours = period.open.time.substring(
+                                0,
+                                2
+                              );
+                              const openMinutes = period.open.time.substring(
+                                2,
+                                4
+                              );
+
+                              const closeHours = period.close.time.substring(
+                                0,
+                                2
+                              );
+                              const closeMinutes = period.close.time.substring(
+                                2,
+                                4
+                              );
+
+                              // Create a new Date object
+                              const openTime = new Date();
+                              const closeTime = new Date();
+                              // Set the hours and minutes of the Date object
+                              openTime.setHours(
+                                Number(openHours),
+                                Number(openMinutes)
+                              );
+                              closeTime.setHours(
+                                Number(closeHours),
+                                Number(closeMinutes)
+                              );
+
+                              // Format the date as "HH (AM/PM)"
+                              const formattedOpenTime = openTime.toLocaleString(
+                                "en-US",
+                                {
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                }
+                              );
+                              const formattedCloseTime =
+                                closeTime.toLocaleString("en-US", {
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                });
+
+                              return (
+                                <div className="flex w-64 gap-2">
+                                  <div className="flex w-full justify-between">
+                                    <div>
+                                      <span>
+                                        {returnDayofWeek(period.open.day)}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <span>{formattedOpenTime}</span>-
+                                      <span>{formattedCloseTime}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            }
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
