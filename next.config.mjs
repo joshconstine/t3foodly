@@ -42,6 +42,10 @@ const config = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+      },
     ],
   },
   eslint: {

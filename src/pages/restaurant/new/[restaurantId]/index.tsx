@@ -9,6 +9,8 @@ import UpVoteDownVote from "../../../../components/RestaurantCards/UpVoteDownVot
 import { api } from "../../../../utils/api";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Image from "next/image";
+import { Review } from "../../../../server/api/routers/restaurant";
+import GoogleReviewCard from "./GoogleReviewCard";
 const returnDayofWeek = (day: number) => {
   switch (day) {
     case 0:
@@ -56,6 +58,7 @@ const SingleRestaurant = () => {
     });
     //wait for all photo promises to resolve then set images
     const photosToSet = await Promise.allSettled(retunredPhotos);
+    //@ts-ignore
     const returned = photosToSet.map((e) => e.value);
     if (photosToSet) {
       setImages(returned || []);
@@ -309,6 +312,20 @@ const SingleRestaurant = () => {
                       );
                     })}
                   </div>
+                )}
+              </div>
+            </div>
+            <div className="mx-auto flex  flex-col items-center ">
+              <div className="flex w-3/4 flex-col items-center gap-4 py-4 px-24">
+                <div className="w-full">
+                  <h1 className="text-3xl">Reviews</h1>
+                </div>
+                {restaurant.data?.reviews && (
+                  <>
+                    {restaurant.data.reviews.map((review: Review) => {
+                      return <GoogleReviewCard review={review} />;
+                    })}
+                  </>
                 )}
               </div>
             </div>
