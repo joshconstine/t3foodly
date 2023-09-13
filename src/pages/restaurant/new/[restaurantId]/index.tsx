@@ -36,21 +36,9 @@ const SingleRestaurant = () => {
     placeId: String(restaurantId),
   });
 
-  const [image, setImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [images, setImages] = useState<string[] | null>(null);
-  const fetchImage = async () => {
-    if (!restaurant.data?.photos || restaurant.data?.photos.length === 0)
-      return;
-    const photoRef = restaurant.data?.photos[0]?.photo_reference;
-    if (photoRef) {
-      const imageLookupURL = `https://cors-anywhere-joshua-bde035a7e39c.herokuapp.com/https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw&maxwidth=700&maxheight=700`;
-      const imageURLQuery = await fetch(imageLookupURL)
-        .then((r) => r.blob())
-        .catch(console.error);
-      //@ts-ignore
-      setImage(URL.createObjectURL(imageURLQuery)); //declared earlier
-    }
-  };
+
   const fetchImages = async () => {
     if (!restaurant.data?.photos || restaurant.data?.photos.length === 0)
       return;
@@ -69,10 +57,12 @@ const SingleRestaurant = () => {
     //wait for all photo promises to resolve then set images
     const photosToSet = await Promise.allSettled(retunredPhotos);
     const returned = photosToSet.map((e) => e.value);
-    if (photosToSet) setImages(returned || []);
+    if (photosToSet) {
+      setImages(returned || []);
+      setSelectedImage(returned[0] || null);
+    }
   };
   useEffect(() => {
-    fetchImage();
     fetchImages();
   }, [restaurant?.data]);
   const handlePhotoClick = (index: number) => {
@@ -285,27 +275,37 @@ const SingleRestaurant = () => {
                 </div>
               </div>
             </div>
-            <div className="mx-auto flex w-full flex-col items-center bg-gray-200">
-              <div className="flex w-full flex-col gap-4 py-4 px-24">
-                <h1 className="text-3xl">Photos</h1>{" "}
+            <div className="mx-auto flex  flex-col items-center bg-gray-200">
+              <div className="flex w-3/4 flex-col items-center gap-4 py-4 px-24">
+                <div className="w-full">
+                  <h1 className="text-3xl">Photos</h1>
+                </div>
                 <Image
                   width={900}
                   height={300}
                   className="rounded-md"
-                  src={image || "/static/photos/yum.png"}
+                  src={selectedImage || "/static/photos/yum.png"}
                   alt="Yum"
                 />
                 {images && (
-                  <div>
+                  <div className="carousel rounded-box flex w-full gap-4">
                     {images.map((el) => {
-                      console.log(el);
                       return (
-                        <Image
-                          width={900}
-                          height={300}
-                          src={el || "/static/photos/yum.png"}
-                          alt="img"
-                        />
+                        <div
+                          className=" carousel-item rounded-lg"
+                          key={el}
+                          onClick={() => {
+                            setSelectedImage(el);
+                          }}
+                        >
+                          <Image
+                            width={200}
+                            height={100}
+                            src={el || "/static/photos/yum.png"}
+                            alt="img"
+                            className="rounded-lg"
+                          />
+                        </div>
                       );
                     })}
                   </div>
