@@ -1,4 +1,5 @@
 import { Skeleton } from "@mui/material";
+import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -7,6 +8,7 @@ import Stars from "../../../../components/RestaurantCards/Stars";
 import UpVoteDownVote from "../../../../components/RestaurantCards/UpVoteDownVote";
 import { api } from "../../../../utils/api";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import Image from "next/image";
 const returnDayofWeek = (day: number) => {
   switch (day) {
     case 0:
@@ -35,6 +37,23 @@ const SingleRestaurant = () => {
   });
   console.log(restaurant.data);
 
+  const [image, setImage] = useState<string | null>(null);
+  const fetchImage = async () => {
+    if (!restaurant.data?.photos || restaurant.data?.photos.length === 0)
+      return;
+    const photoRef = restaurant.data?.photos[0]?.photo_reference;
+    if (photoRef) {
+      const imageLookupURL = `https://cors-anywhere-joshua-bde035a7e39c.herokuapp.com/https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw&maxwidth=700&maxheight=700`;
+      const imageURLQuery = await fetch(imageLookupURL)
+        .then((r) => r.blob())
+        .catch(console.error);
+      //@ts-ignore
+      setImage(URL.createObjectURL(imageURLQuery)); //declared earlier
+    }
+  };
+  useEffect(() => {
+    fetchImage();
+  }, [restaurant?.data]);
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
@@ -244,6 +263,16 @@ const SingleRestaurant = () => {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="mx-auto w-full bg-gray-500">
+              <h1 className="text-3xl">Photos</h1>{" "}
+              <Image
+                width={200}
+                height={200}
+                className="rounded-md"
+                src={image || "/static/photos/yum.png"}
+                alt="Yum"
+              />
             </div>
           </section>
         </Layout>
