@@ -11,6 +11,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import Image from "next/image";
 import { Review } from "../../../../server/api/routers/restaurant";
 import GoogleReviewCard from "./GoogleReviewCard";
+import CreateCommentContainer from "../../[restaurantId]/CreateCommentContainer";
 const returnDayofWeek = (day: number) => {
   switch (day) {
     case 0:
@@ -272,7 +273,15 @@ const SingleRestaurant = () => {
                   <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full">
                     Menu
                   </button>{" "}
-                  <button className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full">
+                  <button
+                    className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full"
+                    onClick={() => {
+                      window.scrollTo(0, document.body.scrollHeight);
+                      const commentInput =
+                        document.getElementById("addComment");
+                      commentInput?.focus();
+                    }}
+                  >
                     Leave a review
                   </button>
                 </div>
@@ -327,6 +336,11 @@ const SingleRestaurant = () => {
                     })}
                   </>
                 )}
+                <div className="w-3/4">
+                  <CreateCommentContainer
+                    restaurantId={restaurant.data?.place_id}
+                  />
+                </div>
               </div>
             </div>
           </section>
