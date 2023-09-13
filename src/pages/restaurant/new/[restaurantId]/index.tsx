@@ -207,6 +207,27 @@ const SingleRestaurant = () => {
                       )}
                     </div>
                   </div>
+                  <div className="flex gap-4">
+                    <span>Join the chat room</span>
+                    <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300">
+                      <span className="whitespace-nowrap text-xs ">
+                        Chat Room
+                      </span>
+                      <div className="h-4 w-4 rounded-full bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex gap-4">
+                      <span>Website</span>
+                      <a
+                        target={"_blank"}
+                        className="underline"
+                        href={restaurant.data?.website}
+                      >
+                        {restaurant.data?.website}
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="py-8">
