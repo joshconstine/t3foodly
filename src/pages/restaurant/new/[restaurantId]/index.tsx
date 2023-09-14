@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Review } from "../../../../server/api/routers/restaurant";
 import GoogleReviewCard from "./GoogleReviewCard";
 import CreateCommentContainer from "../../[restaurantId]/CreateCommentContainer";
+import Map from "../../../../components/forms/Map";
 const returnDayofWeek = (day: number) => {
   switch (day) {
     case 0:
@@ -127,7 +128,7 @@ const SingleRestaurant = () => {
         </Head>
         <Layout>
           <section className=" mx-auto md:py-2">
-            <div className=" mx-auto flex w-full max-w-3xl  justify-between px-4  lg:px-8">
+            <div className=" mx-auto flex w-full max-w-5xl  justify-between px-4  lg:px-8">
               <div>
                 <div className="flex flex-col gap-8">
                   <button
@@ -138,22 +139,46 @@ const SingleRestaurant = () => {
                   >
                     Back to results
                   </button>
-                  <div className="flex items-center gap-8">
-                    <div className="rounded-full border-2 border-gray-400 p-8"></div>
-                    <div className="flex flex-col gap-4">
-                      <div className=" flex gap-16">
-                        <div className="gpa-2 flex flex-col">
-                          <h1 className="whitespace-nowrap text-2xl font-bold">
-                            {restaurant.data?.name}
-                          </h1>
-                          <a className="cursor-pointer whitespace-nowrap text-xs">
-                            Owner of this restaurant? claim it under your
-                            profile here.
-                          </a>
+                  <div className="flex w-full justify-between">
+                    <div className="flex items-center gap-8">
+                      <div className="rounded-full border-2 border-gray-400 p-8"></div>
+                      <div className="flex flex-col gap-4">
+                        <div className=" flex gap-16">
+                          <div className="gpa-2 flex flex-col">
+                            <h1 className="whitespace-nowrap text-2xl font-bold">
+                              {restaurant.data?.name}
+                            </h1>
+                            <a className="cursor-pointer whitespace-nowrap text-xs">
+                              Owner of this restaurant? claim it under your
+                              profile here.
+                            </a>
+                          </div>
+                          <UpVoteDownVote restaurantId={restaurantId} />
                         </div>
-                        <UpVoteDownVote restaurantId={restaurantId} />
+                        <Stars numStars={restaurant.data?.rating || 0} />
                       </div>
-                      <Stars numStars={restaurant.data?.rating || 0} />
+                    </div>
+                    <div className="py-8">
+                      <div className="flex flex-col items-center gap-2">
+                        <span>Add to your favorites</span>
+                        <button className="btn-secondary btn-outline btn  rounded-full">
+                          <FavoriteBorderOutlinedIcon />
+                        </button>
+                        <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full">
+                          Menu
+                        </button>{" "}
+                        <button
+                          className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full"
+                          onClick={() => {
+                            window.scrollTo(0, document.body.scrollHeight);
+                            const commentInput =
+                              document.getElementById("addComment");
+                            commentInput?.focus();
+                          }}
+                        >
+                          Leave a review
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-4">
@@ -271,27 +296,27 @@ const SingleRestaurant = () => {
                   </div>
                 </div>
               </div>
-              <div className="py-8">
-                <div className="flex flex-col items-center gap-2">
-                  <span>Add to your favorites</span>
-                  <button className="btn-secondary btn-outline btn  rounded-full">
-                    <FavoriteBorderOutlinedIcon />
-                  </button>
-                  <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full">
-                    Menu
-                  </button>{" "}
-                  <button
-                    className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full"
-                    onClick={() => {
-                      window.scrollTo(0, document.body.scrollHeight);
-                      const commentInput =
-                        document.getElementById("addComment");
-                      commentInput?.focus();
-                    }}
-                  >
-                    Leave a review
-                  </button>
-                </div>
+            </div>{" "}
+            <div>
+              <span>Location (Map View):</span>
+              <div id="mapContainer">
+                <Map
+                  mapCenter={{
+                    lat: restaurant.data?.geometry.location.lat,
+                    lng: restaurant.data?.geometry.location.lng,
+                  }}
+                  markers={[
+                    {
+                      location: {
+                        lat: restaurant.data?.geometry.location.lat,
+                        lng: restaurant.data?.geometry.location.lng,
+                      },
+                      restaurant: restaurant.data,
+                      id: String(restaurantId),
+                    },
+                  ]}
+                  radius={0}
+                />
               </div>
             </div>
             <div className="mx-auto flex  flex-col items-center bg-gray-200">

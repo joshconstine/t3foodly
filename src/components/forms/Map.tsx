@@ -32,7 +32,7 @@ interface IMap {
   mapCenter: Point;
   markers: IRestaurantMarker[];
   radius: number;
-  setFocusedRestaurant: React.Dispatch<React.SetStateAction<string | null>>;
+  setFocusedRestaurant?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 const RestaurantMarker = (props: {
   marker: IRestaurantMarker;
