@@ -72,7 +72,6 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
-
   if (restaurant.isLoading) {
     return (
       <section className=" mx-auto md:py-2">
@@ -141,7 +140,7 @@ const SingleRestaurant = () => {
                     <div className="rounded-full border-2 border-gray-400 p-8"></div>
                     <div className="flex flex-col gap-4">
                       <div className=" flex gap-16">
-                        <h1 className="text-2xl font-bold">
+                        <h1 className="whitespace-nowrap text-2xl font-bold">
                           {restaurant.data?.name}
                         </h1>
                         <UpVoteDownVote restaurantId={restaurantId} />
