@@ -140,9 +140,15 @@ const SingleRestaurant = () => {
                     <div className="rounded-full border-2 border-gray-400 p-8"></div>
                     <div className="flex flex-col gap-4">
                       <div className=" flex gap-16">
-                        <h1 className="whitespace-nowrap text-2xl font-bold">
-                          {restaurant.data?.name}
-                        </h1>
+                        <div className="gpa-2 flex flex-col">
+                          <h1 className="whitespace-nowrap text-2xl font-bold">
+                            {restaurant.data?.name}
+                          </h1>
+                          <a className="cursor-pointer whitespace-nowrap text-xs">
+                            Owner of this restaurant? claim it under your
+                            profile here.
+                          </a>
+                        </div>
                         <UpVoteDownVote restaurantId={restaurantId} />
                       </div>
                       <Stars numStars={restaurant.data?.rating || 0} />

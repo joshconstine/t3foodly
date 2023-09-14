@@ -85,7 +85,7 @@ const UpVoteDownVote = (props: IProps) => {
         <div className="-rotate-90">
           {isUpVotedByMe.data && (
             <div onClick={handleUnUpVote}>
-              <ForwardIcon />
+              <ForwardIcon sx={{ height: "40px", width: "40px" }} />
             </div>
           )}
           {!isUpVotedByMe.data && (
@@ -96,7 +96,7 @@ const UpVoteDownVote = (props: IProps) => {
             </div>
           )}
         </div>
-        <div>{upVotes.data} upvotes</div>
+        <span className="whitespace-nowrap">{upVotes.data} upvotes</span>
       </div>
       <div className="flex items-center text-red-500">
         <div className="rotate-90">
@@ -113,7 +113,7 @@ const UpVoteDownVote = (props: IProps) => {
             </div>
           )}
         </div>
-        <div>{downVotes.data} downvotes</div>
+        <span className="whitespace-nowrap">{downVotes.data} downvotes</span>
       </div>
     </div>
   );
