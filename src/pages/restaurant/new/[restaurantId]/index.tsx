@@ -15,19 +15,21 @@ import CreateCommentContainer from "../../[restaurantId]/CreateCommentContainer"
 const returnDayofWeek = (day: number) => {
   switch (day) {
     case 0:
-      return "Sun";
+      return "Sunday";
     case 1:
-      return "Mon";
+      return "Monday";
     case 2:
-      return "Tues";
+      return "Tuesday";
     case 3:
-      return "Wed";
+      return "Wednesday";
     case 4:
-      return "Thurs";
+      return "Thursday";
     case 5:
-      return "Fri";
+      return "Friday";
     case 6:
-      return "Sat";
+      return "Saturday";
+    default:
+      return "Sunday";
   }
 };
 const SingleRestaurant = () => {
@@ -154,7 +156,7 @@ const SingleRestaurant = () => {
                       <Stars numStars={restaurant.data?.rating || 0} />
                     </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col gap-4">
                     <div className="items-canter flex gap-2">
                       <strong> Address:</strong>
                       <a>{restaurant.data?.formatted_address}</a>
@@ -229,8 +231,8 @@ const SingleRestaurant = () => {
                                 <div className="flex w-64 gap-2">
                                   <div className="flex w-full justify-between">
                                     <div>
-                                      <span>
-                                        {returnDayofWeek(period.open.day)}
+                                      <span className="">
+                                        {returnDayofWeek(period.open.day)}:
                                       </span>
                                     </div>
                                     <div>
@@ -246,8 +248,8 @@ const SingleRestaurant = () => {
                       )}
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <span>Join the chat room</span>
+                  <div className="flex items-center gap-4">
+                    <span className="ital">Join the chat room</span>
                     <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300">
                       <span className="whitespace-nowrap text-xs ">
                         Chat Room
@@ -256,8 +258,8 @@ const SingleRestaurant = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="flex gap-4">
-                      <span>Website</span>
+                    <div className="mb-12 flex gap-4">
+                      <span className="font-bold">Website:</span>
                       <a
                         target={"_blank"}
                         className="underline"
