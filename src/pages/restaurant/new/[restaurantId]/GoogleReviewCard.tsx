@@ -8,6 +8,7 @@ type Props = {
 };
 
 function GoogleReviewCard({ review }: Props) {
+  if (!review) return null;
   return (
     <div className="w-96 rounded-lg border-2 border-secondary p-4">
       <div>
