@@ -39,7 +39,7 @@ interface IMap {
 }
 const RestaurantMarker = (props: {
   marker: IRestaurantMarker;
-  setFocusedRestaurant: (id: string) => void;
+  setFocusedRestaurant?: (id: string) => void;
 }) => {
   const { marker, setFocusedRestaurant } = props;
 
@@ -53,7 +53,7 @@ const RestaurantMarker = (props: {
       <div
         onClick={(e) => {
           e.preventDefault();
-          setFocusedRestaurant(String(marker.id));
+          if (setFocusedRestaurant) setFocusedRestaurant(String(marker.id));
         }}
         className="border-1  rounded-md border-black bg-primary p-2  font-bold  text-white shadow-md"
       >
