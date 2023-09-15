@@ -1,14 +1,22 @@
 import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
-import { RestaurantWithCuisines } from "../../server/api/routers/restaurant";
+import {
+  IGoogleRestaurantResult,
+  RestaurantWithCuisines,
+} from "../../server/api/routers/restaurant";
 
 interface IResultsProps {
-  restaurants: RestaurantWithCuisines[] | undefined;
+  restaurants: IGoogleRestaurantResult[] | undefined;
 }
 const RestaurantResults = ({ restaurants }: IResultsProps) => {
   return (
-    <div className=" flex flex-wrap gap-4">
-      {restaurants?.map((elem) => {
-        return <RestaurantCard restaurant={elem} key={elem.id} />;
+    <div className=" flex flex-col flex-wrap gap-4">
+      {restaurants?.map((elem, i) => {
+        return (
+          <>
+            <RestaurantCard restaurant={elem} key={elem.id} index={i + 1} />
+            <div className="divider-primary divider my-0"></div>
+          </>
+        );
       })}
     </div>
   );

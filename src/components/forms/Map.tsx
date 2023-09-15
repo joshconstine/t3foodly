@@ -5,6 +5,7 @@ import mapStyles from "../../styles/mapStyles";
 import CustumCircle from "./CustomCircle";
 import Image from "next/image";
 import { api } from "../../utils/api";
+import { width } from "@mui/system";
 
 const options = {
   styles: mapStyles,
@@ -32,7 +33,9 @@ interface IMap {
   mapCenter: Point;
   markers: IRestaurantMarker[];
   radius: number;
-  setFocusedRestaurant: React.Dispatch<React.SetStateAction<string | null>>;
+  setFocusedRestaurant?: React.Dispatch<React.SetStateAction<string | null>>;
+  width?: string;
+  height?: string;
 }
 const RestaurantMarker = (props: {
   marker: IRestaurantMarker;
@@ -75,13 +78,14 @@ const RestaurantMarker = (props: {
 const Map = (props: IMap) => {
   const mapContainerStyle = {
     display: "block",
-    height: "calc(100vh - 164px)",
-    width:
-      window?.screen?.width > 600
-        ? window?.screen?.width > 1200
-          ? "750px"
-          : "600px"
-        : "calc(100vw - 24px)",
+    height: props.height ? props.height : "calc(100vh - 164px)",
+    width: props.width
+      ? props.width
+      : window?.screen?.width > 600
+      ? window?.screen?.width > 1200
+        ? "750px"
+        : "600px"
+      : "calc(100vw - 24px)",
   };
   const { mapCenter, markers, setFocusedRestaurant } = props;
   // @ts-ignore

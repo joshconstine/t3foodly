@@ -2,7 +2,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "../../utils/api";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Link from "next/link";
@@ -12,8 +12,8 @@ import Map, { IRestaurantMarker } from "../../components/forms/Map";
 import RestaurantSearchForm from "../../components/RestaurantsSearchForm";
 import FocusedRestaurantCard from "../../components/RestaurantCards/FocusedRestaurantCard";
 import { useLoadScript } from "@react-google-maps/api";
-import { Cuisine } from "@prisma/client";
 import Skeleton from "@mui/material/Skeleton";
+import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_PLACES_KEY
     ? process.env.NEXT_PUBLIC_PLACES_KEY
@@ -49,12 +49,6 @@ const Restaurant: NextPage = () => {
     lng: Number(params.lng) || -117.16,
   };
 
-  // var config = {
-  //   method: "get",
-  //   headers: {},
-  // };
-
-  // useEffect(() => {}, []);
   const [city, setCity] = useState<string>(
     String(params.city || "San Diego") || ""
   );
@@ -70,36 +64,22 @@ const Restaurant: NextPage = () => {
     longitude: mapCenter.lng,
     searchRadiusInMeters: searchRadiusInMiles * 1609.34,
   });
-  // const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
-  //   lat: String(mapCenter.lat),
-  //   lng: String(mapCenter.lng),
-  //   radius: searchRadiusInMiles * 1609.34,
-  // });
+  const apiRestaurants = api.restaurant.getByCityAndState.useQuery({
+    lat: String(mapCenter.lat),
+    lng: String(mapCenter.lng),
+    radius: searchRadiusInMiles * 1609.34,
+  });
+
   //@ts-ignore
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
 
   const [focusedRestaurant, setFocusedRestaurant] = useState<string | null>(
     null
   );
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  const cuisines = api.cuisine.getAll.useQuery();
-  const [selectedCuisines, setSelectedCuisines] = useState<Cuisine[]>([]);
-  const ids = selectedCuisines.map((elem) => elem.id);
+
   //@ts-ignore
-  // const allRestaurants =
-  //   dbRestaurants?.data && apiRestaurants?.data
-  //     ? [...dbRestaurants?.data, ...apiRestaurants?.data]
-  //     : [];
-  const allRestaurants = dbRestaurants?.data || [];
-  //@ts-ignore
-  const filterd = allRestaurants.filter((elem) => {
-    if (selectedCuisines.length === 0) {
-      return true;
-    } else if (elem.cuisines) {
-      //@ts-ignore
-      return elem.cuisines.some((elem) => ids.includes(elem.cuisine.id));
-    }
-  });
+  const allRestaurants: IGoogleRestaurantResult[] = apiRestaurants.data || [];
+
   useMemo(() => {
     let markersToAdd: IRestaurantMarker[] = [];
     if (dbRestaurants.status === "success") {
@@ -121,8 +101,8 @@ const Restaurant: NextPage = () => {
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
   //@ts-ignore
-  const isNoData = dbRestaurants?.data?.length === 0;
-  // console.log(isNoData);
+  const isNoData =
+    dbRestaurants?.data?.length === 0 && apiRestaurants?.data?.length === 0;
   if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
   if (!isLoaded) return <div>Loading...</div>;
   if (isLoaded)
@@ -135,7 +115,7 @@ const Restaurant: NextPage = () => {
         </Head>
         <Layout>
           <section className="">
-            <div className="mx-auto max-w-screen-2xl	px-4 sm:px-6  lg:px-8">
+            <div className=" sm:px-6  lg:px-8">
               <div className="flex  flex-col  items-center gap-2 ">
                 <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
                   <RestaurantSearchForm
@@ -175,9 +155,8 @@ const Restaurant: NextPage = () => {
                       <div className="flex flex-col gap-4    md:overflow-auto ">
                         <div className=" flex  gap-4">
                           <h1 className="md:text-l   font-bold text-primary">
-                            {`${filterd?.length} ${
-                              filterd &&
-                              (filterd?.length === 0 || filterd.length > 1)
+                            {`${allRestaurants?.length} ${
+                              allRestaurants && allRestaurants?.length !== 0
                                 ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
                                 : "Restaurant"
                             }`}
@@ -189,7 +168,7 @@ const Restaurant: NextPage = () => {
                               restaurantId={focusedRestaurant}
                             />
                           )}
-                          <RestaurantResults restaurants={filterd} />
+                          <RestaurantResults restaurants={allRestaurants} />
                         </div>
                       </div>
                     )}
