@@ -15,13 +15,13 @@ function GoogleReviewCard({ review }: Props) {
           <Image
             width={40}
             height={40}
-            src={review.profile_photo_url || "lsl"}
+            src={review?.profile_photo_url || "lsl"}
             alt="img"
           />
-          <span>{review.author_name}</span>
-          <div>{review.relative_time_description}</div>
+          <span>{review?.author_name}</span>
+          <div>{review?.relative_time_description}</div>
         </div>
-        <Stars numStars={review.rating} />
+        <Stars numStars={review?.rating} />
       </div>
 
       <div>{review.text}</div>
