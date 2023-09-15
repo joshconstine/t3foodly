@@ -321,7 +321,7 @@ export const restaurantRouter = createTRPCRouter({
     .query(({ input, ctx }) => {
       const options = {
         method: "GET",
-        url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restautant=${input.lat}%2C${input.lng}&radius=${input.radius}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw`,
+        url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restautant&location=${input.lat},${input.lng}&radius=${input.radius}&key=AIzaSyCBwAl-oMbcVnn9rgq7ScpnZMnA8E92vsw`,
       };
 
       return axios
