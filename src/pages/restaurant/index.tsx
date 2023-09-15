@@ -98,6 +98,21 @@ const Restaurant: NextPage = () => {
       );
       markersToAdd = [...markersToAdd, ...markers];
     }
+    if (apiRestaurants.status === "success") {
+      const markers = apiRestaurants.data?.map(
+        (ele: IGoogleRestaurantResult) => {
+          return {
+            location: {
+              lat: Number(ele.geometry.location.lat),
+              lng: Number(ele.geometry.location.lng),
+            },
+            restaurant: ele,
+            id: ele.place_id,
+          };
+        }
+      );
+      markersToAdd = [...markersToAdd, ...markers];
+    }
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
   //@ts-ignore
