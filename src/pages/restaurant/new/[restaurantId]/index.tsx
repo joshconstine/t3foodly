@@ -200,127 +200,123 @@ const SingleRestaurant = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-4">
-                    <div>
-                      <strong>more hours </strong>
-                      {restaurant.data?.opening_hours?.periods && (
-                        <div className="flex flex-col gap-2">
-                          {restaurant.data?.opening_hours?.periods.map(
-                            (period) => {
-                              const openHours = period.open.time.substring(
-                                0,
-                                2
-                              );
-                              const openMinutes = period.open.time.substring(
-                                2,
-                                4
-                              );
+                  <div className="flex w-full content-between">
+                    <div className=" flex flex-col gap-4">
+                      <div className="flex flex-col gap-4">
+                        <div>
+                          <strong>more hours </strong>
+                          {restaurant.data?.opening_hours?.periods && (
+                            <div className="flex flex-col gap-2">
+                              {restaurant.data?.opening_hours?.periods.map(
+                                (period) => {
+                                  const openHours = period.open.time.substring(
+                                    0,
+                                    2
+                                  );
+                                  const openMinutes =
+                                    period.open.time.substring(2, 4);
 
-                              const closeHours = period.close.time.substring(
-                                0,
-                                2
-                              );
-                              const closeMinutes = period.close.time.substring(
-                                2,
-                                4
-                              );
+                                  const closeHours =
+                                    period.close.time.substring(0, 2);
+                                  const closeMinutes =
+                                    period.close.time.substring(2, 4);
 
-                              // Create a new Date object
-                              const openTime = new Date();
-                              const closeTime = new Date();
-                              // Set the hours and minutes of the Date object
-                              openTime.setHours(
-                                Number(openHours),
-                                Number(openMinutes)
-                              );
-                              closeTime.setHours(
-                                Number(closeHours),
-                                Number(closeMinutes)
-                              );
+                                  // Create a new Date object
+                                  const openTime = new Date();
+                                  const closeTime = new Date();
+                                  // Set the hours and minutes of the Date object
+                                  openTime.setHours(
+                                    Number(openHours),
+                                    Number(openMinutes)
+                                  );
+                                  closeTime.setHours(
+                                    Number(closeHours),
+                                    Number(closeMinutes)
+                                  );
 
-                              // Format the date as "HH (AM/PM)"
-                              const formattedOpenTime = openTime.toLocaleString(
-                                "en-US",
-                                {
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                  hour12: true,
+                                  // Format the date as "HH (AM/PM)"
+                                  const formattedOpenTime =
+                                    openTime.toLocaleString("en-US", {
+                                      hour: "numeric",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    });
+                                  const formattedCloseTime =
+                                    closeTime.toLocaleString("en-US", {
+                                      hour: "numeric",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    });
+
+                                  return (
+                                    <div className="flex w-64 gap-2">
+                                      <div className="flex w-full justify-between">
+                                        <div>
+                                          <span className="">
+                                            {returnDayofWeek(period.open.day)}:
+                                          </span>
+                                        </div>
+                                        <div>
+                                          <span>{formattedOpenTime}</span>-
+                                          <span>{formattedCloseTime}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
                                 }
-                              );
-                              const formattedCloseTime =
-                                closeTime.toLocaleString("en-US", {
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                  hour12: true,
-                                });
-
-                              return (
-                                <div className="flex w-64 gap-2">
-                                  <div className="flex w-full justify-between">
-                                    <div>
-                                      <span className="">
-                                        {returnDayofWeek(period.open.day)}:
-                                      </span>
-                                    </div>
-                                    <div>
-                                      <span>{formattedOpenTime}</span>-
-                                      <span>{formattedCloseTime}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            }
+                              )}
+                            </div>
                           )}
                         </div>
-                      )}
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className="ital">Join the chat room</span>
+                        <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300">
+                          <span className="whitespace-nowrap text-xs ">
+                            Chat Room
+                          </span>
+                          <div className="h-4 w-4 rounded-full bg-green-500"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="mb-12 flex gap-4">
+                          <span className="font-bold">Website:</span>
+                          <a
+                            target={"_blank"}
+                            className="underline"
+                            href={restaurant.data?.website}
+                          >
+                            {restaurant.data?.website}
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="ital">Join the chat room</span>
-                    <div className=" flex items-center gap-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300">
-                      <span className="whitespace-nowrap text-xs ">
-                        Chat Room
-                      </span>
-                      <div className="h-4 w-4 rounded-full bg-green-500"></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-12 flex gap-4">
-                      <span className="font-bold">Website:</span>
-                      <a
-                        target={"_blank"}
-                        className="underline"
-                        href={restaurant.data?.website}
-                      >
-                        {restaurant.data?.website}
-                      </a>
+                    <div>
+                      <span>Location (Map View):</span>
+                      <div id="mapContainer">
+                        <Map
+                          mapCenter={{
+                            lat: restaurant.data?.geometry.location.lat,
+                            lng: restaurant.data?.geometry.location.lng,
+                          }}
+                          markers={[
+                            {
+                              location: {
+                                lat: restaurant.data?.geometry.location.lat,
+                                lng: restaurant.data?.geometry.location.lng,
+                              },
+                              restaurant: restaurant.data,
+                              id: String(restaurantId),
+                            },
+                          ]}
+                          radius={0}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>{" "}
-            <div>
-              <span>Location (Map View):</span>
-              <div id="mapContainer">
-                <Map
-                  mapCenter={{
-                    lat: restaurant.data?.geometry.location.lat,
-                    lng: restaurant.data?.geometry.location.lng,
-                  }}
-                  markers={[
-                    {
-                      location: {
-                        lat: restaurant.data?.geometry.location.lat,
-                        lng: restaurant.data?.geometry.location.lng,
-                      },
-                      restaurant: restaurant.data,
-                      id: String(restaurantId),
-                    },
-                  ]}
-                  radius={0}
-                />
-              </div>
-            </div>
             <div className="mx-auto flex  flex-col items-center bg-gray-200">
               <div className="flex w-3/4 flex-col items-center gap-4 py-4 px-24">
                 <div className="w-full">
