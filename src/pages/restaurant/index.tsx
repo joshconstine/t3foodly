@@ -101,8 +101,7 @@ const Restaurant: NextPage = () => {
     setMarkers(markersToAdd);
   }, [, dbRestaurants.data]);
   //@ts-ignore
-  const isNoData =
-    dbRestaurants?.data?.length === 0 && apiRestaurants?.data?.length === 0;
+  const isNoData = apiRestaurants?.data?.length === 0;
   if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
   if (!isLoaded) return <div>Loading...</div>;
   if (isLoaded)
