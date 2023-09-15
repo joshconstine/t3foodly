@@ -140,25 +140,44 @@ const SingleRestaurant = () => {
                     Back to results
                   </button>
                   <div className="flex w-full justify-between">
-                    <div className="flex items-center gap-8">
-                      <div className="rounded-full border-2 border-gray-400 p-8"></div>
-                      <div className="flex flex-col gap-4">
-                        <div className=" flex gap-16">
-                          <div className="gpa-2 flex flex-col">
-                            <h1 className="whitespace-nowrap text-2xl font-bold">
-                              {restaurant.data?.name}
-                            </h1>
-                            <a className="cursor-pointer whitespace-nowrap text-xs">
-                              Owner of this restaurant? claim it under your
-                              profile here.
-                            </a>
+                    <div>
+                      <div className="flex items-center gap-8">
+                        <div className="rounded-full border-2 border-gray-400 p-8"></div>
+                        <div className="flex flex-col gap-4">
+                          <div className=" flex gap-16">
+                            <div className="gpa-2 flex flex-col">
+                              <h1 className="whitespace-nowrap text-2xl font-bold">
+                                {restaurant.data?.name}
+                              </h1>
+                              <a className="cursor-pointer whitespace-nowrap text-xs">
+                                Owner of this restaurant? claim it under your
+                                profile here.
+                              </a>
+                            </div>
+                            <UpVoteDownVote restaurantId={restaurantId} />
                           </div>
-                          <UpVoteDownVote restaurantId={restaurantId} />
+                          <Stars numStars={restaurant.data?.rating || 0} />
                         </div>
-                        <Stars numStars={restaurant.data?.rating || 0} />
                       </div>
+                      <div className="items-canter flex gap-2">
+                        <strong> Address:</strong>
+                        <a>{restaurant.data?.formatted_address}</a>
+                      </div>{" "}
+                      <div className="items-canter flex gap-2">
+                        <strong> Phone:</strong>
+                        <a>{restaurant.data?.formatted_phone_number}</a>
+                      </div>{" "}
+                      {restaurant.data?.opening_hours?.open_now ? (
+                        <div className="items-canter flex gap-2">
+                          <strong className="text-green-500"> Open:</strong>
+                        </div>
+                      ) : (
+                        <div className="items-canter flex gap-2">
+                          <strong className="text-red-500"> Closed:</strong>
+                        </div>
+                      )}
                     </div>
-                    <div className="py-8">
+                    <div>
                       <div className="flex flex-col items-center gap-2">
                         <span>Add to your favorites</span>
                         <button className="btn-secondary btn-outline btn  rounded-full">
@@ -182,23 +201,6 @@ const SingleRestaurant = () => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-4">
-                    <div className="items-canter flex gap-2">
-                      <strong> Address:</strong>
-                      <a>{restaurant.data?.formatted_address}</a>
-                    </div>{" "}
-                    <div className="items-canter flex gap-2">
-                      <strong> Phone:</strong>
-                      <a>{restaurant.data?.formatted_phone_number}</a>
-                    </div>{" "}
-                    {restaurant.data?.opening_hours?.open_now ? (
-                      <div className="items-canter flex gap-2">
-                        <strong className="text-green-500"> Open:</strong>
-                      </div>
-                    ) : (
-                      <div className="items-canter flex gap-2">
-                        <strong className="text-red-500"> Closed:</strong>
-                      </div>
-                    )}
                     <div>
                       <strong>more hours </strong>
                       {restaurant.data?.opening_hours?.periods && (
