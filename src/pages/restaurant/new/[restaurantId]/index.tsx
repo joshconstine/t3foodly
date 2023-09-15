@@ -154,7 +154,9 @@ const SingleRestaurant = () => {
                                 profile here.
                               </a>
                             </div>
-                            <UpVoteDownVote restaurantId={restaurantId} />
+                            <UpVoteDownVote
+                              restaurantId={String(restaurantId)}
+                            />
                           </div>
                           <Stars numStars={restaurant.data?.rating || 0} />
                         </div>
@@ -298,15 +300,18 @@ const SingleRestaurant = () => {
                           width="400px"
                           height="400px"
                           mapCenter={{
-                            lat: restaurant.data?.geometry.location.lat,
-                            lng: restaurant.data?.geometry.location.lng,
+                            lat: restaurant.data?.geometry.location.lat || 0,
+                            lng: restaurant.data?.geometry.location.lng || 0,
                           }}
                           markers={[
                             {
                               location: {
-                                lat: restaurant.data?.geometry.location.lat,
-                                lng: restaurant.data?.geometry.location.lng,
+                                lat:
+                                  restaurant.data?.geometry.location.lat || 0,
+                                lng:
+                                  restaurant.data?.geometry.location.lng || 0,
                               },
+                              //@ts-ignore
                               restaurant: restaurant.data,
                               id: String(restaurantId),
                             },
@@ -370,7 +375,7 @@ const SingleRestaurant = () => {
                 )}
                 <div className="w-3/4">
                   <CreateCommentContainer
-                    restaurantId={restaurant.data?.place_id}
+                    restaurantId={String(restaurant.data?.place_id)}
                   />
                 </div>
               </div>
