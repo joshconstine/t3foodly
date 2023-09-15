@@ -292,9 +292,11 @@ const SingleRestaurant = () => {
                       </div>
                     </div>
                     <div>
-                      <span>Location (Map View):</span>
+                      <span className="font-bold">Location (Map View):</span>
                       <div id="mapContainer">
                         <Map
+                          width="400px"
+                          height="400px"
                           mapCenter={{
                             lat: restaurant.data?.geometry.location.lat,
                             lng: restaurant.data?.geometry.location.lng,
