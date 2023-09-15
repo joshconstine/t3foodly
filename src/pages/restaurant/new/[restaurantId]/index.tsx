@@ -368,7 +368,7 @@ const SingleRestaurant = () => {
                 </div>
                 {restaurant.data?.reviews && (
                   <>
-                    {restaurant.data.reviews.map((review: Review) => {
+                    {restaurant.data?.reviews?.map((review: Review) => {
                       return <GoogleReviewCard review={review} />;
                     })}
                   </>
