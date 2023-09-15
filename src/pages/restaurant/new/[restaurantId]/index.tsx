@@ -129,8 +129,8 @@ const SingleRestaurant = () => {
         <Layout>
           <section className=" mx-auto md:py-2">
             <div className=" mx-auto flex w-full max-w-5xl  justify-between px-4  lg:px-8">
-              <div>
-                <div className="flex flex-col gap-8">
+              <div className="w-full">
+                <div className="flex w-full flex-col gap-8">
                   <button
                     className="btn-small btn-primary btn-outline btn w-64 "
                     onClick={() => {
@@ -200,7 +200,7 @@ const SingleRestaurant = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-full content-between">
+                  <div className="flex w-full justify-between">
                     <div className=" flex flex-col gap-4">
                       <div className="flex flex-col gap-4">
                         <div>
