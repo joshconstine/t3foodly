@@ -24,7 +24,7 @@ function GoogleReviewCard({ review }: Props) {
         <Stars numStars={review?.rating} />
       </div>
 
-      <div>{review.text}</div>
+      <div>{review?.text}</div>
     </div>
   );
 }
