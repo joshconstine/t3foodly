@@ -204,7 +204,7 @@ const SingleRestaurant = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-full flex-col justify-between md:flex-row">
+                  <div className="flex w-full flex-col items-center justify-between md:flex-row">
                     <div className=" flex flex-col gap-4">
                       <div className="flex flex-col gap-4">
                         <div>
