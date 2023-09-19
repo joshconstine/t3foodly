@@ -10,19 +10,21 @@ type Props = {
 function GoogleReviewCard({ review }: Props) {
   if (!review) return null;
   return (
-    <div className="md:text-md w-full rounded-lg border-2 border-secondary p-4 text-xs md:w-96">
+    <div className="md:text-md flex w-full flex-col gap-2 rounded-lg border-2 border-secondary p-4 text-xs md:w-96">
       <div>
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-4">
           <Image
             width={40}
             height={40}
             src={review?.profile_photo_url || "lsl"}
             alt="img"
           />
-          <span>{review?.author_name}</span>
+          <div>
+            <b>{review?.author_name}</b>
+            <Stars numStars={review?.rating} />
+          </div>
           <div>{review?.relative_time_description}</div>
         </div>
-        <Stars numStars={review?.rating} />
       </div>
 
       <div>{review?.text}</div>
