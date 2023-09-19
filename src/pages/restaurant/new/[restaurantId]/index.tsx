@@ -382,7 +382,7 @@ const SingleRestaurant = () => {
                     })}
                   </>
                 )}
-                <div className="w-3/4">
+                <div className="md:w-3/4">
                   <CreateCommentContainer
                     restaurantId={String(restaurant.data?.place_id)}
                   />
