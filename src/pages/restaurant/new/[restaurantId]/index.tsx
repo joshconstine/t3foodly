@@ -46,7 +46,7 @@ const SingleRestaurant = () => {
   const [images, setImages] = useState<string[] | null>(null);
 
   const fetchImages = async () => {
-    if (!restaurant.data?.photos || restaurant.data?.photos.length === 0)
+    if (!restaurant.data?.photos || restaurant.data?.photos?.length === 0)
       return;
 
     const retunredPhotos = restaurant.data?.photos.map(async (photo) => {
@@ -75,6 +75,9 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
+
+  const todaysDayOfWeekIndex = new Date().getDay();
+
   if (restaurant.isLoading) {
     return (
       <section className=" mx-auto md:py-2">
@@ -139,12 +142,11 @@ const SingleRestaurant = () => {
                   >
                     Back to results
                   </button>
-                  <div className="flex w-full justify-between">
+                  <div className="flex w-full flex-col justify-between md:flex-row">
                     <div>
                       <div className="flex items-center gap-8">
-                        <div className="rounded-full border-2 border-gray-400 p-8"></div>
                         <div className="flex flex-col gap-4">
-                          <div className=" flex gap-16">
+                          <div className=" flex  flex-col gap-2 md:flex-row md:gap-16 ">
                             <div className="gpa-2 flex flex-col">
                               <h1 className="whitespace-nowrap text-2xl font-bold">
                                 {restaurant.data?.name}
@@ -171,11 +173,11 @@ const SingleRestaurant = () => {
                       </div>{" "}
                       {restaurant.data?.opening_hours?.open_now ? (
                         <div className="items-canter flex gap-2">
-                          <strong className="text-green-500"> Open:</strong>
+                          <strong className="text-green-500"> Open now</strong>
                         </div>
                       ) : (
                         <div className="items-canter flex gap-2">
-                          <strong className="text-red-500"> Closed:</strong>
+                          <strong className="text-red-500"> Closed</strong>
                         </div>
                       )}
                     </div>
@@ -202,7 +204,7 @@ const SingleRestaurant = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-full justify-between">
+                  <div className="flex w-full flex-col justify-between md:flex-row">
                     <div className=" flex flex-col gap-4">
                       <div className="flex flex-col gap-4">
                         <div>
@@ -252,7 +254,14 @@ const SingleRestaurant = () => {
 
                                   return (
                                     <div className="flex w-64 gap-2">
-                                      <div className="flex w-full justify-between">
+                                      <div
+                                        className={`flex w-full justify-between ${
+                                          period.open.day ===
+                                          todaysDayOfWeekIndex
+                                            ? "font-bold"
+                                            : ""
+                                        }`}
+                                      >
                                         <div>
                                           <span className="">
                                             {returnDayofWeek(period.open.day)}:
