@@ -142,12 +142,12 @@ const SingleRestaurant = () => {
                   >
                     Back to results
                   </button>
-                  <div className="flex w-full flex-col justify-between md:flex-row">
+                  <div className="flex w-full flex-col justify-between lg:flex-row">
                     <div>
                       <div className="flex items-center gap-8">
                         <div className="flex flex-col gap-4">
-                          <div className=" flex  flex-col gap-2 md:flex-row md:gap-16 ">
-                            <div className="gpa-2 flex flex-col">
+                          <div className=" flex  flex-col gap-2 md:flex-row md:gap-4 ">
+                            <div className="flex flex-col gap-2">
                               <h1 className="text-md  whitespace-nowrap font-bold md:text-2xl">
                                 {restaurant.data?.name}
                               </h1>
