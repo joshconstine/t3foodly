@@ -130,12 +130,12 @@ const SingleRestaurant = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
-          <section className=" mx-auto md:py-2">
+          <section className=" mx-auto py-2">
             <div className=" mx-auto flex w-full max-w-5xl  justify-between px-4  lg:px-8">
               <div className="w-full">
                 <div className="flex w-full flex-col gap-8">
                   <button
-                    className="btn-small btn-primary btn-outline btn w-64 "
+                    className="btn-small btn-primary btn-outline btn md:w-64 "
                     onClick={() => {
                       router.back();
                     }}
@@ -148,10 +148,10 @@ const SingleRestaurant = () => {
                         <div className="flex flex-col gap-4">
                           <div className=" flex  flex-col gap-2 md:flex-row md:gap-16 ">
                             <div className="gpa-2 flex flex-col">
-                              <h1 className="whitespace-nowrap text-2xl font-bold">
+                              <h1 className="text-md  whitespace-nowrap font-bold md:text-2xl">
                                 {restaurant.data?.name}
                               </h1>
-                              <a className="cursor-pointer whitespace-nowrap text-xs">
+                              <a className="cursor-pointer text-xs md:whitespace-nowrap">
                                 Owner of this restaurant? claim it under your
                                 profile here.
                               </a>
@@ -253,7 +253,7 @@ const SingleRestaurant = () => {
                                     });
 
                                   return (
-                                    <div className="flex w-64 gap-2">
+                                    <div className="flex  gap-2">
                                       <div
                                         className={`flex w-full justify-between ${
                                           period.open.day ===
@@ -292,13 +292,13 @@ const SingleRestaurant = () => {
                       <div>
                         <div className="mb-12 flex gap-4">
                           <span className="font-bold">Website:</span>
-                          <a
+                          {/* <a
                             target={"_blank"}
-                            className="underline"
+                            className=" underline"
                             href={restaurant.data?.website}
                           >
                             {restaurant.data?.website}
-                          </a>
+                          </a> */}
                         </div>
                       </div>
                     </div>
@@ -306,8 +306,8 @@ const SingleRestaurant = () => {
                       <span className="font-bold">Location (Map View):</span>
                       <div id="mapContainer">
                         <Map
-                          width="400px"
-                          height="400px"
+                          width="350px"
+                          height="350px"
                           mapCenter={{
                             lat: restaurant.data?.geometry.location.lat || 0,
                             lng: restaurant.data?.geometry.location.lng || 0,
@@ -334,7 +334,7 @@ const SingleRestaurant = () => {
               </div>
             </div>{" "}
             <div className="mx-auto flex  flex-col items-center bg-gray-200">
-              <div className="flex w-3/4 flex-col items-center gap-4 py-4 px-24">
+              <div className="flex w-3/4 flex-col items-center gap-4 py-4 md:px-24">
                 <div className="w-full">
                   <h1 className="text-3xl">Photos</h1>
                 </div>
@@ -350,7 +350,7 @@ const SingleRestaurant = () => {
                     {images.map((el) => {
                       return (
                         <div
-                          className=" carousel-item rounded-lg"
+                          className=" carousel-item h-16 w-16 rounded-lg"
                           key={el}
                           onClick={() => {
                             setSelectedImage(el);
@@ -370,8 +370,8 @@ const SingleRestaurant = () => {
                 )}
               </div>
             </div>
-            <div className="mx-auto flex  flex-col items-center ">
-              <div className="flex w-3/4 flex-col items-center gap-4 py-4 px-24">
+            <div className="mx-auto flex w-full flex-col items-center ">
+              <div className="flex w-3/4 flex-col items-center gap-4 py-4 ">
                 <div className="w-full">
                   <h1 className="text-3xl">Reviews</h1>
                 </div>

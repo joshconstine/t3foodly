@@ -10,7 +10,7 @@ type Props = {
 function GoogleReviewCard({ review }: Props) {
   if (!review) return null;
   return (
-    <div className="w-96 rounded-lg border-2 border-secondary p-4">
+    <div className="md:text-md w-full rounded-lg border-2 border-secondary p-4 text-xs md:w-96">
       <div>
         <div className="flex gap-4">
           <Image
