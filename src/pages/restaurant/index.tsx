@@ -23,16 +23,48 @@ const scriptOptions = {
 export const RestaurantCardSkeleton = () => {
   return (
     <div className=" h-32 ">
-      <div className="flex gap-1">
-        <Skeleton variant="circular" width={100} height={100} />
-
-        <div className="md:ap-2 flex w-32 flex-col  ">
-          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-          <div className="w-8">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+      <div className="flex gap-8">
+        <div className="flex flex-col items-center gap-1" id="photoContainer">
+          <Skeleton variant="rectangular" width={180} height={100} />
+          <Skeleton
+            variant="rectangular"
+            width={180}
+            height={50}
+            sx={{ borderRadius: "10px" }}
+          />
+          <div className="flex gap-1">
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
           </div>
-          <div className="w-16">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+        </div>
+        <div className=" flex flex-col  ">
+          <div>
+            <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+          </div>
+          <div className="flex w-32 gap-4">
+            <div className="w-16">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+            <div className="w-16">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: "1000px" }}
+              width={192}
+              height={48}
+            />{" "}
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: "1000px" }}
+              width={192}
+              height={48}
+            />
           </div>
 
           <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
@@ -146,9 +178,12 @@ const Restaurant: NextPage = () => {
                   <div>
                     {dbRestaurants.isLoading ? (
                       <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
+                        <div className="grid grid-cols-1 gap-2 md:gap-4 md:p-4">
                           {new Array(10).fill(true).map((elem, index) => (
-                            <RestaurantCardSkeleton key={index} />
+                            <>
+                              <RestaurantCardSkeleton key={index} />
+                              <div className="divider-primary divider my-0"></div>
+                            </>
                           ))}
                         </div>
                       </div>
