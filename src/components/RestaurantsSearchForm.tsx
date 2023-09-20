@@ -1,5 +1,5 @@
 import { useLoadScript } from "@react-google-maps/api";
-import { useRef, useState } from "react";
+import { SetStateAction, useRef, useState } from "react";
 import React from "react";
 
 import { Point } from "./forms/Map";
@@ -18,6 +18,8 @@ interface ISearchFormProps {
   setMapCenter: (center: Point) => void;
   setSearchRadiusInMiles: (radius: number) => void;
   searchRadiusInMiles: number;
+  selectedCategories: string;
+  setSelectedCategories: React.Dispatch<SetStateAction<string>>;
 }
 interface IDestination {
   name: string;
@@ -25,6 +27,25 @@ interface IDestination {
   state: string;
   country: string;
 }
+
+const categoryOptions = [
+  {
+    label: "Restaurant",
+    value: "restaurant",
+  },
+  {
+    label: "Bar",
+    value: "bar",
+  },
+  {
+    label: "Coffee",
+    value: "coffee",
+  },
+  {
+    label: "Clubs",
+    value: "nightclub",
+  },
+];
 
 export default function RestaurantSearchForm(props: ISearchFormProps) {
   const { city, state, setCity, setState, setMapCenter } = props;
@@ -64,6 +85,23 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
           }}
         >
           {searchRadiusOptions.map((option) => (
+            <option
+              key={option.value}
+              className="option option-primary "
+              value={option.value}
+            >
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <select
+          value={props.selectedCategories}
+          className="select-bordered select-primary select join-item"
+          onChange={(e) => {
+            props.setSelectedCategories(e.target.value);
+          }}
+        >
+          {categoryOptions.map((option) => (
             <option
               key={option.value}
               className="option option-primary "

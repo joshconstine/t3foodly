@@ -23,16 +23,48 @@ const scriptOptions = {
 export const RestaurantCardSkeleton = () => {
   return (
     <div className=" h-32 ">
-      <div className="flex gap-1">
-        <Skeleton variant="circular" width={100} height={100} />
-
-        <div className="md:ap-2 flex w-32 flex-col  ">
-          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-          <div className="w-8">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+      <div className="flex gap-8">
+        <div className="flex flex-col items-center gap-1" id="photoContainer">
+          <Skeleton variant="rectangular" width={180} height={100} />
+          <Skeleton
+            variant="rectangular"
+            width={180}
+            height={50}
+            sx={{ borderRadius: "10px" }}
+          />
+          <div className="flex gap-1">
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
+            <Skeleton variant="rectangular" width={30} height={30} />
           </div>
-          <div className="w-16">
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+        </div>
+        <div className=" flex flex-col  ">
+          <div>
+            <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+          </div>
+          <div className="flex w-32 gap-4">
+            <div className="w-16">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+            <div className="w-16">
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: "1000px" }}
+              width={192}
+              height={48}
+            />{" "}
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: "1000px" }}
+              width={192}
+              height={48}
+            />
           </div>
 
           <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
@@ -57,6 +89,8 @@ const Restaurant: NextPage = () => {
   );
   const [mapCenter, setMapCenter] = useState(center);
   const [markers, setMarkers] = useState<IRestaurantMarker[]>([]);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string>("restaurant");
 
   const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
   const dbRestaurants = api.restaurant.getByLatLong.useQuery({
@@ -68,6 +102,7 @@ const Restaurant: NextPage = () => {
     lat: String(mapCenter.lat),
     lng: String(mapCenter.lng),
     radius: searchRadiusInMiles * 1609.34,
+    category: selectedCategories || "restaurant",
   });
 
   //@ts-ignore
@@ -134,6 +169,8 @@ const Restaurant: NextPage = () => {
                 <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
                   <RestaurantSearchForm
                     setCity={setCity}
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
                     setState={setState}
                     city={city}
                     state={state}
@@ -144,11 +181,14 @@ const Restaurant: NextPage = () => {
                 </div>
                 <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
                   <div>
-                    {dbRestaurants.isLoading ? (
+                    {apiRestaurants.isLoading ? (
                       <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 md:p-4">
+                        <div className="grid grid-cols-1 gap-2 md:gap-4 md:p-4">
                           {new Array(10).fill(true).map((elem, index) => (
-                            <RestaurantCardSkeleton key={index} />
+                            <>
+                              <RestaurantCardSkeleton key={index} />
+                              <div className="divider-primary divider my-0"></div>
+                            </>
                           ))}
                         </div>
                       </div>
@@ -171,7 +211,7 @@ const Restaurant: NextPage = () => {
                           <h1 className="md:text-l   font-bold text-primary">
                             {`${allRestaurants?.length} ${
                               allRestaurants && allRestaurants?.length !== 0
-                                ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
+                                ? `Results found in ${searchRadiusInMiles} miles of ${city}, ${state}`
                                 : "Restaurant"
                             }`}
                           </h1>
