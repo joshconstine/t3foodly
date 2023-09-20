@@ -211,7 +211,7 @@ const Restaurant: NextPage = () => {
                           <h1 className="md:text-l   font-bold text-primary">
                             {`${allRestaurants?.length} ${
                               allRestaurants && allRestaurants?.length !== 0
-                                ? `Restaurants found in ${searchRadiusInMiles} miles of ${city}, ${state}`
+                                ? `Results found in ${searchRadiusInMiles} miles of ${city}, ${state}`
                                 : "Restaurant"
                             }`}
                           </h1>

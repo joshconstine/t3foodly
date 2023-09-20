@@ -30,12 +30,20 @@ interface IDestination {
 
 const categoryOptions = [
   {
-    label: "restaurant",
+    label: "Restaurant",
     value: "restaurant",
   },
   {
-    label: "bar",
+    label: "Bar",
     value: "bar",
+  },
+  {
+    label: "Coffee",
+    value: "coffee",
+  },
+  {
+    label: "Clubs",
+    value: "nightclub",
   },
 ];
 
