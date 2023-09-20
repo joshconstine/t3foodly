@@ -82,7 +82,11 @@ const FocusedRestaurantCard = (props: { restaurantId: string }) => {
           <Image
             width={220}
             height={220}
-            src={images ? images[selectedImage] : "/static/photos/yum.png"}
+            src={
+              images
+                ? images[selectedImage] || "/static/photos/yum.png"
+                : "/static/photos/yum.png"
+            }
             alt="Yum"
             className="relative rounded-lg"
             z-index={0}
