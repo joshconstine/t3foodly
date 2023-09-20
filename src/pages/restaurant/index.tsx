@@ -89,6 +89,8 @@ const Restaurant: NextPage = () => {
   );
   const [mapCenter, setMapCenter] = useState(center);
   const [markers, setMarkers] = useState<IRestaurantMarker[]>([]);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string>("restaurant");
 
   const [searchRadiusInMiles, setSearchRadiusInMiles] = useState<number>(20);
   const dbRestaurants = api.restaurant.getByLatLong.useQuery({
@@ -100,6 +102,7 @@ const Restaurant: NextPage = () => {
     lat: String(mapCenter.lat),
     lng: String(mapCenter.lng),
     radius: searchRadiusInMiles * 1609.34,
+    category: selectedCategories || "restaurant",
   });
 
   //@ts-ignore
@@ -166,6 +169,8 @@ const Restaurant: NextPage = () => {
                 <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
                   <RestaurantSearchForm
                     setCity={setCity}
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
                     setState={setState}
                     city={city}
                     state={state}
@@ -176,7 +181,7 @@ const Restaurant: NextPage = () => {
                 </div>
                 <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
                   <div>
-                    {dbRestaurants.isLoading ? (
+                    {apiRestaurants.isLoading ? (
                       <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
                         <div className="grid grid-cols-1 gap-2 md:gap-4 md:p-4">
                           {new Array(10).fill(true).map((elem, index) => (

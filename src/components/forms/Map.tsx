@@ -59,17 +59,6 @@ const RestaurantMarker = (props: {
       >
         <div className="flex gap-1">
           <button>{marker.restaurant.name}</button>
-          {false && (
-            <div className="h-8 w-8">
-              <Image
-                width={20}
-                height={20}
-                src={photos.data?.at(0)?.photoUrl || "/static/photos/yum.png"}
-                alt="Yum"
-                z-index={0}
-              />
-            </div>
-          )}
         </div>
       </div>
     </OverlayView>
