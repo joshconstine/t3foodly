@@ -6,6 +6,9 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { IconButton } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const Navbar = () => {
   const user = api.user.getUser.useQuery();
   const { data: sessionData } = useSession();
@@ -20,95 +23,71 @@ const Navbar = () => {
           alt="logo"
         />
         <div>
-          <IconButton
-            onClick={() => {
-              setExpanded(!expanded);
-            }}
-          >
-            <FormatListBulletedIcon sx={{ color: "white" }} />
-          </IconButton>
-          {expanded && (
-            <div
-              className={`absolute top-16 ${
-                sessionData ? "-ml-40" : "-ml-20"
-              }  rounded-md border-2 border-black  bg-primary`}
+          <div className="flex flex-wrap items-center gap-8 text-xs">
+            <Link
+              href="/restaurant"
+              className="flex  items-center gap-1 rounded-md "
             >
-              <div className="flex flex-col gap-4 p-4">
-                <Link
-                  href="/restaurant"
-                  className="rounded-md   text-sm font-medium"
-                >
-                  Restaurants
+              <RestaurantIcon />
+              Restaurants
+            </Link>
+            <Link
+              href="/discover"
+              className="flex  items-center gap-1 rounded-md "
+            >
+              <SearchIcon />
+              Discover
+            </Link>
+            {user.data?.role === "ADMIN" && sessionData && (
+              <>
+                <Link href="/restaurantApplications" className="rounded-md  ">
+                  Restaurant Applications
                 </Link>
-                <Link
-                  href="/discover"
-                  className="rounded-md   text-sm font-medium"
-                >
-                  Discover
+                <Link href="/admin" className="rounded-md  ">
+                  Admin Dashboard
                 </Link>
-                {user.data?.role === "ADMIN" && sessionData && (
-                  <>
-                    <Link
-                      href="/restaurantApplications"
-                      className="rounded-md text-sm font-medium"
-                    >
-                      Restaurant Applications
-                    </Link>
-                    <Link
-                      href="/admin"
-                      className="rounded-md   text-sm font-medium"
-                    >
-                      Admin Dashboard
-                    </Link>
-                    <Link
-                      href="/reportedItems"
-                      className="rounded-md  text-sm font-medium"
-                    >
-                      Reported Items
-                    </Link>
-                  </>
-                )}
-                {sessionData && (
-                  <>
-                    <Link
-                      href="/restaurant/create"
-                      className="rounded-md  text-sm font-medium"
-                    >
-                      Add Restaurant
-                    </Link>
-                    <Link href="/profile">
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <Image
-                          width={30}
-                          height={30}
-                          className="rounded-full"
-                          src={
-                            user.data?.image && user.data?.image !== null
-                              ? user.data?.image
-                              : "/static/photos/profile.png"
-                          }
-                          alt="Profile Image"
-                        />
-                      </motion.div>
-                    </Link>
-                  </>
-                )}
-                {!sessionData && (
-                  <div>
-                    <button
-                      onClick={() => signIn()}
-                      className="btn-secondary  btn"
-                    >
-                      Sign In
-                    </button>
-                  </div>
-                )}
+                <Link href="/reportedItems" className="rounded-md ">
+                  Reported Items
+                </Link>
+              </>
+            )}
+            {sessionData && (
+              <>
+                <Link
+                  href="/restaurant/create"
+                  className="flex  items-center gap-1 rounded-md "
+                >
+                  <AddCircleOutlineIcon />
+                  Add Restaurant
+                </Link>
+                <Link href="/profile">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Image
+                      width={30}
+                      height={30}
+                      className="rounded-full"
+                      src={
+                        user.data?.image && user.data?.image !== null
+                          ? user.data?.image
+                          : "/static/photos/profile.png"
+                      }
+                      alt="Profile Image"
+                    />
+                  </motion.div>
+                </Link>
+              </>
+            )}
+            {!sessionData && (
+              <div>
+                <button onClick={() => signIn()} className="btn-secondary  btn">
+                  Sign In
+                </button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </nav>
