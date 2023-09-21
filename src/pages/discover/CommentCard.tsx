@@ -30,7 +30,7 @@ const CommentCard = (props: { comment: Comment }) => {
     >
       <div className="flex gap-4">
         <Link
-          href={`/user/${comment.user_id}`}
+          href={`/user/${comment?.user_id}`}
           className="avatar rounded-md border-2"
         >
           <Tooltip title={user.data?.username || ""}>
