@@ -226,8 +226,8 @@ const Restaurant: NextPage = () => {
                     </div>
                   )}
                 </div>
-                <div className="min-w-96 max-w-96 sticky left-0 top-0  w-full">
-                  <div className="sticky top-12 mb-4 rounded-lg border-2 border-primary">
+                <div className="min-w-96 max-w-96  left-0 top-0  w-full">
+                  <div className="sticky top-12 mb-4 rounded-lg border-4 border-primary">
                     <Map
                       radius={searchRadiusInMiles}
                       mapCenter={mapCenter}

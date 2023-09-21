@@ -1,8 +1,46 @@
+import { Skeleton } from "@mui/material";
+import { height } from "@mui/system";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import { api } from "../../utils/api";
 import CommentCard from "./CommentCard";
+
+const CommentCardSkeleton = () => {
+  return (
+    <div>
+      <div className=" flex w-64 flex-col gap-2 overflow-hidden rounded-lg border-2  bg-white px-2 pt-2">
+        <div className="flex gap-4">
+          <div className="avatar rounded-md border-2">
+            <Skeleton variant="rectangular" width={40} height={40} />
+          </div>
+
+          <div className="w-32">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 px-2">
+          <div className="w-full">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+          <div className="w-full">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+          <div className="w-full">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+          <div className="w-full">
+            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+          </div>
+        </div>
+        <div>
+          <p className="text-xs text-gray-700"></p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const User: NextPage = () => {
   const comments = api.comment.getRecent.useQuery();
@@ -19,13 +57,32 @@ const User: NextPage = () => {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="mb-8 text-3xl font-bold">Latest Reviews</h2>
             <div className="flex flex-wrap gap-4">
-              {comments.data?.map((elem) => {
-                return (
-                  <div>
-                    <CommentCard comment={elem} key={elem.id} />
-                  </div>
-                );
-              })}
+              {!comments.isLoading ? (
+                <>
+                  {comments.data?.map((elem) => {
+                    return (
+                      <div>
+                        <CommentCard comment={elem} key={elem.id} />
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                  <CommentCardSkeleton />
+                </>
+              )}
             </div>
           </div>
         </section>

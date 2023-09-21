@@ -292,13 +292,19 @@ const SingleRestaurant = () => {
                       <div>
                         <div className="mb-12 flex gap-4">
                           <span className="font-bold">Website:</span>
-                          {/* <a
+                          <a
                             target={"_blank"}
                             className=" underline"
                             href={restaurant.data?.website}
                           >
-                            {restaurant.data?.website}
-                          </a> */}
+                            {restaurant.data?.website &&
+                            restaurant.data?.website.length > 40
+                              ? `${restaurant.data?.website.substring(
+                                  0,
+                                  40
+                                )}...`
+                              : restaurant.data?.website}
+                          </a>
                         </div>
                       </div>
                     </div>

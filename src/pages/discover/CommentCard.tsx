@@ -28,18 +28,20 @@ const CommentCard = (props: { comment: Comment }) => {
       className=" flex w-64 flex-col gap-2 overflow-hidden rounded-lg border-2  bg-white px-2 pt-2"
       whileHover={{ scale: 1.05 }}
     >
-      <div className="flex justify-around">
-        <div className="rounded-lg border-2 p-2">
+      <div className="flex gap-4">
+        <Link
+          href={`/user/${comment.user_id}`}
+          className="avatar rounded-md border-2"
+        >
           <Tooltip title={user.data?.username || ""}>
             <Image
-              width={30}
-              height={30}
-              className="rounded-full"
+              width={50}
+              height={50}
               src={user.data?.image || ""}
               alt="img"
             />
           </Tooltip>
-        </div>
+        </Link>
 
         <div>
           <Link href={`/restaurant/${restaurant.data?.id}`}>
