@@ -60,58 +60,48 @@ export default function RestaurantSearchForm(props: ISearchFormProps) {
     { value: 50, label: "50 miles" },
   ];
   return (
-    <div className="relative bg-transparent ">
-      {loadError && (
-        <div>Google Map script can't be loaded, please reload the page</div>
-      )}
-      {!isLoaded && <div>Loading...</div>}
-      <div className="join">
-        <div>
-          <div>
-            <Autocomplete
-              setCity={setCity}
-              setState={setState}
-              city={city}
-              state={state}
-              setMapCenter={setMapCenter}
-            />
-          </div>
-        </div>
-        <select
-          value={props.searchRadiusInMiles}
-          className="select-bordered select-primary select join-item"
-          onChange={(e) => {
-            props.setSearchRadiusInMiles(Number(e.target.value));
-          }}
-        >
-          {searchRadiusOptions.map((option) => (
-            <option
-              key={option.value}
-              className="option option-primary "
-              value={option.value}
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <select
-          value={props.selectedCategories}
-          className="select-bordered select-primary select join-item"
-          onChange={(e) => {
-            props.setSelectedCategories(e.target.value);
-          }}
-        >
-          {categoryOptions.map((option) => (
-            <option
-              key={option.value}
-              className="option option-primary "
-              value={option.value}
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div className="join-vertical join  md:join-horizontal">
+      <Autocomplete
+        setCity={setCity}
+        setState={setState}
+        city={city}
+        state={state}
+        setMapCenter={setMapCenter}
+      />
+      <select
+        value={props.searchRadiusInMiles}
+        className="select-bordered select-primary select join-item"
+        onChange={(e) => {
+          props.setSearchRadiusInMiles(Number(e.target.value));
+        }}
+      >
+        {searchRadiusOptions.map((option) => (
+          <option
+            key={option.value}
+            className="option option-primary "
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <select
+        value={props.selectedCategories}
+        className="select-bordered select-primary select join-item"
+        onChange={(e) => {
+          props.setSelectedCategories(e.target.value);
+        }}
+      >
+        {categoryOptions.map((option) => (
+          <option
+            key={option.value}
+            className="option option-primary "
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

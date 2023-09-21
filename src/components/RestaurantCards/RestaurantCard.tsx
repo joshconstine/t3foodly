@@ -36,10 +36,10 @@ const RestaurantCard = (props: {
 
   return (
     <div
-      className=" cursor-pointer "
+      className="  cursor-pointer "
       onClick={() => router.push(`restaurant/new/${restaurant.id}`)}
     >
-      <div className="flex gap-8">
+      <div className="flex flex-col items-center gap-8 md:flex-row">
         <div className="flex flex-col items-center gap-1" id="photoContainer">
           <Image
             width={200}
@@ -55,9 +55,9 @@ const RestaurantCard = (props: {
           </div>
           <Stars numStars={restaurant.rating} />
         </div>
-        <div className="flex w-full flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <div className="md:ap-2 flex  items-center gap-4">
-            <h3 className="text-md whitespace-nowrap font-bold md:text-xl">
+            <h3 className="text-md font-bold  md:text-xl">
               {index}. {restaurant.name}
             </h3>
             <div

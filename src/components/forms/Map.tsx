@@ -72,7 +72,7 @@ const Map = (props: IMap) => {
       ? props.width
       : window?.screen?.width > 600
       ? window?.screen?.width > 1200
-        ? "750px"
+        ? "100%"
         : "600px"
       : "calc(100vw - 24px)",
   };

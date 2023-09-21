@@ -97,7 +97,7 @@ export const Autocomplete = (props: IAutocomplete) => {
           setValue("");
         }}
         placeholder="Where are you going?"
-        className="input-bordered input-primary input join-item"
+        className="input-bordered input-primary input join-item "
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
