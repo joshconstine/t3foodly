@@ -66,8 +66,8 @@ const Navbar = () => {
                     whileTap={{ scale: 0.9 }}
                   >
                     <Image
-                      width={30}
-                      height={30}
+                      width={45}
+                      height={45}
                       className="rounded-full"
                       src={
                         user.data?.image && user.data?.image !== null
