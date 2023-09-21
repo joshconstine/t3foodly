@@ -6,6 +6,7 @@ import Image from "next/image";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Comment } from "@prisma/client";
+import Link from "next/link";
 const MinimalCommentCard = (props: {
   comment: Comment | undefined;
   viewOnly?: boolean;
@@ -67,15 +68,17 @@ const MinimalCommentCard = (props: {
         border-zinc-400 p-2"
     >
       <div className="flex gap-2 p-2">
-        <div>
+        <Link
+          href={`/user/${comment.user_id}`}
+          className="avatar rounded-md border-2"
+        >
           <Image
-            width={30}
-            height={30}
-            className="rounded-full"
+            width={50}
+            height={50}
             src={user.data?.image || ""}
-            alt="Profile Image"
+            alt="img"
           />
-        </div>
+        </Link>
         <div className="flex flex-col gap-1">
           <h3
             className=" cursor-pointer font-bold"

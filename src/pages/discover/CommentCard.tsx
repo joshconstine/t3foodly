@@ -28,7 +28,7 @@ const CommentCard = (props: { comment: Comment }) => {
       className=" flex w-64 flex-col gap-2 overflow-hidden rounded-lg border-2  bg-white px-2 pt-2"
       whileHover={{ scale: 1.05 }}
     >
-      <div className="flex justify-around">
+      <div className="flex gap-4">
         <Link
           href={`/user/${comment.user_id}`}
           className="avatar rounded-md border-2"
