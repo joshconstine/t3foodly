@@ -164,77 +164,75 @@ const Restaurant: NextPage = () => {
         </Head>
         <Layout>
           <section className="">
-            <div className=" sm:px-6  lg:px-8">
-              <div className="flex  flex-col  items-center gap-2 ">
-                <div className=" reverse flex items-center  justify-between  gap-4 rounded-lg px-8 py-4 md:flex-row">
-                  <RestaurantSearchForm
-                    setCity={setCity}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                    setState={setState}
-                    city={city}
-                    state={state}
-                    setMapCenter={setMapCenter}
-                    setSearchRadiusInMiles={setSearchRadiusInMiles}
-                    searchRadiusInMiles={searchRadiusInMiles}
-                  />
-                </div>
-                <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
-                  <div>
-                    {apiRestaurants.isLoading ? (
-                      <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
-                        <div className="grid grid-cols-1 gap-2 md:gap-4 md:p-4">
-                          {new Array(10).fill(true).map((elem, index) => (
-                            <>
-                              <RestaurantCardSkeleton key={index} />
-                              <div className="divider-primary divider my-0"></div>
-                            </>
-                          ))}
-                        </div>
+            <div className="mx-auto my-4 flex  max-w-5xl flex-col items-center gap-2 sm:px-6 lg:px-8 ">
+              <RestaurantSearchForm
+                setCity={setCity}
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+                setState={setState}
+                city={city}
+                state={state}
+                setMapCenter={setMapCenter}
+                setSearchRadiusInMiles={setSearchRadiusInMiles}
+                searchRadiusInMiles={searchRadiusInMiles}
+              />
+              <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
+                <div>
+                  {apiRestaurants.isLoading ? (
+                    <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
+                      <div className="grid grid-cols-1 gap-2 md:gap-4 md:p-4">
+                        {new Array(10).fill(true).map((elem, index) => (
+                          <>
+                            <RestaurantCardSkeleton key={index} />
+                            <div className="divider-primary divider my-0"></div>
+                          </>
+                        ))}
                       </div>
-                    ) : isNoData ? (
-                      <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860  ">
-                        <h1 className="text-2xl font-bold text-primary">
-                          No Restaurants Found
+                    </div>
+                  ) : isNoData ? (
+                    <div className="lg my-8 flex w-full flex-col items-center gap-4 md:w-860 md:min-w-860  ">
+                      <h1 className="text-2xl font-bold text-primary">
+                        No Restaurants Found
+                      </h1>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-l whitespace-nowrap rounded-lg border-2 border-secondary px-2 py-2 text-secondary"
+                      >
+                        <Link href="/restaurant/create">Add Restaurant</Link>
+                      </motion.div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-4    md:overflow-auto ">
+                      <div className=" flex  gap-4">
+                        <h1 className="md:text-l   font-bold text-primary">
+                          {`${allRestaurants?.length} ${
+                            allRestaurants && allRestaurants?.length !== 0
+                              ? `Results found in ${searchRadiusInMiles} miles of ${city}, ${state}`
+                              : "Restaurant"
+                          }`}
                         </h1>
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="text-l whitespace-nowrap rounded-lg border-2 border-secondary px-2 py-2 text-secondary"
-                        >
-                          <Link href="/restaurant/create">Add Restaurant</Link>
-                        </motion.div>
                       </div>
-                    ) : (
-                      <div className="flex flex-col gap-4    md:overflow-auto ">
-                        <div className=" flex  gap-4">
-                          <h1 className="md:text-l   font-bold text-primary">
-                            {`${allRestaurants?.length} ${
-                              allRestaurants && allRestaurants?.length !== 0
-                                ? `Results found in ${searchRadiusInMiles} miles of ${city}, ${state}`
-                                : "Restaurant"
-                            }`}
-                          </h1>
-                        </div>
+                      <div>
+                        {focusedRestaurant && (
+                          <FocusedRestaurantCard
+                            restaurantId={focusedRestaurant}
+                          />
+                        )}
                         <div>
-                          {focusedRestaurant && (
-                            <FocusedRestaurantCard
-                              restaurantId={focusedRestaurant}
-                            />
-                          )}
                           <RestaurantResults restaurants={allRestaurants} />
                         </div>
                       </div>
-                    )}
-                  </div>
-                  <div className="min-w-96  left-0 top-0 h-full w-full">
-                    <Map
-                      radius={searchRadiusInMiles}
-                      mapCenter={mapCenter}
-                      markers={markers}
-                      setFocusedRestaurant={setFocusedRestaurant}
-                    />
-                  </div>
+                    </div>
+                  )}
+                </div>
+                <div className="min-w-96 max-w-96 left-0 top-0 h-full w-full">
+                  <Map
+                    radius={searchRadiusInMiles}
+                    mapCenter={mapCenter}
+                    markers={markers}
+                    setFocusedRestaurant={setFocusedRestaurant}
+                  />
                 </div>
               </div>
             </div>
