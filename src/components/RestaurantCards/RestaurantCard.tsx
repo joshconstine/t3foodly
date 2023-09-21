@@ -27,7 +27,7 @@ const RestaurantCard = (props: {
         .then((r) => r.blob())
         .catch(console.error);
       //@ts-ignore
-      setImage(URL.createObjectURL(imageURLQuery)); //declared earlier
+      setImage(URL?.createObjectURL(imageURLQuery)); //declared earlier
     }
   };
   useEffect(() => {
@@ -39,7 +39,7 @@ const RestaurantCard = (props: {
       className="  cursor-pointer "
       onClick={() => router.push(`restaurant/new/${restaurant.id}`)}
     >
-      <div className="flex flex-col items-center gap-8 md:flex-row">
+      <div className="flex  flex-col-reverse items-center gap-8 md:flex-row">
         <div className="flex flex-col items-center gap-1" id="photoContainer">
           <Image
             width={200}
