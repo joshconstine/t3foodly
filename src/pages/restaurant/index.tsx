@@ -164,7 +164,7 @@ const Restaurant: NextPage = () => {
         </Head>
         <Layout>
           <section className="">
-            <div className="mx-auto my-4 flex  max-w-5xl flex-col items-center gap-2 sm:px-6 lg:px-8 ">
+            <div className="mx-auto my-4 flex  max-w-6xl flex-col items-center gap-2 sm:px-6 lg:px-8 ">
               <RestaurantSearchForm
                 setCity={setCity}
                 selectedCategories={selectedCategories}
@@ -176,7 +176,7 @@ const Restaurant: NextPage = () => {
                 setSearchRadiusInMiles={setSearchRadiusInMiles}
                 searchRadiusInMiles={searchRadiusInMiles}
               />
-              <div className=" flex h-full w-full  flex-col gap-8 md:flex-row">
+              <div className=" flex h-full w-full flex-col gap-8 md:flex-row">
                 <div>
                   {apiRestaurants.isLoading ? (
                     <div className="lg  flex-col gap-4 md:w-860  md:min-w-860 md:overflow-auto ">
@@ -226,13 +226,15 @@ const Restaurant: NextPage = () => {
                     </div>
                   )}
                 </div>
-                <div className="min-w-96 max-w-96 left-0 top-0 h-full w-full">
-                  <Map
-                    radius={searchRadiusInMiles}
-                    mapCenter={mapCenter}
-                    markers={markers}
-                    setFocusedRestaurant={setFocusedRestaurant}
-                  />
+                <div className="min-w-96 max-w-96 sticky left-0 top-0  w-full">
+                  <div className="sticky top-12 mb-4 rounded-lg border-2 border-primary">
+                    <Map
+                      radius={searchRadiusInMiles}
+                      mapCenter={mapCenter}
+                      markers={markers}
+                      setFocusedRestaurant={setFocusedRestaurant}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

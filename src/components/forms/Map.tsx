@@ -67,6 +67,7 @@ const RestaurantMarker = (props: {
 const Map = (props: IMap) => {
   const mapContainerStyle = {
     display: "block",
+    borderRadius: "10px",
     height: props.height ? props.height : "calc(100vh - 164px)",
     width: props.width
       ? props.width
