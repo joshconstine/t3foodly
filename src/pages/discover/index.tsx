@@ -56,7 +56,7 @@ const User: NextPage = () => {
         <section className="py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="mb-8 text-3xl font-bold">Latest Reviews</h2>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col flex-wrap items-center gap-4 md:flex-row md:items-start">
               {!comments.isLoading ? (
                 <>
                   {comments.data?.map((elem) => {
