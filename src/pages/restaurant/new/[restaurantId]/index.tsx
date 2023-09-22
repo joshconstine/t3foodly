@@ -57,14 +57,14 @@ const SingleRestaurant = () => {
 
     // Fallback for browsers that don't support View Transitions:
     //@ts-ignore
-    if (!document.startViewTransition) {
+    if (!document?.startViewTransition) {
       displayNewImage();
       return;
     }
 
     // With View Transitions:
     //@ts-ignore
-    const transition = document.startViewTransition(() => displayNewImage());
+    const transition = document?.startViewTransition(() => displayNewImage());
 
     photosDiv?.scrollIntoView({ behavior: "smooth" });
   }
