@@ -41,9 +41,33 @@ const SingleRestaurant = () => {
   const restaurant = api.restaurant.getByPlaceId.useQuery({
     placeId: String(restaurantId),
   });
+  const photosDiv = document.getElementById("photoDiv");
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [images, setImages] = useState<string[] | null>(null);
+
+  function updateView(el: string) {
+    // Handle the difference in whether the event is fired on the <a> or the <img>
+    const targetIdentifier = el;
+    const displayNewImage = () => {
+      const mainSrc = targetIdentifier;
+      console.log(mainSrc);
+      setSelectedImage(mainSrc);
+    };
+
+    // Fallback for browsers that don't support View Transitions:
+    //@ts-ignore
+    if (!document.startViewTransition) {
+      displayNewImage();
+      return;
+    }
+
+    // With View Transitions:
+    //@ts-ignore
+    const transition = document.startViewTransition(() => displayNewImage());
+
+    photosDiv?.scrollIntoView({ behavior: "smooth" });
+  }
 
   const fetchImages = async () => {
     if (!restaurant.data?.photos || restaurant.data?.photos?.length === 0)
@@ -340,17 +364,22 @@ const SingleRestaurant = () => {
               </div>
             </div>{" "}
             <div className="mx-auto flex  flex-col items-center bg-gray-200">
-              <div className="flex w-3/4 flex-col items-center gap-4 py-4 md:px-24">
+              <div
+                className="flex w-3/4 flex-col items-center gap-4 py-4 md:px-24"
+                id="photoDiv"
+              >
                 <div className="w-full">
                   <h1 className="text-3xl">Photos</h1>
                 </div>
-                <Image
-                  width={900}
-                  height={300}
-                  className="rounded-md"
-                  src={selectedImage || "/static/photos/yum.png"}
-                  alt="Yum"
-                />
+                <div>
+                  <Image
+                    width={900}
+                    height={300}
+                    className="rounded-md"
+                    src={selectedImage || "/static/photos/yum.png"}
+                    alt="Yum"
+                  />
+                </div>
                 {images && (
                   <div className="carousel rounded-box flex w-full gap-4">
                     {images.map((el) => {
@@ -358,9 +387,7 @@ const SingleRestaurant = () => {
                         <div
                           className=" carousel-item h-16 w-16 rounded-lg"
                           key={el}
-                          onClick={() => {
-                            setSelectedImage(el);
-                          }}
+                          onClick={() => updateView(el)}
                         >
                           <Image
                             width={200}

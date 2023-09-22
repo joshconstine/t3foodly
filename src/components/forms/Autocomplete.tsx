@@ -88,7 +88,7 @@ export const Autocomplete = (props: IAutocomplete) => {
     });
 
   return (
-    <div>
+    <>
       <input
         value={value}
         onChange={handleInput}
@@ -105,6 +105,6 @@ export const Autocomplete = (props: IAutocomplete) => {
           <ul>{renderSuggestions()}</ul>
         </div>
       )}
-    </div>
+    </>
   );
 };
