@@ -1,3 +1,4 @@
+"use client";
 import { Skeleton } from "@mui/material";
 import { useEffect } from "react";
 import Head from "next/head";
@@ -220,6 +221,7 @@ const SingleRestaurant = () => {
                             window.scrollTo(0, document?.body.scrollHeight);
                             const commentInput =
                               document?.getElementById("addComment");
+
                             commentInput?.focus();
                           }}
                         >
