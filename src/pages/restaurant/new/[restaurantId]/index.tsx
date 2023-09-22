@@ -217,9 +217,9 @@ const SingleRestaurant = () => {
                         <button
                           className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full"
                           onClick={() => {
-                            window.scrollTo(0, document.body.scrollHeight);
+                            window.scrollTo(0, document?.body.scrollHeight);
                             const commentInput =
-                              document.getElementById("addComment");
+                              document?.getElementById("addComment");
                             commentInput?.focus();
                           }}
                         >
