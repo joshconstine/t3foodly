@@ -376,11 +376,11 @@ const SingleRestaurant = () => {
                 <div className="w-full">
                   <h1 className="text-3xl">Photos</h1>
                 </div>
-                <div>
+                <div className="h-800 w-full rounded-md">
                   <Image
                     width={900}
                     height={300}
-                    className="rounded-md"
+                    className=" h-full w-full object-cover"
                     src={selectedImage || "/static/photos/yum.png"}
                     alt="Yum"
                   />

@@ -43,6 +43,7 @@ module.exports = {
         650: "650px",
       },
       height: {
+        800: "800px",
         special: "calc(100vh - 300px)",
       },
     },
