@@ -38,11 +38,14 @@ const SingleRestaurant = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-
+  let photosDiv: any = null;
   const restaurant = api.restaurant.getByPlaceId.useQuery({
     placeId: String(restaurantId),
   });
-  const photosDiv = document?.getElementById("photoDiv");
+
+  useEffect(() => {
+    photosDiv = document?.getElementById("photoDiv");
+  }, []);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [images, setImages] = useState<string[] | null>(null);
