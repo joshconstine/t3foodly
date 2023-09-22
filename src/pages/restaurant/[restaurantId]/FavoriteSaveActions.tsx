@@ -143,8 +143,8 @@ const FavoriteSaveActions = (props: IProps) => {
           <IconButton
             disabled={false}
             onClick={() => {
-              window.scrollTo(0, document.body.scrollHeight);
-              const commentInput = document.getElementById("addComment");
+              window.scrollTo(0, document?.body.scrollHeight);
+              const commentInput = document?.getElementById("addComment");
               commentInput?.focus();
             }}
           >
