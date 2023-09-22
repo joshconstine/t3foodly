@@ -41,7 +41,7 @@ const SingleRestaurant = () => {
   const restaurant = api.restaurant.getByPlaceId.useQuery({
     placeId: String(restaurantId),
   });
-  const photosDiv = document.getElementById("photoDiv");
+  const photosDiv = document?.getElementById("photoDiv");
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [images, setImages] = useState<string[] | null>(null);
