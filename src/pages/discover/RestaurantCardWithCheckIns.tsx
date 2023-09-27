@@ -27,13 +27,12 @@ const RestaurantCardWithCheckIns = (props: {
   useEffect(() => {
     fetchImage();
   }, [restaurant]);
-console.log(restaurant)
-const cityName = restaurant.address_components.find((el)=>el.types.includes('locality'))?.long_name
-const  stateName = restaurant.address_components.find((el)=>el.types.includes('administrative_area_level_1'))?.long_name
+const cityName = restaurant?.address_components?.find((el)=>el.types.includes('locality'))?.long_name
+const  stateName = restaurant?.address_components?.find((el)=>el.types.includes('administrative_area_level_1'))?.long_name
   return ( 
     <div
       className="  cursor-pointer border-secondary border-2  p-4 rounded-lg"
-      onClick={() => router.push(`restaurant/new/${ restaurant.place_id}`)}
+      onClick={() => router.push(`restaurant/new/${restaurant.place_id}`)}
     >
       <div className="flex  flex-col-reverse items-center gap-8 md:flex-row">
         <div className="flex flex-col items-center gap-1" id="photoContainer">
