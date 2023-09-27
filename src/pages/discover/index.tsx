@@ -4,20 +4,19 @@ import { CheckIn } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Layout from "../../components/Layout";
-import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
 import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 import { api } from "../../utils/api";
 import { RestaurantCardSkeleton } from "../restaurant";
 import CommentCard from "./CommentCard";
+import RestaurantCardWithCheckIns from "./RestaurantCardWithCheckIns";
 
 const RestaurantWithCheckIn = ({restaurantId, checkInCount}:{restaurantId:string, checkInCount:number}) => {
   const restaurant = api.restaurant.getByPlaceId.useQuery({placeId: restaurantId})
+  //@ts-ignore
 if (restaurant.isLoading) <RestaurantCardSkeleton/>
-//@ts-ignore
-  const data: IGoogleRestaurantResult = restaurant.data || [];
+if (restaurant.error || restaurant.data === undefined) return <></>
   return ( <div>
-      <h1>{checkInCount}: check ins</h1>
-            <RestaurantCard restaurant={data} key={restaurant.data?.place_id} index={ 1} />
+            <RestaurantCardWithCheckIns restaurant={restaurant.data} key={restaurant.data?.place_id}  checkIns={checkInCount}/>
   </div> );
 }
  
@@ -90,9 +89,9 @@ const User: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <section className="py-12">
+        <section className="py-12 flex flex-col gap-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="mb-8 text-3xl font-bold">Popular Restaurants</h2>
+            <h2 className="mb-8 text-3xl font-bold">Popular Restaurants Today</h2>
             <div className="flex flex-col flex-wrap items-center gap-4 md:flex-row md:items-start">
             {sortedData?.map((checkIn)=>{
               return  <RestaurantWithCheckIn restaurantId={checkIn.restaurant_id} checkInCount={checkIn.checkInCount} />
