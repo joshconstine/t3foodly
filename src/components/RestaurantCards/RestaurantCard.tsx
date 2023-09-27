@@ -37,7 +37,7 @@ const RestaurantCard = (props: {
   return (
     <div
       className="  cursor-pointer "
-      onClick={() => router.push(`restaurant/new/${restaurant.id}`)}
+      onClick={() => router.push(`restaurant/new/${restaurant.id || restaurant.place_id}`)}
     >
       <div className="flex  flex-col-reverse items-center gap-8 md:flex-row">
         <div className="flex flex-col items-center gap-1" id="photoContainer">
