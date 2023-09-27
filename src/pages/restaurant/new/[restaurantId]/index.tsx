@@ -37,6 +37,7 @@ const returnDayofWeek = (day: number) => {
 const SingleRestaurant = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
+  const createCheckIn = api.checkIn.createCheckIn.useMutation()
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   let photosDiv: any = null;
   const restaurant = api.restaurant.getByPlaceId.useQuery({
@@ -103,6 +104,14 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
+
+  const handleCheckIn = () =>{
+    if (!restaurant.data) return
+    createCheckIn.mutate({
+      restaurantId: restaurant.data.place_id
+    })
+
+  }
 
   const todaysDayOfWeekIndex = new Date().getDay();
 
@@ -211,15 +220,18 @@ const SingleRestaurant = () => {
                     </div>
                     <div>
                       <div className="flex flex-col items-center gap-2">
-                        <span>Add to your favorites</span>
+                        <strong>Add to your favorites</strong>
                         <button className="btn-secondary btn-outline btn  rounded-full">
                           <FavoriteBorderOutlinedIcon />
                         </button>
-                        <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full">
+                        <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full" onClick={handleCheckIn}>
+                          Check In
+                        </button>{" "}
+                        <button className="btn-rounded btn-secondary btn-outline btn-sm btn w-32 rounded-full">
                           Menu
                         </button>{" "}
                         <button
-                          className="btn-rounded btn-secondary btn-sm btn w-32 whitespace-nowrap rounded-full"
+                          className="btn-rounded btn-secondary btn-outline btn-sm btn w-32 whitespace-nowrap rounded-full"
                           onClick={() => {
                             window.scrollTo(0, document?.body.scrollHeight);
                             const commentInput =

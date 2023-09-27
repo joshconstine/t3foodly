@@ -195,3 +195,9 @@ model RestaurantCuisine {
     @@index([restaurant_id, cuisine_id])
     @@unique([restaurant_id, cuisine_id])
 }
+model  CheckIn { 
+    id String @id @default(cuid())
+    user_id String
+    restaurant_id String
+    created DateTime @default(now())
+}

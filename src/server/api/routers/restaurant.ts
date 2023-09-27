@@ -169,7 +169,7 @@ type PlusCodeFull = {
   global_code: string;
 };
 
-type PlaceDetailsResult = {
+export type PlaceDetailsResult = {
   address_components: AddressComponentFull[];
   adr_address: string;
   business_status: string;
