@@ -53,7 +53,7 @@ const RestaurantCard = (props: {
             <span className="whitespace-nowrap text-xs ">Chat Room</span>
             <div className="h-4 w-4 rounded-full bg-green-500"></div>
           </div>
-          <Stars numStars={restaurant.rating} />
+          <Stars numStars={restaurant.rating || 0} />
         </div>
         <div className="flex flex-col gap-1">
           <div className="md:ap-2 flex  items-center gap-4">

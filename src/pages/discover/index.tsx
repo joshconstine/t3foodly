@@ -1,10 +1,27 @@
 import { Skeleton } from "@mui/material";
 import { height } from "@mui/system";
+import { CheckIn } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Layout from "../../components/Layout";
+import RestaurantCard from "../../components/RestaurantCards/RestaurantCard";
+import { IGoogleRestaurantResult } from "../../server/api/routers/restaurant";
 import { api } from "../../utils/api";
+import { RestaurantCardSkeleton } from "../restaurant";
 import CommentCard from "./CommentCard";
+
+const RestaurantWithCheckIn = ({checkIn}:{checkIn: CheckIn}) => {
+  const restaurant = api.restaurant.getByPlaceId.useQuery({placeId: checkIn.restaurant_id})
+if (restaurant.isLoading) <RestaurantCardSkeleton/>
+console.log(restaurant.data)
+//@ts-ignore
+  const data: IGoogleRestaurantResult = restaurant.data || [];
+  return ( <div>
+            <RestaurantCard restaurant={data} key={restaurant.data?.place_id} index={ 1} />
+  </div> );
+}
+ 
+
 
 const CommentCardSkeleton = () => {
   return (
@@ -44,7 +61,7 @@ const CommentCardSkeleton = () => {
 
 const User: NextPage = () => {
   const comments = api.comment.getRecent.useQuery();
-
+  const checkIns = api.checkIn.getAll.useQuery()
   return (
     <>
       <Head>
@@ -54,6 +71,14 @@ const User: NextPage = () => {
       </Head>
       <Layout>
         <section className="py-12">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 className="mb-8 text-3xl font-bold">Popular Restaurants</h2>
+            <div className="flex flex-col flex-wrap items-center gap-4 md:flex-row md:items-start">
+            {checkIns.data?.map((checkIn)=>{
+              return  <RestaurantWithCheckIn checkIn={checkIn} />
+            })}
+            </div>
+          </div>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="mb-8 text-3xl font-bold">Latest Reviews</h2>
             <div className="flex flex-col flex-wrap items-center gap-4 md:flex-row md:items-start">

@@ -37,6 +37,7 @@ const returnDayofWeek = (day: number) => {
 const SingleRestaurant = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
+  const createCheckIn = api.checkIn.createCheckIn.useMutation()
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   let photosDiv: any = null;
   const restaurant = api.restaurant.getByPlaceId.useQuery({
@@ -103,6 +104,14 @@ const SingleRestaurant = () => {
   const handlePhotoClick = (index: number) => {
     setSelectedPhotoIndex(index);
   };
+
+  const handleCheckIn = () =>{
+    if (!restaurant.data) return
+    createCheckIn.mutate({
+      restaurantId: restaurant.data.place_id
+    })
+
+  }
 
   const todaysDayOfWeekIndex = new Date().getDay();
 
@@ -215,6 +224,9 @@ const SingleRestaurant = () => {
                         <button className="btn-secondary btn-outline btn  rounded-full">
                           <FavoriteBorderOutlinedIcon />
                         </button>
+                        <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full" onClick={handleCheckIn}>
+                          Check In
+                        </button>{" "}
                         <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full">
                           Menu
                         </button>{" "}
