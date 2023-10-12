@@ -227,9 +227,9 @@ const SingleRestaurant = () => {
                         <button className="btn-rounded btn-secondary btn-sm btn w-32 rounded-full" onClick={handleCheckIn}>
                           Check In
                         </button>{" "}
-                        <button className="btn-rounded btn-secondary btn-outline btn-sm btn w-32 rounded-full">
+                        {/* <button className="btn-rounded btn-secondary btn-outline btn-sm btn w-32 rounded-full">
                           Menu
-                        </button>{" "}
+                        </button>{" "} */}
                         <button
                           className="btn-rounded btn-secondary btn-outline btn-sm btn w-32 whitespace-nowrap rounded-full"
                           onClick={() => {

@@ -76,9 +76,9 @@ const RestaurantCard = (props: {
             <UpVoteDownVote restaurantId={restaurant.id} />
           </div>
           <div className="flex gap-4">
-            <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
+            {/* <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
               menu
-            </button>{" "}
+            </button>{" "} */}
             <button className="btn-rounded btn-secondary btn-sm  btn w-32 rounded-full">
               photos
             </button>
